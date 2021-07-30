@@ -1,0 +1,42 @@
+|module name|base addr|offset|reg name|bit filed|attribute|description|
+|---------|----------|----------|----------|----------|----------|----------|
+ApbTimer|0x600|0x0|not named|[0:0]|W| 启动定时器|
+^|^|0x1|not named|[15:0]|W| 定时器TIMER_LOAD(16位)|
+^|^|0x1|not named|[15:0]|R| 定时器TIMER_LOAD(16位)|
+AD5544_Triger|0x0|0x2|not named|[0:0]|R| AD5544----使能|
+AD5544_1|0x100|0x0|not named|[15:0]|W| ad5544---通道1输出数据|
+^|^|0x0|not named|[15:0]|R| ad5544---通道1输出数据|
+^|^|0x1|not named|[15:0]|W| ad5544---通道2输出数据|
+^|^|0x1|not named|[15:0]|R| ad5544---通道2输出数据|
+^|^|0x2|not named|[15:0]|W| ad5544---通道3输出数据|
+^|^|0x2|not named|[15:0]|R| ad5544---通道3输出数据|
+^|^|0x3|not named|[15:0]|W| ad5544---通道4输出数据|
+^|^|0x3|not named|[15:0]|R| ad5544---通道4输出数据|
+AD5544_2|0x200|0x0|not named|[15:0]|W| ad5544---通道1输出数据|
+^|^|0x0|not named|[15:0]|R| ad5544---通道1输出数据|
+^|^|0x1|not named|[15:0]|W| ad5544---通道2输出数据|
+^|^|0x1|not named|[15:0]|R| ad5544---通道2输出数据|
+^|^|0x2|not named|[15:0]|W| ad5544---通道3输出数据|
+^|^|0x2|not named|[15:0]|R| ad5544---通道3输出数据|
+^|^|0x3|not named|[15:0]|W| ad5544---通道4输出数据|
+^|^|0x3|not named|[15:0]|R| ad5544---通道4输出数据|
+AD5544_3|0x300|0x0|not named|[15:0]|W| ad5544---通道1输出数据|
+^|^|0x0|not named|[15:0]|R| ad5544---通道1输出数据|
+^|^|0x1|not named|[15:0]|W| ad5544---通道2输出数据|
+^|^|0x1|not named|[15:0]|R| ad5544---通道2输出数据|
+^|^|0x2|not named|[15:0]|W| ad5544---通道3输出数据|
+^|^|0x2|not named|[15:0]|R| ad5544---通道3输出数据|
+^|^|0x3|not named|[15:0]|W| ad5544---通道4输出数据|
+^|^|0x3|not named|[15:0]|R| ad5544---通道4输出数据|
+Biss_c|0x400|0x0|not named|[15:0]|R| Biss光栅尺数据—高16位|
+^|^|0x1|not named|[15:0]|R| Biss光栅尺数据—低16位|
+^|^|0x2|not named|[15:0]|R| Biss光栅尺状态，bit0---crc,bit1---warn,bit2---error|
+AD7606|0x500|0x0|not named|[15:0]|R| AD7606---1通道数据|
+^|^|0x1|not named|[15:0]|R| AD7606---2通道数据|
+^|^|0x2|not named|[15:0]|R| AD7606---3通道数据|
+^|^|0x3|not named|[15:0]|R| AD7606---4通道数据|
+^|^|0x4|not named|[15:0]|R| AD7606---5通道数据|
+^|^|0x5|not named|[15:0]|R| AD7606---6通道数据|
+^|^|0x6|not named|[15:0]|R| AD7606---7通道数据|
+^|^|0x7|not named|[15:0]|R| AD7606---8通道数据|
+
