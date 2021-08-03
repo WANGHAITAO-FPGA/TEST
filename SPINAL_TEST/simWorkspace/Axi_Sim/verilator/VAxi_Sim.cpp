@@ -72,11 +72,16 @@ void VAxi_Sim::_eval_initial_loop(VAxi_Sim__Syms* __restrict vlSymsp) {
 VL_INLINE_OPT void VAxi_Sim::_sequent__TOP__2(VAxi_Sim__Syms* __restrict vlSymsp) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    VAxi_Sim::_sequent__TOP__2\n"); );
     VAxi_Sim* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
+    // Variables
+    CData/*7:0*/ __Vdlyvdim0__Axi_Sim__DOT__mem__v0;
+    CData/*0:0*/ __Vdlyvset__Axi_Sim__DOT__mem__v0;
+    IData/*31:0*/ __Vdlyvval__Axi_Sim__DOT__mem__v0;
     // Body
     vlTOPp->__Vdly__Axi_Sim__DOT__axi_readOnly_decoder__DOT__errorSlave__DOT__remaining 
         = vlTOPp->Axi_Sim__DOT__axi_readOnly_decoder__DOT__errorSlave__DOT__remaining;
     vlTOPp->__Vdly__Axi_Sim__DOT__ram__DOT__lenBurst 
         = vlTOPp->Axi_Sim__DOT__ram__DOT__lenBurst;
+    __Vdlyvset__Axi_Sim__DOT__mem__v0 = 0U;
     if (vlTOPp->Axi_Sim__DOT__axi_writeOnly_decoder__DOT__errorSlave__DOT__io_axi_aw_fire) {
         vlTOPp->Axi_Sim__DOT__axi_writeOnly_decoder__DOT__errorSlave__DOT__id 
             = vlTOPp->axi_aw_payload_id;
@@ -84,14 +89,6 @@ VL_INLINE_OPT void VAxi_Sim::_sequent__TOP__2(VAxi_Sim__Syms* __restrict vlSymsp
     if (vlTOPp->Axi_Sim__DOT__axi_readOnly_decoder__DOT__errorSlave__DOT__io_axi_ar_fire) {
         vlTOPp->Axi_Sim__DOT__axi_readOnly_decoder__DOT__errorSlave__DOT__id 
             = vlTOPp->axi_ar_payload_id;
-    }
-    if ((0U != (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__phase))) {
-        if ((1U != (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__phase))) {
-            if ((2U == (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__phase))) {
-                vlTOPp->Axi_Sim__DOT__ram__DOT__readData 
-                    = vlTOPp->bram_rddata;
-            }
-        }
     }
     if (vlTOPp->Axi_Sim__DOT__axi_readOnly_decoder__DOT__errorSlave__DOT__io_axi_ar_fire) {
         vlTOPp->__Vdly__Axi_Sim__DOT__axi_readOnly_decoder__DOT__errorSlave__DOT__remaining 
@@ -118,12 +115,6 @@ VL_INLINE_OPT void VAxi_Sim::_sequent__TOP__2(VAxi_Sim__Syms* __restrict vlSymsp
                 ? (IData)(vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_w_rData_strb)
                 : (IData)(vlTOPp->axi_w_payload_strb));
     }
-    if (vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_w_s2mPipe_ready) {
-        vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_w_s2mPipe_rData_data 
-            = ((IData)(vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_w_rValid)
-                ? vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_w_rData_data
-                : vlTOPp->axi_w_payload_data);
-    }
     if ((1U & (~ (IData)(vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_arbiter_io_output_arw_rValid)))) {
         vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_arbiter_io_output_arw_rData_burst 
             = ((IData)(vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_arbiter__DOT__cmdArbiter__DOT__maskRouted_0)
@@ -147,16 +138,6 @@ VL_INLINE_OPT void VAxi_Sim::_sequent__TOP__2(VAxi_Sim__Syms* __restrict vlSymsp
     }
     if ((0U == (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__phase))) {
         vlTOPp->Axi_Sim__DOT__ram__DOT__arw_id = vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_arw_rData_id;
-    }
-    if ((0U == (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__phase))) {
-        vlTOPp->Axi_Sim__DOT__ram__DOT__arw_addr = vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_arw_rData_addr;
-    } else {
-        if ((1U == (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__phase))) {
-            if (vlTOPp->Axi_Sim__DOT__ram__DOT__when_Axi4SharedToBRAM_l121) {
-                vlTOPp->Axi_Sim__DOT__ram__DOT__arw_addr 
-                    = vlTOPp->Axi_Sim__DOT__ram__DOT__Axi4Incr_result;
-            }
-        }
     }
     if ((0U == (IData)(vlTOPp->Axi_Sim__DOT__apbBridge__DOT__phase))) {
         vlTOPp->Axi_Sim__DOT__apbBridge__DOT__id = vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_arbiter_io_output_arw_rData_id;
@@ -182,6 +163,22 @@ VL_INLINE_OPT void VAxi_Sim::_sequent__TOP__2(VAxi_Sim__Syms* __restrict vlSymsp
             }
         }
     }
+    if ((0U != (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__phase))) {
+        if ((1U != (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__phase))) {
+            if ((2U == (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__phase))) {
+                vlTOPp->Axi_Sim__DOT__ram__DOT__readData 
+                    = vlTOPp->Axi_Sim__DOT___zz_mem_port1;
+            }
+        }
+    }
+    if (((IData)(vlTOPp->Axi_Sim__DOT__ram_io_bram_en) 
+         & (0xfU == ((IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__arw_write)
+                      ? 0xfU : 0U)))) {
+        __Vdlyvval__Axi_Sim__DOT__mem__v0 = vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_w_s2mPipe_rData_data;
+        __Vdlyvset__Axi_Sim__DOT__mem__v0 = 1U;
+        __Vdlyvdim0__Axi_Sim__DOT__mem__v0 = (0xffU 
+                                              & vlTOPp->Axi_Sim__DOT__ram__DOT__arw_addr);
+    }
     if ((0U != (IData)(vlTOPp->Axi_Sim__DOT__apbBridge__DOT__phase))) {
         if ((1U == (IData)(vlTOPp->Axi_Sim__DOT__apbBridge__DOT__phase))) {
             vlTOPp->Axi_Sim__DOT__apbBridge__DOT__readedData 
@@ -191,11 +188,6 @@ VL_INLINE_OPT void VAxi_Sim::_sequent__TOP__2(VAxi_Sim__Syms* __restrict vlSymsp
     if ((1U & (~ (IData)(vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_w_rValid)))) {
         vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_w_rData_strb 
             = vlTOPp->axi_w_payload_strb;
-    }
-    vlTOPp->bram_wrdata = vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_w_s2mPipe_rData_data;
-    if ((1U & (~ (IData)(vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_w_rValid)))) {
-        vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_w_rData_data 
-            = vlTOPp->axi_w_payload_data;
     }
     if ((1U & (~ (IData)(vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_arw_rValid)))) {
         vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_arw_rData_burst 
@@ -209,27 +201,56 @@ VL_INLINE_OPT void VAxi_Sim::_sequent__TOP__2(VAxi_Sim__Syms* __restrict vlSymsp
                 ? (IData)(vlTOPp->axi_ar_payload_id)
                 : (IData)(vlTOPp->axi_aw_payload_id));
     }
-    vlTOPp->bram_addr = (0xffU & vlTOPp->Axi_Sim__DOT__ram__DOT__arw_addr);
-    if ((1U & (~ (IData)(vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_arw_rValid)))) {
-        vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_arw_rData_addr 
-            = ((IData)(vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter__DOT__cmdArbiter__DOT__maskRouted_0)
-                ? vlTOPp->axi_ar_payload_addr : vlTOPp->axi_aw_payload_addr);
-    }
     if ((1U & (~ (IData)(vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_arbiter_io_output_arw_rValid)))) {
         vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_arbiter_io_output_arw_rData_id 
             = ((IData)(vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_arbiter__DOT__cmdArbiter__DOT__maskRouted_0)
                 ? (IData)(vlTOPp->axi_ar_payload_id)
                 : (IData)(vlTOPp->axi_aw_payload_id));
     }
-    vlTOPp->Axi_Sim__DOT__ram__DOT__Axi4Incr_base = 
-        (0xfffU & (vlTOPp->Axi_Sim__DOT__ram__DOT__arw_addr 
-                   & (~ (((1U < (3U & (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__arw_size))) 
-                          << 1U) | (0U < (3U & (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__arw_size)))))));
     if ((1U & (~ (IData)(vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_arw_rValid)))) {
         vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_arw_rData_size 
             = ((IData)(vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter__DOT__cmdArbiter__DOT__maskRouted_0)
                 ? (IData)(vlTOPp->axi_ar_payload_size)
                 : (IData)(vlTOPp->axi_aw_payload_size));
+    }
+    if (((IData)(vlTOPp->Axi_Sim__DOT__ram_io_bram_en) 
+         & (0U == ((IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__arw_write)
+                    ? 0xfU : 0U)))) {
+        vlTOPp->Axi_Sim__DOT___zz_mem_port1 = vlTOPp->Axi_Sim__DOT__mem
+            [(0xffU & vlTOPp->Axi_Sim__DOT__ram__DOT__arw_addr)];
+    }
+    if (vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_w_s2mPipe_ready) {
+        vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_w_s2mPipe_rData_data 
+            = ((IData)(vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_w_rValid)
+                ? vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_w_rData_data
+                : vlTOPp->axi_w_payload_data);
+    }
+    if (__Vdlyvset__Axi_Sim__DOT__mem__v0) {
+        vlTOPp->Axi_Sim__DOT__mem[__Vdlyvdim0__Axi_Sim__DOT__mem__v0] 
+            = __Vdlyvval__Axi_Sim__DOT__mem__v0;
+    }
+    if ((0U == (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__phase))) {
+        vlTOPp->Axi_Sim__DOT__ram__DOT__arw_addr = vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_arw_rData_addr;
+    } else {
+        if ((1U == (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__phase))) {
+            if (vlTOPp->Axi_Sim__DOT__ram__DOT__when_Axi4SharedToBRAM_l121) {
+                vlTOPp->Axi_Sim__DOT__ram__DOT__arw_addr 
+                    = vlTOPp->Axi_Sim__DOT__ram__DOT__Axi4Incr_result;
+            }
+        }
+    }
+    if ((1U & (~ (IData)(vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_w_rValid)))) {
+        vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_w_rData_data 
+            = vlTOPp->axi_w_payload_data;
+    }
+    vlTOPp->Axi_Sim__DOT__ram__DOT__Axi4Incr_base = 
+        (0xfffU & (vlTOPp->Axi_Sim__DOT__ram__DOT__arw_addr 
+                   & (~ (((1U < (3U & (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__arw_size))) 
+                          << 1U) | (0U < (3U & (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__arw_size)))))));
+    if ((1U & (~ (IData)(vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_arw_rValid)))) {
+        vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_arw_rData_addr 
+            = ((IData)(vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter__DOT__cmdArbiter__DOT__maskRouted_0)
+                ? vlTOPp->axi_ar_payload_addr : vlTOPp->axi_aw_payload_addr);
     }
     vlTOPp->Axi_Sim__DOT__ram__DOT__Axi4Incr_baseIncr 
         = (0xfffU & ((IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__Axi4Incr_base) 
@@ -239,8 +260,8 @@ VL_INLINE_OPT void VAxi_Sim::_sequent__TOP__2(VAxi_Sim__Syms* __restrict vlSymsp
                                               (3U & (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__arw_size)))))));
 }
 
-VL_INLINE_OPT void VAxi_Sim::_sequent__TOP__4(VAxi_Sim__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VAxi_Sim::_sequent__TOP__4\n"); );
+VL_INLINE_OPT void VAxi_Sim::_sequent__TOP__5(VAxi_Sim__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VAxi_Sim::_sequent__TOP__5\n"); );
     VAxi_Sim* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Variables
     CData/*6:0*/ __Vtableidx1;
@@ -296,8 +317,6 @@ VL_INLINE_OPT void VAxi_Sim::_sequent__TOP__4(VAxi_Sim__Syms* __restrict vlSymsp
             vlTOPp->Axi_Sim__DOT__axi_writeOnly_decoder__DOT__errorSlave__DOT__consumeData = 0U;
         }
     }
-    vlTOPp->Axi_Sim__DOT__axi_writeOnly_decoder__DOT__pendingCmdCounter_value 
-        = ((IData)(vlTOPp->reset) ? 0U : (IData)(vlTOPp->Axi_Sim__DOT__axi_writeOnly_decoder__DOT__pendingCmdCounter_valueNext));
     if (vlTOPp->reset) {
         vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_w_s2mPipe_rValid = 0U;
     } else {
@@ -307,6 +326,8 @@ VL_INLINE_OPT void VAxi_Sim::_sequent__TOP__4(VAxi_Sim__Syms* __restrict vlSymsp
                    | (IData)(vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_w_rValid));
         }
     }
+    vlTOPp->Axi_Sim__DOT__axi_writeOnly_decoder__DOT__pendingCmdCounter_value 
+        = ((IData)(vlTOPp->reset) ? 0U : (IData)(vlTOPp->Axi_Sim__DOT__axi_writeOnly_decoder__DOT__pendingCmdCounter_valueNext));
     if (vlTOPp->reset) {
         vlTOPp->Axi_Sim__DOT__axi_readOnly_decoder__DOT__pendingError = 0U;
     } else {
@@ -484,8 +505,8 @@ VL_INLINE_OPT void VAxi_Sim::_sequent__TOP__4(VAxi_Sim__Syms* __restrict vlSymsp
     }
 }
 
-VL_INLINE_OPT void VAxi_Sim::_sequent__TOP__5(VAxi_Sim__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VAxi_Sim::_sequent__TOP__5\n"); );
+VL_INLINE_OPT void VAxi_Sim::_sequent__TOP__6(VAxi_Sim__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VAxi_Sim::_sequent__TOP__6\n"); );
     VAxi_Sim* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     if (vlTOPp->reset) {
@@ -694,8 +715,8 @@ VL_INLINE_OPT void VAxi_Sim::_sequent__TOP__5(VAxi_Sim__Syms* __restrict vlSymsp
                              << 1U) | (IData)(vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_arbiter__DOT__cmdArbiter__DOT__maskLocked_1))))));
 }
 
-VL_INLINE_OPT void VAxi_Sim::_sequent__TOP__6(VAxi_Sim__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VAxi_Sim::_sequent__TOP__6\n"); );
+VL_INLINE_OPT void VAxi_Sim::_sequent__TOP__7(VAxi_Sim__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VAxi_Sim::_sequent__TOP__7\n"); );
     VAxi_Sim* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter__DOT__cmdArbiter__DOT___zz_maskProposal_0_2 
@@ -723,8 +744,8 @@ VL_INLINE_OPT void VAxi_Sim::_sequent__TOP__6(VAxi_Sim__Syms* __restrict vlSymsp
                      >> 1U)));
 }
 
-VL_INLINE_OPT void VAxi_Sim::_sequent__TOP__10(VAxi_Sim__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VAxi_Sim::_sequent__TOP__10\n"); );
+VL_INLINE_OPT void VAxi_Sim::_sequent__TOP__11(VAxi_Sim__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VAxi_Sim::_sequent__TOP__11\n"); );
     VAxi_Sim* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlTOPp->Axi_Sim__DOT__axi_readOnly_decoder__DOT__errorSlave__DOT__remaining 
@@ -778,8 +799,6 @@ VL_INLINE_OPT void VAxi_Sim::_sequent__TOP__10(VAxi_Sim__Syms* __restrict vlSyms
                 ? (IData)(vlTOPp->axi_ar_payload_len)
                 : (IData)(vlTOPp->axi_aw_payload_len));
     }
-    vlTOPp->bram_we = ((IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__arw_write)
-                        ? 0xfU : 0U);
     if ((1U & (~ (IData)(vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_arw_rValid)))) {
         vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_arw_rData_write 
             = (1U & (~ (IData)(vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter__DOT__cmdArbiter__DOT__maskRouted_0)));
@@ -813,17 +832,17 @@ VL_INLINE_OPT void VAxi_Sim::_sequent__TOP__10(VAxi_Sim__Syms* __restrict vlSyms
                    | (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__Axi4Incr_baseIncr))));
 }
 
-VL_INLINE_OPT void VAxi_Sim::_combo__TOP__11(VAxi_Sim__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VAxi_Sim::_combo__TOP__11\n"); );
+VL_INLINE_OPT void VAxi_Sim::_combo__TOP__12(VAxi_Sim__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VAxi_Sim::_combo__TOP__12\n"); );
     VAxi_Sim* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlTOPp->Axi_Sim__DOT__axi_readOnly_decoder__DOT__decodedCmdSels 
-        = ((((0x4000U == (0xff000U & vlTOPp->axi_ar_payload_addr)) 
+        = ((((0U == (0xff000U & vlTOPp->axi_ar_payload_addr)) 
              & (IData)(vlTOPp->axi_ar_valid)) << 1U) 
            | ((0x2000U == (0xff000U & vlTOPp->axi_ar_payload_addr)) 
               & (IData)(vlTOPp->axi_ar_valid)));
     vlTOPp->Axi_Sim__DOT__axi_writeOnly_decoder__DOT__decodedCmdSels 
-        = ((((0x4000U == (0xff000U & vlTOPp->axi_aw_payload_addr)) 
+        = ((((0U == (0xff000U & vlTOPp->axi_aw_payload_addr)) 
              & (IData)(vlTOPp->axi_aw_valid)) << 1U) 
            | ((0x2000U == (0xff000U & vlTOPp->axi_aw_payload_addr)) 
               & (IData)(vlTOPp->axi_aw_valid)));
@@ -862,8 +881,8 @@ VL_INLINE_OPT void VAxi_Sim::_combo__TOP__11(VAxi_Sim__Syms* __restrict vlSymsp)
     }
 }
 
-VL_INLINE_OPT void VAxi_Sim::_sequent__TOP__12(VAxi_Sim__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VAxi_Sim::_sequent__TOP__12\n"); );
+VL_INLINE_OPT void VAxi_Sim::_sequent__TOP__13(VAxi_Sim__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VAxi_Sim::_sequent__TOP__13\n"); );
     VAxi_Sim* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlTOPp->Axi_Sim__DOT__apbBridge__DOT__phase = vlTOPp->__Vdly__Axi_Sim__DOT__apbBridge__DOT__phase;
@@ -1029,7 +1048,6 @@ VL_INLINE_OPT void VAxi_Sim::_sequent__TOP__12(VAxi_Sim__Syms* __restrict vlSyms
     if (vlTOPp->Axi_Sim__DOT__axi_readOnly_decoder__DOT__errorSlave__DOT__sendRsp) {
         vlTOPp->Axi_Sim__DOT__axi_readOnly_decoder_io_input_r_valid = 1U;
     }
-    vlTOPp->bram_en = vlTOPp->Axi_Sim__DOT__ram_io_bram_en;
     vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_arbiter__DOT__cmdArbiter_io_output_fork_io_outputs_0_valid 
         = ((IData)(vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_arbiter__DOT__cmdArbiter_io_output_valid) 
            & (IData)(vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_arbiter__DOT__cmdArbiter_io_output_fork__DOT___zz_io_outputs_0_valid));
@@ -1105,8 +1123,8 @@ VL_INLINE_OPT void VAxi_Sim::_sequent__TOP__12(VAxi_Sim__Syms* __restrict vlSyms
     }
 }
 
-VL_INLINE_OPT void VAxi_Sim::_sequent__TOP__13(VAxi_Sim__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VAxi_Sim::_sequent__TOP__13\n"); );
+VL_INLINE_OPT void VAxi_Sim::_sequent__TOP__14(VAxi_Sim__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VAxi_Sim::_sequent__TOP__14\n"); );
     VAxi_Sim* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_arbiter__DOT__cmdArbiter_io_inputs_0_ready 
@@ -1182,8 +1200,8 @@ VL_INLINE_OPT void VAxi_Sim::_sequent__TOP__13(VAxi_Sim__Syms* __restrict vlSyms
     vlTOPp->axi_w_ready = vlTOPp->Axi_Sim__DOT__axi_writeOnly_decoder_io_input_w_ready;
 }
 
-VL_INLINE_OPT void VAxi_Sim::_combo__TOP__14(VAxi_Sim__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VAxi_Sim::_combo__TOP__14\n"); );
+VL_INLINE_OPT void VAxi_Sim::_combo__TOP__15(VAxi_Sim__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VAxi_Sim::_combo__TOP__15\n"); );
     VAxi_Sim* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlTOPp->Axi_Sim__DOT__axi_writeOnly_decoder__DOT__pendingCmdCounter_decrementIt = 0U;
@@ -1296,23 +1314,23 @@ void VAxi_Sim::_eval(VAxi_Sim__Syms* __restrict vlSymsp) {
     if ((((IData)(vlTOPp->clk) & (~ (IData)(vlTOPp->__Vclklast__TOP__clk))) 
          | ((IData)(vlTOPp->reset) & (~ (IData)(vlTOPp->__Vclklast__TOP__reset))))) {
         vlTOPp->__Vm_traceActivity = (4U | vlTOPp->__Vm_traceActivity);
-        vlTOPp->_sequent__TOP__4(vlSymsp);
         vlTOPp->_sequent__TOP__5(vlSymsp);
         vlTOPp->_sequent__TOP__6(vlSymsp);
+        vlTOPp->_sequent__TOP__7(vlSymsp);
     }
     if (((IData)(vlTOPp->clk) & (~ (IData)(vlTOPp->__Vclklast__TOP__clk)))) {
-        vlTOPp->_sequent__TOP__10(vlSymsp);
+        vlTOPp->_sequent__TOP__11(vlSymsp);
         vlTOPp->__Vm_traceActivity = (8U | vlTOPp->__Vm_traceActivity);
     }
-    vlTOPp->_combo__TOP__11(vlSymsp);
+    vlTOPp->_combo__TOP__12(vlSymsp);
     vlTOPp->__Vm_traceActivity = (0x10U | vlTOPp->__Vm_traceActivity);
     if ((((IData)(vlTOPp->clk) & (~ (IData)(vlTOPp->__Vclklast__TOP__clk))) 
          | ((IData)(vlTOPp->reset) & (~ (IData)(vlTOPp->__Vclklast__TOP__reset))))) {
-        vlTOPp->_sequent__TOP__12(vlSymsp);
-        vlTOPp->__Vm_traceActivity = (0x20U | vlTOPp->__Vm_traceActivity);
         vlTOPp->_sequent__TOP__13(vlSymsp);
+        vlTOPp->__Vm_traceActivity = (0x20U | vlTOPp->__Vm_traceActivity);
+        vlTOPp->_sequent__TOP__14(vlSymsp);
     }
-    vlTOPp->_combo__TOP__14(vlSymsp);
+    vlTOPp->_combo__TOP__15(vlSymsp);
     // Final
     vlTOPp->__Vclklast__TOP__clk = vlTOPp->clk;
     vlTOPp->__Vclklast__TOP__reset = vlTOPp->reset;

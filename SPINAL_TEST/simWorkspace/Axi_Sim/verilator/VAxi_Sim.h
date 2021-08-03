@@ -51,15 +51,10 @@ VL_MODULE(VAxi_Sim) {
     VL_OUT8(axi_r_payload_id,3,0);
     VL_OUT8(axi_r_payload_resp,1,0);
     VL_OUT8(axi_r_payload_last,0,0);
-    VL_OUT8(bram_en,0,0);
-    VL_OUT8(bram_we,3,0);
-    VL_OUT8(bram_addr,7,0);
     VL_IN(axi_aw_payload_addr,19,0);
     VL_IN(axi_w_payload_data,31,0);
     VL_IN(axi_ar_payload_addr,19,0);
     VL_OUT(axi_r_payload_data,31,0);
-    VL_OUT(bram_wrdata,31,0);
-    VL_IN(bram_rddata,31,0);
     
     // LOCAL SIGNALS
     // Internals; generally not touched by application code
@@ -237,6 +232,7 @@ VL_MODULE(VAxi_Sim) {
         CData/*0:0*/ Axi_Sim__DOT__apbBridge_io_axi_arbiter__DOT__cmdArbiter_io_output_fork_io_outputs_1_thrown_translated_fifo__DOT__popping;
         SData/*11:0*/ Axi_Sim__DOT__ram__DOT__Axi4Incr_base;
         SData/*11:0*/ Axi_Sim__DOT__ram__DOT__Axi4Incr_baseIncr;
+        IData/*31:0*/ Axi_Sim__DOT___zz_mem_port1;
         IData/*19:0*/ Axi_Sim__DOT__ram_io_axi_arbiter_io_output_arw_rData_addr;
         IData/*31:0*/ Axi_Sim__DOT__ram_io_axi_arbiter_io_output_w_rData_data;
         IData/*31:0*/ Axi_Sim__DOT__ram_io_axi_arbiter_io_output_w_s2mPipe_rData_data;
@@ -252,15 +248,16 @@ VL_MODULE(VAxi_Sim) {
         IData/*19:0*/ Axi_Sim__DOT__ram__DOT__Axi4Incr_result;
         IData/*31:0*/ Axi_Sim__DOT__apbBridge__DOT__readedData;
         IData/*31:0*/ Axi_Sim__DOT__axi_readOnly_decoder__DOT__errorSlave_io_axi_r_payload_data;
+        IData/*31:0*/ Axi_Sim__DOT__mem[256];
     };
     
     // LOCAL VARIABLES
     // Internals; generally not touched by application code
+    CData/*7:0*/ __Vdly__Axi_Sim__DOT__ram__DOT__lenBurst;
+    CData/*7:0*/ __Vdly__Axi_Sim__DOT__axi_readOnly_decoder__DOT__errorSlave__DOT__remaining;
     CData/*1:0*/ __Vdly__Axi_Sim__DOT__ram__DOT__phase;
     CData/*1:0*/ __Vdly__Axi_Sim__DOT__apbBridge__DOT__phase;
     CData/*0:0*/ __Vdly__Axi_Sim__DOT__axi_readOnly_decoder__DOT__errorSlave__DOT__sendRsp;
-    CData/*7:0*/ __Vdly__Axi_Sim__DOT__ram__DOT__lenBurst;
-    CData/*7:0*/ __Vdly__Axi_Sim__DOT__axi_readOnly_decoder__DOT__errorSlave__DOT__remaining;
     CData/*0:0*/ __Vclklast__TOP__clk;
     CData/*0:0*/ __Vclklast__TOP__reset;
     IData/*31:0*/ __Vm_traceActivity;
@@ -304,8 +301,8 @@ VL_MODULE(VAxi_Sim) {
     static QData _change_request(VAxi_Sim__Syms* __restrict vlSymsp);
     static QData _change_request_1(VAxi_Sim__Syms* __restrict vlSymsp);
   public:
-    static void _combo__TOP__11(VAxi_Sim__Syms* __restrict vlSymsp);
-    static void _combo__TOP__14(VAxi_Sim__Syms* __restrict vlSymsp);
+    static void _combo__TOP__12(VAxi_Sim__Syms* __restrict vlSymsp);
+    static void _combo__TOP__15(VAxi_Sim__Syms* __restrict vlSymsp);
   private:
     void _ctor_var_reset() VL_ATTR_COLD;
   public:
@@ -317,14 +314,14 @@ VL_MODULE(VAxi_Sim) {
   public:
     static void _eval_initial(VAxi_Sim__Syms* __restrict vlSymsp) VL_ATTR_COLD;
     static void _eval_settle(VAxi_Sim__Syms* __restrict vlSymsp) VL_ATTR_COLD;
-    static void _sequent__TOP__10(VAxi_Sim__Syms* __restrict vlSymsp);
-    static void _sequent__TOP__12(VAxi_Sim__Syms* __restrict vlSymsp);
+    static void _sequent__TOP__11(VAxi_Sim__Syms* __restrict vlSymsp);
     static void _sequent__TOP__13(VAxi_Sim__Syms* __restrict vlSymsp);
+    static void _sequent__TOP__14(VAxi_Sim__Syms* __restrict vlSymsp);
     static void _sequent__TOP__2(VAxi_Sim__Syms* __restrict vlSymsp);
-    static void _sequent__TOP__4(VAxi_Sim__Syms* __restrict vlSymsp);
     static void _sequent__TOP__5(VAxi_Sim__Syms* __restrict vlSymsp);
     static void _sequent__TOP__6(VAxi_Sim__Syms* __restrict vlSymsp);
-    static void _settle__TOP__7(VAxi_Sim__Syms* __restrict vlSymsp) VL_ATTR_COLD;
+    static void _sequent__TOP__7(VAxi_Sim__Syms* __restrict vlSymsp);
+    static void _settle__TOP__10(VAxi_Sim__Syms* __restrict vlSymsp) VL_ATTR_COLD;
     static void _settle__TOP__8(VAxi_Sim__Syms* __restrict vlSymsp) VL_ATTR_COLD;
     static void _settle__TOP__9(VAxi_Sim__Syms* __restrict vlSymsp) VL_ATTR_COLD;
     static void traceChgThis(VAxi_Sim__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);

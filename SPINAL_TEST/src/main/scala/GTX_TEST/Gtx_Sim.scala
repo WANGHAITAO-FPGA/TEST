@@ -1,6 +1,9 @@
 package GTX_TEST
 
+import spinal.core.IntToBuilder
 import spinal.core.sim._
+
+import scala.util.Random
 
 class Axi_Sim() extends Gtx_test{
   def init = {
@@ -10,6 +13,8 @@ class Axi_Sim() extends Gtx_test{
     io.axi.w.last #= false
     io.axi.aw.payload.id #= 2
     io.axi.ar.payload.id #= 2
+    io.axi.ar.len #= 0
+    io.axi.ar.burst #= 0
     io.axi.ar.size #= 0
     io.axi.aw.payload.size #= 0
     io.axi.ar.valid #= false
@@ -35,7 +40,7 @@ class Axi_Sim() extends Gtx_test{
     clockDomain.waitSamplingWhere(io.axi.b.valid.toBoolean)
   }
 
-  def read(address : BigInt) ={
+  def read(address : BigInt):BigInt ={
     io.axi.r.ready #= false
     io.axi.ar.valid #= true
     io.axi.ar.payload.addr #= address
@@ -43,8 +48,9 @@ class Axi_Sim() extends Gtx_test{
     io.axi.r.ready #= true
     io.axi.ar.valid #= false
     clockDomain.waitSamplingWhere(io.axi.r.valid.toBoolean)
+    io.axi.ar.valid #= false
     io.axi.r.ready #= false
-    println(io.axi.r.payload.data)
+    io.axi.r.payload.data.toBigInt
   }
 }
 
@@ -54,8 +60,15 @@ object Gtx_Sim {
     val dut = SimConfig.withWave.compile(new Axi_Sim())
     dut.doSim{dut =>
       dut.init
-      dut.write(0x00000000,0x55)
-      dut.read(0x0000000)
+      var idx = 0
+      while(idx < 100){
+        val a = Random.nextInt(256)
+        val b = Random.nextInt(1000000000)
+        dut.write(a,b)
+        val data = dut.read(a)
+        assert(data == b)
+        idx += 1
+      }
       sleep(100)
     }
   }

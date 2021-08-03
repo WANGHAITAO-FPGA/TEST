@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.6.0    git head : 73c8d8e2b86b45646e9d0b2e729291f2b65e6be3
 // Component : Axi_Sim
-// Git hash  : e621af020d8670015529b3e08f821a90582a5b26
+// Git hash  : 008ae3e3a1335280f3be886bcf4fdf1f9d5099cd
 
 
 `define Axi4ToBRAMPhase_binary_sequential_type [1:0]
@@ -45,18 +45,15 @@ module Axi_Sim (
   output     [3:0]    axi_r_payload_id,
   output     [1:0]    axi_r_payload_resp,
   output              axi_r_payload_last,
-  output              bram_en,
-  output     [3:0]    bram_we,
-  output     [7:0]    bram_addr,
-  output     [31:0]   bram_wrdata,
-  input      [31:0]   bram_rddata,
   input               clk,
   input               reset
 );
+  wire       [31:0]   ram_io_bram_rddata;
   wire                ram_io_axi_arbiter_io_output_arw_ready;
   wire                ram_io_axi_arbiter_io_output_w_ready;
   wire                apbBridge_io_axi_arbiter_io_output_arw_ready;
   wire                apbBridge_io_axi_arbiter_io_output_w_ready;
+  reg        [31:0]   _zz_mem_port1;
   wire                ram_io_axi_arw_ready;
   wire                ram_io_axi_w_ready;
   wire                ram_io_axi_b_valid;
@@ -181,6 +178,7 @@ module Axi_Sim (
   wire                apbBridge_io_axi_arbiter_io_output_w_payload_last;
   wire                apbBridge_io_axi_arbiter_io_output_b_ready;
   wire                apbBridge_io_axi_arbiter_io_output_r_ready;
+  wire                _zz_mem_port;
   wire                axi_readOnly_ar_valid;
   wire                axi_readOnly_ar_ready;
   wire       [19:0]   axi_readOnly_ar_payload_addr;
@@ -325,6 +323,21 @@ module Axi_Sim (
   reg        [31:0]   Apb3_reg2;
   wire                when_RegInst_l153_3;
   reg        [31:0]   Apb3_reg3;
+  wire                _zz_io_bram_rddata;
+  reg [31:0] mem [0:255];
+
+  assign _zz_mem_port = (ram_io_bram_en && (ram_io_bram_we == 4'b1111));
+  always @(posedge clk) begin
+    if(_zz_mem_port) begin
+      mem[ram_io_bram_addr] <= ram_io_bram_wrdata;
+    end
+  end
+
+  always @(posedge clk) begin
+    if(_zz_io_bram_rddata) begin
+      _zz_mem_port1 <= mem[ram_io_bram_addr];
+    end
+  end
 
   Axi4SharedToBram ram (
     .io_axi_arw_valid            (ram_io_axi_arbiter_io_output_arw_halfPipe_valid              ), //i
@@ -354,7 +367,7 @@ module Axi_Sim (
     .io_bram_we                  (ram_io_bram_we                                               ), //o
     .io_bram_addr                (ram_io_bram_addr                                             ), //o
     .io_bram_wrdata              (ram_io_bram_wrdata                                           ), //o
-    .io_bram_rddata              (bram_rddata                                                  ), //i
+    .io_bram_rddata              (ram_io_bram_rddata                                           ), //i
     .clk                         (clk                                                          ), //i
     .reset                       (reset                                                        )  //i
   );
@@ -600,10 +613,6 @@ module Axi_Sim (
     .clk                                  (clk                                                            ), //i
     .reset                                (reset                                                          )  //i
   );
-  assign bram_en = ram_io_bram_en;
-  assign bram_we = ram_io_bram_we;
-  assign bram_addr = ram_io_bram_addr;
-  assign bram_wrdata = ram_io_bram_wrdata;
   assign axi_readOnly_ar_valid = axi_ar_valid;
   assign axi_ar_ready = axi_readOnly_ar_ready;
   assign axi_readOnly_ar_payload_addr = axi_ar_payload_addr;
@@ -733,6 +742,8 @@ module Axi_Sim (
   assign when_RegInst_l153_1 = ((apbBridge_io_apb_PADDR == 20'h00004) && apb3busif_doWrite);
   assign when_RegInst_l153_2 = ((apbBridge_io_apb_PADDR == 20'h01010) && apb3busif_doWrite);
   assign when_RegInst_l153_3 = ((apbBridge_io_apb_PADDR == 20'h01014) && apb3busif_doWrite);
+  assign _zz_io_bram_rddata = (ram_io_bram_en && (ram_io_bram_we == 4'b0000));
+  assign ram_io_bram_rddata = _zz_mem_port1;
   always @(posedge clk or posedge reset) begin
     if(reset) begin
       axi_readOnly_decoder_io_outputs_0_ar_rValid <= 1'b0;
@@ -1326,7 +1337,7 @@ module Axi4WriteOnlyDecoder (
 
   assign when_Utils_l496_1 = ((! pendingDataCounter_incrementIt) && pendingDataCounter_decrementIt);
   assign pendingDataCounter_valueNext = (pendingDataCounter_value + pendingDataCounter_finalIncrement);
-  assign decodedCmdSels = {(((io_input_aw_payload_addr & (~ 20'h00fff)) == 20'h04000) && io_input_aw_valid),(((io_input_aw_payload_addr & (~ 20'h00fff)) == 20'h02000) && io_input_aw_valid)};
+  assign decodedCmdSels = {(((io_input_aw_payload_addr & (~ 20'h00fff)) == 20'h0) && io_input_aw_valid),(((io_input_aw_payload_addr & (~ 20'h00fff)) == 20'h02000) && io_input_aw_valid)};
   assign decodedCmdError = (decodedCmdSels == 2'b00);
   assign allowCmd = ((pendingCmdCounter_value == 3'b000) || ((pendingCmdCounter_value != 3'b111) && (pendingSels == decodedCmdSels)));
   assign allowData = (pendingDataCounter_value != 3'b000);
@@ -1525,7 +1536,7 @@ module Axi4ReadOnlyDecoder (
 
   assign when_Utils_l496 = ((! pendingCmdCounter_incrementIt) && pendingCmdCounter_decrementIt);
   assign pendingCmdCounter_valueNext = (pendingCmdCounter_value + pendingCmdCounter_finalIncrement);
-  assign decodedCmdSels = {(((io_input_ar_payload_addr & (~ 20'h00fff)) == 20'h04000) && io_input_ar_valid),(((io_input_ar_payload_addr & (~ 20'h00fff)) == 20'h02000) && io_input_ar_valid)};
+  assign decodedCmdSels = {(((io_input_ar_payload_addr & (~ 20'h00fff)) == 20'h0) && io_input_ar_valid),(((io_input_ar_payload_addr & (~ 20'h00fff)) == 20'h02000) && io_input_ar_valid)};
   assign decodedCmdError = (decodedCmdSels == 2'b00);
   assign allowCmd = ((pendingCmdCounter_value == 3'b000) || ((pendingCmdCounter_value != 3'b111) && (pendingSels == decodedCmdSels)));
   assign io_input_ar_ready = ((((decodedCmdSels & {io_outputs_1_ar_ready,io_outputs_0_ar_ready}) != 2'b00) || (decodedCmdError && errorSlave_io_axi_ar_ready)) && allowCmd);

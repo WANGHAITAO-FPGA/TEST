@@ -26,22 +26,20 @@ VAxi_Sim::~VAxi_Sim() {
     delete __VlSymsp; __VlSymsp=NULL;
 }
 
-void VAxi_Sim::_settle__TOP__7(VAxi_Sim__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VAxi_Sim::_settle__TOP__7\n"); );
+void VAxi_Sim::_settle__TOP__8(VAxi_Sim__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VAxi_Sim::_settle__TOP__8\n"); );
     VAxi_Sim* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlTOPp->Axi_Sim__DOT__axi_readOnly_decoder__DOT__decodedCmdSels 
-        = ((((0x4000U == (0xff000U & vlTOPp->axi_ar_payload_addr)) 
+        = ((((0U == (0xff000U & vlTOPp->axi_ar_payload_addr)) 
              & (IData)(vlTOPp->axi_ar_valid)) << 1U) 
            | ((0x2000U == (0xff000U & vlTOPp->axi_ar_payload_addr)) 
               & (IData)(vlTOPp->axi_ar_valid)));
     vlTOPp->Axi_Sim__DOT__axi_writeOnly_decoder__DOT__decodedCmdSels 
-        = ((((0x4000U == (0xff000U & vlTOPp->axi_aw_payload_addr)) 
+        = ((((0U == (0xff000U & vlTOPp->axi_aw_payload_addr)) 
              & (IData)(vlTOPp->axi_aw_valid)) << 1U) 
            | ((0x2000U == (0xff000U & vlTOPp->axi_aw_payload_addr)) 
               & (IData)(vlTOPp->axi_aw_valid)));
-    vlTOPp->bram_addr = (0xffU & vlTOPp->Axi_Sim__DOT__ram__DOT__arw_addr);
-    vlTOPp->bram_wrdata = vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_w_s2mPipe_rData_data;
     vlTOPp->Axi_Sim__DOT__ram__DOT__when_Axi4SharedToBRAM_l149 
         = (0U == (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__lenBurst));
     vlTOPp->Axi_Sim__DOT__axi_writeOnly_decoder__DOT__errorSlave__DOT__io_axi_b_fire 
@@ -85,10 +83,6 @@ void VAxi_Sim::_settle__TOP__7(VAxi_Sim__Syms* __restrict vlSymsp) {
         vlTOPp->Axi_Sim__DOT__axi_writeOnly_decoder_io_input_b_payload_id 
             = vlTOPp->Axi_Sim__DOT__axi_writeOnly_decoder__DOT__errorSlave__DOT__id;
     }
-    vlTOPp->Axi_Sim__DOT__ram__DOT__Axi4Incr_base = 
-        (0xfffU & (vlTOPp->Axi_Sim__DOT__ram__DOT__arw_addr 
-                   & (~ (((1U < (3U & (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__arw_size))) 
-                          << 1U) | (0U < (3U & (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__arw_size)))))));
     vlTOPp->Axi_Sim__DOT__axi_writeOnly_decoder__DOT__errorSlave_io_axi_aw_ready 
         = (1U & (~ ((IData)(vlTOPp->Axi_Sim__DOT__axi_writeOnly_decoder__DOT__errorSlave__DOT__consumeData) 
                     | (IData)(vlTOPp->Axi_Sim__DOT__axi_writeOnly_decoder__DOT__errorSlave__DOT__sendRsp))));
@@ -104,8 +98,6 @@ void VAxi_Sim::_settle__TOP__7(VAxi_Sim__Syms* __restrict vlSymsp) {
     vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_arbiter__DOT__cmdArbiter__DOT___zz_maskProposal_0 
         = (((IData)(vlTOPp->Axi_Sim__DOT__axi_writeOnly_decoder_io_outputs_0_aw_rValid) 
             << 1U) | (IData)(vlTOPp->Axi_Sim__DOT__axi_readOnly_decoder_io_outputs_0_ar_rValid));
-    vlTOPp->bram_we = ((IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__arw_write)
-                        ? 0xfU : 0U);
     vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_arw_ready = 0U;
     if ((0U != (IData)(vlTOPp->Axi_Sim__DOT__apbBridge__DOT__phase))) {
         if ((1U == (IData)(vlTOPp->Axi_Sim__DOT__apbBridge__DOT__phase))) {
@@ -117,14 +109,6 @@ void VAxi_Sim::_settle__TOP__7(VAxi_Sim__Syms* __restrict vlSymsp) {
         if ((1U == (IData)(vlTOPp->Axi_Sim__DOT__apbBridge__DOT__phase))) {
             vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_w_ready 
                 = vlTOPp->Axi_Sim__DOT__apbBridge__DOT__write;
-        }
-    }
-    vlTOPp->Axi_Sim__DOT__ram_io_axi_w_ready = 0U;
-    if ((0U != (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__phase))) {
-        if ((1U == (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__phase))) {
-            vlTOPp->Axi_Sim__DOT__ram_io_axi_w_ready 
-                = ((IData)(vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_w_s2mPipe_rValid) 
-                   & (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__arw_write));
         }
     }
     vlTOPp->Axi_Sim__DOT__ram__DOT__Axi4Incr_wrapCase 
@@ -140,9 +124,33 @@ void VAxi_Sim::_settle__TOP__7(VAxi_Sim__Syms* __restrict vlSymsp) {
             vlTOPp->Axi_Sim__DOT__apbBridge_io_apb_PENABLE = 1U;
         }
     }
+    vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_b_valid = 0U;
+    if ((0U != (IData)(vlTOPp->Axi_Sim__DOT__apbBridge__DOT__phase))) {
+        if ((1U != (IData)(vlTOPp->Axi_Sim__DOT__apbBridge__DOT__phase))) {
+            if (vlTOPp->Axi_Sim__DOT__apbBridge__DOT__write) {
+                vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_b_valid = 1U;
+            }
+        }
+    }
+    vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_r_valid = 0U;
+    if ((0U != (IData)(vlTOPp->Axi_Sim__DOT__apbBridge__DOT__phase))) {
+        if ((1U != (IData)(vlTOPp->Axi_Sim__DOT__apbBridge__DOT__phase))) {
+            if ((1U & (~ (IData)(vlTOPp->Axi_Sim__DOT__apbBridge__DOT__write)))) {
+                vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_r_valid = 1U;
+            }
+        }
+    }
     vlTOPp->Axi_Sim__DOT__ram__DOT__when_Axi4SharedToBRAM_l121 
         = (1U & ((IData)(vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_w_s2mPipe_rValid) 
                  | (~ (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__arw_write))));
+    vlTOPp->Axi_Sim__DOT__ram_io_axi_w_ready = 0U;
+    if ((0U != (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__phase))) {
+        if ((1U == (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__phase))) {
+            vlTOPp->Axi_Sim__DOT__ram_io_axi_w_ready 
+                = ((IData)(vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_w_s2mPipe_rValid) 
+                   & (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__arw_write));
+        }
+    }
     vlTOPp->Axi_Sim__DOT__axi_readOnly_decoder_io_input_r_payload_last 
         = (1U & ((IData)(vlTOPp->Axi_Sim__DOT__axi_readOnly_decoder__DOT__pendingSels) 
                  | ((0U == (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__lenBurst)) 
@@ -151,6 +159,10 @@ void VAxi_Sim::_settle__TOP__7(VAxi_Sim__Syms* __restrict vlSymsp) {
         vlTOPp->Axi_Sim__DOT__axi_readOnly_decoder_io_input_r_payload_last 
             = (0U == (IData)(vlTOPp->Axi_Sim__DOT__axi_readOnly_decoder__DOT__errorSlave__DOT__remaining));
     }
+    vlTOPp->Axi_Sim__DOT__ram__DOT__Axi4Incr_base = 
+        (0xfffU & (vlTOPp->Axi_Sim__DOT__ram__DOT__arw_addr 
+                   & (~ (((1U < (3U & (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__arw_size))) 
+                          << 1U) | (0U < (3U & (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__arw_size)))))));
     vlTOPp->Axi_Sim__DOT__ram_io_axi_b_valid = 0U;
     if ((0U != (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__phase))) {
         if ((1U != (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__phase))) {
@@ -161,14 +173,6 @@ void VAxi_Sim::_settle__TOP__7(VAxi_Sim__Syms* __restrict vlSymsp) {
             }
         }
     }
-    vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_b_valid = 0U;
-    if ((0U != (IData)(vlTOPp->Axi_Sim__DOT__apbBridge__DOT__phase))) {
-        if ((1U != (IData)(vlTOPp->Axi_Sim__DOT__apbBridge__DOT__phase))) {
-            if (vlTOPp->Axi_Sim__DOT__apbBridge__DOT__write) {
-                vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_b_valid = 1U;
-            }
-        }
-    }
     vlTOPp->Axi_Sim__DOT__ram_io_axi_r_valid = 0U;
     if ((0U != (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__phase))) {
         if ((1U != (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__phase))) {
@@ -176,14 +180,6 @@ void VAxi_Sim::_settle__TOP__7(VAxi_Sim__Syms* __restrict vlSymsp) {
                 if ((1U & (~ (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__arw_write)))) {
                     vlTOPp->Axi_Sim__DOT__ram_io_axi_r_valid = 1U;
                 }
-            }
-        }
-    }
-    vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_r_valid = 0U;
-    if ((0U != (IData)(vlTOPp->Axi_Sim__DOT__apbBridge__DOT__phase))) {
-        if ((1U != (IData)(vlTOPp->Axi_Sim__DOT__apbBridge__DOT__phase))) {
-            if ((1U & (~ (IData)(vlTOPp->Axi_Sim__DOT__apbBridge__DOT__write)))) {
-                vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_r_valid = 1U;
             }
         }
     }
@@ -211,12 +207,6 @@ void VAxi_Sim::_settle__TOP__7(VAxi_Sim__Syms* __restrict vlSymsp) {
     vlTOPp->axi_b_payload_resp = vlTOPp->Axi_Sim__DOT__axi_writeOnly_decoder_io_input_b_payload_resp;
     vlTOPp->axi_r_payload_id = vlTOPp->Axi_Sim__DOT__axi_readOnly_decoder_io_input_r_payload_id;
     vlTOPp->axi_b_payload_id = vlTOPp->Axi_Sim__DOT__axi_writeOnly_decoder_io_input_b_payload_id;
-    vlTOPp->Axi_Sim__DOT__ram__DOT__Axi4Incr_baseIncr 
-        = (0xfffU & ((IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__Axi4Incr_base) 
-                     + (((2U == (3U & (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__arw_size))) 
-                         << 2U) | (((1U == (3U & (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__arw_size))) 
-                                    << 1U) | (0U == 
-                                              (3U & (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__arw_size)))))));
     vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter__DOT__cmdArbiter_io_output_fork_io_outputs_1_thrown_translated_fifo__DOT__full 
         = ((IData)(vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter__DOT__cmdArbiter_io_output_fork_io_outputs_1_thrown_translated_fifo__DOT__ptrMatch) 
            & (IData)(vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter__DOT__cmdArbiter_io_output_fork_io_outputs_1_thrown_translated_fifo__DOT__risingOccupancy));
@@ -237,23 +227,12 @@ void VAxi_Sim::_settle__TOP__7(VAxi_Sim__Syms* __restrict vlSymsp) {
                            << 2U) | (IData)(vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_arbiter__DOT__cmdArbiter__DOT___zz_maskProposal_0)) 
                          - (((IData)(vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_arbiter__DOT__cmdArbiter__DOT__maskLocked_0) 
                              << 1U) | (IData)(vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_arbiter__DOT__cmdArbiter__DOT__maskLocked_1))))));
-}
-
-void VAxi_Sim::_settle__TOP__8(VAxi_Sim__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VAxi_Sim::_settle__TOP__8\n"); );
-    VAxi_Sim* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
-    // Body
     vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_arbiter_io_output_arw_halfPipe_fire 
         = ((IData)(vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_arbiter_io_output_arw_rValid) 
            & (IData)(vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_arw_ready));
     vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_arbiter_io_output_w_halfPipe_fire 
         = ((IData)(vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_arbiter_io_output_w_rValid) 
            & (IData)(vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_w_ready));
-    vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_w_s2mPipe_ready 
-        = vlTOPp->Axi_Sim__DOT__ram_io_axi_w_ready;
-    if ((1U & (~ (IData)(vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_w_s2mPipe_rValid)))) {
-        vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_w_s2mPipe_ready = 1U;
-    }
     vlTOPp->Axi_Sim__DOT__ram_io_bram_en = 0U;
     if ((0U != (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__phase))) {
         if ((1U == (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__phase))) {
@@ -262,7 +241,24 @@ void VAxi_Sim::_settle__TOP__8(VAxi_Sim__Syms* __restrict vlSymsp) {
             }
         }
     }
+}
+
+void VAxi_Sim::_settle__TOP__9(VAxi_Sim__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VAxi_Sim::_settle__TOP__9\n"); );
+    VAxi_Sim* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
+    // Body
+    vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_w_s2mPipe_ready 
+        = vlTOPp->Axi_Sim__DOT__ram_io_axi_w_ready;
+    if ((1U & (~ (IData)(vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_w_s2mPipe_rValid)))) {
+        vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter_io_output_w_s2mPipe_ready = 1U;
+    }
     vlTOPp->axi_r_payload_last = vlTOPp->Axi_Sim__DOT__axi_readOnly_decoder_io_input_r_payload_last;
+    vlTOPp->Axi_Sim__DOT__ram__DOT__Axi4Incr_baseIncr 
+        = (0xfffU & ((IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__Axi4Incr_base) 
+                     + (((2U == (3U & (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__arw_size))) 
+                         << 2U) | (((1U == (3U & (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__arw_size))) 
+                                    << 1U) | (0U == 
+                                              (3U & (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__arw_size)))))));
     vlTOPp->Axi_Sim__DOT__axi_writeOnly_decoder_io_input_b_valid 
         = ((0U != (((IData)(vlTOPp->Axi_Sim__DOT__ram_io_axi_b_valid) 
                     << 1U) | (IData)(vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_b_valid))) 
@@ -297,6 +293,12 @@ void VAxi_Sim::_settle__TOP__8(VAxi_Sim__Syms* __restrict vlSymsp) {
     vlTOPp->Axi_Sim__DOT__axi_writeOnly_decoder__DOT__cmdAllowedStart 
         = (((IData)(vlTOPp->axi_aw_valid) & (IData)(vlTOPp->Axi_Sim__DOT__axi_writeOnly_decoder__DOT__allowCmd)) 
            & (IData)(vlTOPp->Axi_Sim__DOT__axi_writeOnly_decoder__DOT___zz_cmdAllowedStart));
+    vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter__DOT__cmdArbiter__DOT___zz_maskProposal_0_3 
+        = (3U & (((IData)(vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter__DOT__cmdArbiter__DOT___zz_maskProposal_0_2) 
+                  >> 2U) | (IData)(vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter__DOT__cmdArbiter__DOT___zz_maskProposal_0_2)));
+    vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_arbiter__DOT__cmdArbiter__DOT___zz_maskProposal_0_3 
+        = (3U & (((IData)(vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_arbiter__DOT__cmdArbiter__DOT___zz_maskProposal_0_2) 
+                  >> 2U) | (IData)(vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_arbiter__DOT__cmdArbiter__DOT___zz_maskProposal_0_2)));
     vlTOPp->Axi_Sim__DOT__ram__DOT__Axi4Incr_result 
         = ((0U == (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__arw_burst))
             ? vlTOPp->Axi_Sim__DOT__ram__DOT__arw_addr
@@ -324,13 +326,6 @@ void VAxi_Sim::_settle__TOP__8(VAxi_Sim__Syms* __restrict vlSymsp) {
                                   | (1U & (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__Axi4Incr_baseIncr)))))))
                 : ((0xff000U & vlTOPp->Axi_Sim__DOT__ram__DOT__arw_addr) 
                    | (IData)(vlTOPp->Axi_Sim__DOT__ram__DOT__Axi4Incr_baseIncr))));
-    vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter__DOT__cmdArbiter__DOT___zz_maskProposal_0_3 
-        = (3U & (((IData)(vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter__DOT__cmdArbiter__DOT___zz_maskProposal_0_2) 
-                  >> 2U) | (IData)(vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter__DOT__cmdArbiter__DOT___zz_maskProposal_0_2)));
-    vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_arbiter__DOT__cmdArbiter__DOT___zz_maskProposal_0_3 
-        = (3U & (((IData)(vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_arbiter__DOT__cmdArbiter__DOT___zz_maskProposal_0_2) 
-                  >> 2U) | (IData)(vlTOPp->Axi_Sim__DOT__apbBridge_io_axi_arbiter__DOT__cmdArbiter__DOT___zz_maskProposal_0_2)));
-    vlTOPp->bram_en = vlTOPp->Axi_Sim__DOT__ram_io_bram_en;
     vlTOPp->axi_b_valid = vlTOPp->Axi_Sim__DOT__axi_writeOnly_decoder_io_input_b_valid;
     vlTOPp->Axi_Sim__DOT__axi_writeOnly_decoder__DOT__pendingCmdCounter_decrementIt = 0U;
     if (((IData)(vlTOPp->Axi_Sim__DOT__axi_writeOnly_decoder_io_input_b_valid) 
@@ -458,8 +453,8 @@ void VAxi_Sim::_settle__TOP__8(VAxi_Sim__Syms* __restrict vlSymsp) {
                  | (IData)(vlTOPp->Axi_Sim__DOT__ram_io_axi_arbiter__DOT__cmdArbiter_io_output_fork_io_outputs_1_thrown_valid)));
 }
 
-void VAxi_Sim::_settle__TOP__9(VAxi_Sim__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VAxi_Sim::_settle__TOP__9\n"); );
+void VAxi_Sim::_settle__TOP__10(VAxi_Sim__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VAxi_Sim::_settle__TOP__10\n"); );
     VAxi_Sim* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlTOPp->Axi_Sim__DOT__axi_readOnly_decoder_io_outputs_0_ar_validPipe_fire 
@@ -607,10 +602,10 @@ void VAxi_Sim::_eval_settle(VAxi_Sim__Syms* __restrict vlSymsp) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    VAxi_Sim::_eval_settle\n"); );
     VAxi_Sim* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    vlTOPp->_settle__TOP__7(vlSymsp);
-    vlTOPp->__Vm_traceActivity = (1U | vlTOPp->__Vm_traceActivity);
     vlTOPp->_settle__TOP__8(vlSymsp);
+    vlTOPp->__Vm_traceActivity = (1U | vlTOPp->__Vm_traceActivity);
     vlTOPp->_settle__TOP__9(vlSymsp);
+    vlTOPp->_settle__TOP__10(vlSymsp);
 }
 
 void VAxi_Sim::_ctor_var_reset() {
@@ -645,13 +640,9 @@ void VAxi_Sim::_ctor_var_reset() {
     axi_r_payload_id = VL_RAND_RESET_I(4);
     axi_r_payload_resp = VL_RAND_RESET_I(2);
     axi_r_payload_last = VL_RAND_RESET_I(1);
-    bram_en = VL_RAND_RESET_I(1);
-    bram_we = VL_RAND_RESET_I(4);
-    bram_addr = VL_RAND_RESET_I(8);
-    bram_wrdata = VL_RAND_RESET_I(32);
-    bram_rddata = VL_RAND_RESET_I(32);
     clk = VL_RAND_RESET_I(1);
     reset = VL_RAND_RESET_I(1);
+    Axi_Sim__DOT___zz_mem_port1 = VL_RAND_RESET_I(32);
     Axi_Sim__DOT__ram_io_axi_arw_ready = VL_RAND_RESET_I(1);
     Axi_Sim__DOT__ram_io_axi_w_ready = VL_RAND_RESET_I(1);
     Axi_Sim__DOT__ram_io_axi_b_valid = VL_RAND_RESET_I(1);
@@ -721,6 +712,9 @@ void VAxi_Sim::_ctor_var_reset() {
     Axi_Sim__DOT__Apb3_reg1 = VL_RAND_RESET_I(32);
     Axi_Sim__DOT__Apb3_reg2 = VL_RAND_RESET_I(32);
     Axi_Sim__DOT__Apb3_reg3 = VL_RAND_RESET_I(32);
+    { int __Vi0=0; for (; __Vi0<256; ++__Vi0) {
+            Axi_Sim__DOT__mem[__Vi0] = VL_RAND_RESET_I(32);
+    }}
     Axi_Sim__DOT__ram__DOT__phase = VL_RAND_RESET_I(2);
     Axi_Sim__DOT__ram__DOT__lenBurst = VL_RAND_RESET_I(8);
     Axi_Sim__DOT__ram__DOT__arw_addr = VL_RAND_RESET_I(20);
@@ -1091,10 +1085,10 @@ void VAxi_Sim::_ctor_var_reset() {
     __Vtable1_Axi_Sim__DOT__apbBridge__DOT__phase[125] = 0U;
     __Vtable1_Axi_Sim__DOT__apbBridge__DOT__phase[126] = 0U;
     __Vtable1_Axi_Sim__DOT__apbBridge__DOT__phase[127] = 0U;
+    __Vdly__Axi_Sim__DOT__ram__DOT__lenBurst = VL_RAND_RESET_I(8);
+    __Vdly__Axi_Sim__DOT__axi_readOnly_decoder__DOT__errorSlave__DOT__remaining = VL_RAND_RESET_I(8);
     __Vdly__Axi_Sim__DOT__ram__DOT__phase = VL_RAND_RESET_I(2);
     __Vdly__Axi_Sim__DOT__apbBridge__DOT__phase = VL_RAND_RESET_I(2);
     __Vdly__Axi_Sim__DOT__axi_readOnly_decoder__DOT__errorSlave__DOT__sendRsp = VL_RAND_RESET_I(1);
-    __Vdly__Axi_Sim__DOT__ram__DOT__lenBurst = VL_RAND_RESET_I(8);
-    __Vdly__Axi_Sim__DOT__axi_readOnly_decoder__DOT__errorSlave__DOT__remaining = VL_RAND_RESET_I(8);
     __Vm_traceActivity = 0;
 }

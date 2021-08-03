@@ -2,7 +2,7 @@ package GTX_TEST
 
 import spinal.core._
 import spinal.lib.bus.amba3.apb.Apb3Config
-import spinal.lib.bus.amba4.axi.{Axi4, Axi4Config, Axi4CrossbarFactory, Axi4SharedOnChipRam, Axi4SharedToApb3Bridge, Axi4SharedToBram, Axi4ToAxi4Shared, Axi4W}
+import spinal.lib.bus.amba4.axi.{Axi4, Axi4Config, Axi4CrossbarFactory, Axi4SharedOnChipRam, Axi4SharedToApb3Bridge, Axi4SharedToBram, Axi4SlaveFactory, Axi4ToAxi4Shared, Axi4W}
 import spinal.lib.bus.bram.{BRAM, BRAMConfig}
 import spinal.lib.bus.misc.SizeMapping
 import spinal.lib.bus.regif.AccessType.RW
@@ -32,17 +32,11 @@ object axi4config{
 class Gtx_test extends Component {
   val io = new Bundle{
     val axi = slave(Axi4(axi4config.getAxi4Configs()))
-    val bram = master(BRAM(axi4config.bramConfig()))
+    //val bram = master(BRAM(axi4config.bramConfig()))
   }
   noIoPrefix()
 
   val axiCrossbar = Axi4CrossbarFactory()
-
-  /*val onchipram = new Axi4SharedOnChipRam(
-    dataWidth = axi4config.getAxi4Configs().dataWidth,
-    byteCount = 4 kB,
-    idWidth = 4     //Specify the AXI4 ID width.
-  )*/
 
   val ram = new Axi4SharedToBram(
     addressAxiWidth = axi4config.getAxi4Configs().addressWidth,
@@ -51,27 +45,20 @@ class Gtx_test extends Component {
     idWidth = 4     //Specify the AXI4 ID width.
   )
 
-  io.bram <> ram.io.bram
+  //io.bram <> ram.io.bram
 
   val apbBridge = Axi4SharedToApb3Bridge(addressWidth = axi4config.getAxi4Configs().addressWidth,dataWidth = axi4config.getAxi4Configs().dataWidth,
     idWidth = axi4config.getAxi4Configs().idWidth)
 
   axiCrossbar.addSlaves(
     apbBridge.io.axi -> (0x00002000L,   4 kB),
-    ram.io.axi   -> (0x00004000L, 4 kB),
-    //onchipram.io.axi -> (0x00000000L,   4 kB)
+    ram.io.axi   -> (0x00000000L, 4 kB),
   )
 
   axiCrossbar.addConnections(
     io.axi -> List(ram.io.axi,apbBridge.io.axi)
   )
 
-  /*axiCrossbar.addPipelining(onchipram.io.axi)((crossbar,ctrl) => {
-    crossbar.sharedCmd.halfPipe()  >>  ctrl.sharedCmd
-    crossbar.writeData            >/-> ctrl.writeData
-    crossbar.writeRsp              <<  ctrl.writeRsp
-    crossbar.readRsp               <<  ctrl.readRsp
-  })*/
 
   axiCrossbar.addPipelining(ram.io.axi)((crossbar,ctrl) => {
     crossbar.sharedCmd.halfPipe()  >>  ctrl.sharedCmd
@@ -102,6 +89,19 @@ class Gtx_test extends Component {
 
   val Apb3_M_REG3  = apb3busif.newReg(doc="REG3")
   val Apb3_reg3 = Apb3_M_REG3.field(32 bits,RW,resetValue = 0)
+
+
+  val mem = Mem(Bits(32 bits), wordCount = 256)
+  mem.write(
+    enable  = ram.io.bram.en && (ram.io.bram.we === 0x0f),
+    address = ram.io.bram.addr,
+    data    = ram.io.bram.wrdata
+  )
+
+  ram.io.bram.rddata := mem.readSync(
+    enable  = ram.io.bram.en &&(ram.io.bram.we === 0),
+    address = ram.io.bram.addr
+  )
 }
 
 
