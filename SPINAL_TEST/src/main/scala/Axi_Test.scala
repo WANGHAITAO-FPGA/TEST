@@ -2,6 +2,7 @@ import spinal.core._
 import spinal.lib.bus.amba3.apb.{Apb3, Apb3Config}
 import spinal.lib.bus.amba4.axi.{Axi4, Axi4Config, Axi4Shared, Axi4SharedToApb3Bridge, Axi4ToAxi4Shared}
 import spinal.lib.{master, slave}
+import xilinx._
 
 object axi4toapb3{
   def getAxi4Configs() =(
@@ -46,9 +47,13 @@ class Axi_Test extends Component {
   io.apb <> apbBridge.io.apb
 }
 
-object Axi_TestMain extends App {
-  SpinalConfig(
-    //oneFilePerComponent = true,
-    defaultClockDomainFrequency=FixedFrequency(100 MHz)
-  ).generateSystemVerilog(new Axi_Test)
+object Axi_TestMain {
+  def main(args: Array[String]): Unit = {
+    def VivadoSynth[T <: Component](gen: => T, name: String = "temp"): Unit = {
+      val report = VivadoFlow(design = gen, name, s"D:/vivado_test/synthWorkspace/$name").doit()
+      report.printArea()
+      report.printFMax()
+    }
+    VivadoSynth(new Axi_Test(), name = "Axi_Test")
+  }
 }
