@@ -26,7 +26,7 @@ object axi4config{
       dataWidth    = 32,
       addressWidth = 8
     )
-  )
+    )
 }
 
 class Gtx_test extends Component {
@@ -112,7 +112,5 @@ object GtxtestMain extends App {
     defaultClockDomainFrequency=FixedFrequency(100 MHz)
   ).generateVerilog(new Gtx_test)
 }
-
-
 
 
