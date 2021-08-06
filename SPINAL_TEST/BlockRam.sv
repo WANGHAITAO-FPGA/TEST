@@ -1,20 +1,20 @@
 // Generator : SpinalHDL v1.6.0    git head : 73c8d8e2b86b45646e9d0b2e729291f2b65e6be3
 // Component : BlockRam
-// Git hash  : b0e0e1407ba130feb7614ffb9c86b9fcf04c2955
+// Git hash  : f93dbd0569935e6d195e5c19a229d51e67d5776c
 
 
 
 module BlockRam (
-  input      [9:0]    ioA_addr,
-  input      [31:0]   ioA_dataIn,
-  output     [31:0]   ioA_dataOut,
   input               ioA_en,
   input      [3:0]    ioA_we,
-  input      [9:0]    ioB_addr,
-  input      [31:0]   ioB_dataIn,
-  output     [31:0]   ioB_dataOut,
+  input      [9:0]    ioA_addr,
+  input      [31:0]   ioA_wrdata,
+  output     [31:0]   ioA_rddata,
   input               ioB_en,
   input      [3:0]    ioB_we,
+  input      [9:0]    ioB_addr,
+  input      [31:0]   ioB_wrdata,
+  output     [31:0]   ioB_rddata,
   input               clka,
   input               clkb,
   input               reseta,
@@ -25,39 +25,39 @@ module BlockRam (
   wire                _zz_bram_port;
   wire                _zz_bram_port_1;
   wire       [10:0]   i;
-  wire                _zz_ioA_dataOut;
-  wire                _zz_ioB_dataOut;
+  wire                _zz_ioA_rddata;
+  wire                _zz_ioB_rddata;
   reg [31:0] bram [0:1023];
 
   assign _zz_bram_port = (ioA_en && (ioA_we == 4'b1111));
   assign _zz_bram_port_1 = (ioB_en && (ioB_we == 4'b1111));
   always @(posedge clka) begin
-    if(_zz_ioA_dataOut) begin
+    if(_zz_ioA_rddata) begin
       _zz_bram_port0 <= bram[ioA_addr];
     end
   end
 
   always @(posedge clka) begin
     if(_zz_bram_port) begin
-      bram[ioA_addr] <= ioA_dataIn;
+      bram[ioA_addr] <= ioA_wrdata;
     end
   end
 
   always @(posedge clkb) begin
-    if(_zz_ioB_dataOut) begin
+    if(_zz_ioB_rddata) begin
       _zz_bram_port2 <= bram[ioB_addr];
     end
   end
 
   always @(posedge clkb) begin
     if(_zz_bram_port_1) begin
-      bram[ioB_addr] <= ioB_dataIn;
+      bram[ioB_addr] <= ioB_wrdata;
     end
   end
 
-  assign _zz_ioA_dataOut = (ioA_en && (ioA_we == 4'b0000));
-  assign ioA_dataOut = _zz_bram_port0;
-  assign _zz_ioB_dataOut = (ioB_en && (ioB_we == 4'b0000));
-  assign ioB_dataOut = _zz_bram_port2;
+  assign _zz_ioA_rddata = (ioA_en && (ioA_we == 4'b0000));
+  assign ioA_rddata = _zz_bram_port0;
+  assign _zz_ioB_rddata = (ioB_en && (ioB_we == 4'b0000));
+  assign ioB_rddata = _zz_bram_port2;
 
 endmodule

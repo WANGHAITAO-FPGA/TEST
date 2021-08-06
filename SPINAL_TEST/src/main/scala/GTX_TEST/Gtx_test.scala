@@ -29,10 +29,10 @@ object axi4config{
     )
 }
 
-class Gtx_test extends Component {
+class Axi4_top extends Component {
   val io = new Bundle{
     val axi = slave(Axi4(axi4config.getAxi4Configs()))
-    //val bram = master(BRAM(axi4config.bramConfig()))
+    val bram = master(BRAM(axi4config.bramConfig()))
   }
   noIoPrefix()
 
@@ -45,7 +45,9 @@ class Gtx_test extends Component {
     idWidth = 4     //Specify the AXI4 ID width.
   )
 
-  //io.bram <> ram.io.bram
+  //val bram = master(BRAM(axi4config.bramConfig()))
+
+  ram.io.bram <> io.bram
 
   val apbBridge = Axi4SharedToApb3Bridge(addressWidth = axi4config.getAxi4Configs().addressWidth,dataWidth = axi4config.getAxi4Configs().dataWidth,
     idWidth = axi4config.getAxi4Configs().idWidth)
@@ -89,19 +91,35 @@ class Gtx_test extends Component {
 
   val Apb3_M_REG3  = apb3busif.newReg(doc="REG3")
   val Apb3_reg3 = Apb3_M_REG3.field(32 bits,RW,resetValue = 0)
+}
 
+class Gtx_test extends Component{
+  val io = new Bundle{
+    val axi = slave(Axi4(axi4config.getAxi4Configs()))
+    val bram = slave(BRAM(axi4config.bramConfig()))
+    val clk = in Bool()
+    val reset = in Bool()
+    val clkb = in Bool()
+    val resetb = in Bool()
+  }
+  noIoPrefix()
 
-  val mem = Mem(Bits(32 bits), wordCount = 256)
-  mem.write(
-    enable  = ram.io.bram.en && (ram.io.bram.we === 0x0f),
-    address = ram.io.bram.addr,
-    data    = ram.io.bram.wrdata
-  )
+  val clkcd = ClockDomain(io.clk,io.reset)
 
-  ram.io.bram.rddata := mem.readSync(
-    enable  = ram.io.bram.en &&(ram.io.bram.we === 0),
-    address = ram.io.bram.addr
-  )
+  val area = new ClockingArea(clkcd){
+    val axi4top = new Axi4_top
+    io.axi <> axi4top.io.axi
+
+    val blockram = BlockRam(axi4config.bramConfig())
+
+    axi4top.io.bram <> blockram.ioA
+    io.bram <> blockram.ioB
+
+    io.clk <> blockram.clka
+    io.reset <> blockram.reseta
+    io.clkb <> blockram.clkb
+    io.resetb <> blockram.resetb
+  }
 }
 
 
@@ -110,7 +128,7 @@ object GtxtestMain extends App {
   SpinalConfig(
     //oneFilePerComponent = true,
     defaultClockDomainFrequency=FixedFrequency(100 MHz)
-  ).generateVerilog(new Gtx_test)
+  ).generateSystemVerilog(new Gtx_test)
 }
 
 

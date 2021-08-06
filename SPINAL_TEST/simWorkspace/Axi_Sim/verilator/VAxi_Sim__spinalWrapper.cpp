@@ -159,7 +159,7 @@ public:
     uint32_t timeCheck;
     bool waveEnabled;
     VAxi_Sim top;
-    ISignalAccess *signalAccess[31];
+    ISignalAccess *signalAccess[36];
     #ifdef TRACE
 	  VerilatedVcdC tfp;
 	  #endif
@@ -200,8 +200,13 @@ public:
       signalAccess[26] = new CDataSignalAccess( top.axi_b_ready );
       signalAccess[27] = new CDataSignalAccess( top.axi_b_payload_id );
       signalAccess[28] = new CDataSignalAccess( top.axi_b_payload_resp );
-      signalAccess[29] = new CDataSignalAccess( top.clk );
-      signalAccess[30] = new CDataSignalAccess( top.reset );
+      signalAccess[29] = new CDataSignalAccess( top.bram_en );
+      signalAccess[30] = new CDataSignalAccess( top.bram_we );
+      signalAccess[31] = new CDataSignalAccess( top.bram_addr );
+      signalAccess[32] = new IDataSignalAccess( top.bram_wrdata );
+      signalAccess[33] = new IDataSignalAccess( top.bram_rddata );
+      signalAccess[34] = new CDataSignalAccess( top.clk );
+      signalAccess[35] = new CDataSignalAccess( top.reset );
 
       #ifdef TRACE
       Verilated::traceEverOn(true);
@@ -212,7 +217,7 @@ public:
     }
 
     virtual ~Wrapper_1(){
-      for(int idx = 0;idx < 31;idx++){
+      for(int idx = 0;idx < 36;idx++){
           delete signalAccess[idx];
       }
 

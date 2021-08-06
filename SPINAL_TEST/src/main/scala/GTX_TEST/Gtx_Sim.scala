@@ -7,7 +7,7 @@ import scala.util.Random
 
 class Axi_Sim() extends Gtx_test{
   def init = {
-    clockDomain.forkStimulus(10)
+    area.clockDomain.forkStimulus(10)
     io.axi.aw.valid #= false
     io.axi.w.valid #= false
     io.axi.w.last #= false
@@ -20,34 +20,34 @@ class Axi_Sim() extends Gtx_test{
     io.axi.ar.valid #= false
     io.axi.r.ready #= false
     io.axi.b.ready #= true
-    clockDomain.waitSampling()
+    area.clockDomain.waitSampling()
   }
 
   def write(address : BigInt, data : BigInt) = {
     io.axi.aw.payload.addr #= address
     io.axi.aw.valid #= true
     io.axi.w.strb #= 0xf
-    clockDomain.waitSamplingWhere(io.axi.aw.ready.toBoolean)
+    area.clockDomain.waitSamplingWhere(io.axi.aw.ready.toBoolean)
     io.axi.aw.valid #= false
-    clockDomain.waitSamplingWhere(io.axi.w.ready.toBoolean)
+    area.clockDomain.waitSamplingWhere(io.axi.w.ready.toBoolean)
     io.axi.w.valid #= true
     io.axi.w.payload.data #= data
     io.axi.w.last #= true
-    clockDomain.waitSampling()
+    area.clockDomain.waitSampling()
     io.axi.aw.valid #= false
     io.axi.w.valid #= false
     io.axi.w.last #= false
-    clockDomain.waitSamplingWhere(io.axi.b.valid.toBoolean)
+    area.clockDomain.waitSamplingWhere(io.axi.b.valid.toBoolean)
   }
 
   def read(address : BigInt):BigInt ={
     io.axi.r.ready #= false
     io.axi.ar.valid #= true
     io.axi.ar.payload.addr #= address
-    clockDomain.waitSamplingWhere(io.axi.ar.ready.toBoolean)
+    area.clockDomain.waitSamplingWhere(io.axi.ar.ready.toBoolean)
     io.axi.r.ready #= true
     io.axi.ar.valid #= false
-    clockDomain.waitSamplingWhere(io.axi.r.valid.toBoolean)
+    area.clockDomain.waitSamplingWhere(io.axi.r.valid.toBoolean)
     io.axi.ar.valid #= false
     io.axi.r.ready #= false
     io.axi.r.payload.data.toBigInt

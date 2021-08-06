@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.6.0    git head : 73c8d8e2b86b45646e9d0b2e729291f2b65e6be3
 // Component : Axi_Sim
-// Git hash  : b0e0e1407ba130feb7614ffb9c86b9fcf04c2955
+// Git hash  : f93dbd0569935e6d195e5c19a229d51e67d5776c
 
 
 `define Axi4ToBRAMPhase_binary_sequential_type [1:0]
@@ -45,15 +45,201 @@ module Axi_Sim (
   output     [3:0]    axi_r_payload_id,
   output     [1:0]    axi_r_payload_resp,
   output              axi_r_payload_last,
+  input               bram_en,
+  input      [3:0]    bram_we,
+  input      [7:0]    bram_addr,
+  input      [31:0]   bram_wrdata,
+  output     [31:0]   bram_rddata,
   input               clk,
   input               reset
 );
-  wire       [31:0]   ram_io_bram_rddata;
+  wire                area_axi4top_axi_ar_ready;
+  wire                area_axi4top_axi_aw_ready;
+  wire                area_axi4top_axi_w_ready;
+  wire                area_axi4top_axi_r_valid;
+  wire       [31:0]   area_axi4top_axi_r_payload_data;
+  wire       [3:0]    area_axi4top_axi_r_payload_id;
+  wire       [1:0]    area_axi4top_axi_r_payload_resp;
+  wire                area_axi4top_axi_r_payload_last;
+  wire                area_axi4top_axi_b_valid;
+  wire       [3:0]    area_axi4top_axi_b_payload_id;
+  wire       [1:0]    area_axi4top_axi_b_payload_resp;
+  wire                area_axi4top_bram_en;
+  wire       [3:0]    area_axi4top_bram_we;
+  wire       [7:0]    area_axi4top_bram_addr;
+  wire       [31:0]   area_axi4top_bram_wrdata;
+  wire       [31:0]   area_blockram_ioA_rddata;
+  wire       [31:0]   area_blockram_ioB_rddata;
+
+  Axi4_top area_axi4top (
+    .axi_aw_valid            (axi_aw_valid                     ), //i
+    .axi_aw_ready            (area_axi4top_axi_aw_ready        ), //o
+    .axi_aw_payload_addr     (axi_aw_payload_addr              ), //i
+    .axi_aw_payload_id       (axi_aw_payload_id                ), //i
+    .axi_aw_payload_len      (axi_aw_payload_len               ), //i
+    .axi_aw_payload_size     (axi_aw_payload_size              ), //i
+    .axi_aw_payload_burst    (axi_aw_payload_burst             ), //i
+    .axi_w_valid             (axi_w_valid                      ), //i
+    .axi_w_ready             (area_axi4top_axi_w_ready         ), //o
+    .axi_w_payload_data      (axi_w_payload_data               ), //i
+    .axi_w_payload_strb      (axi_w_payload_strb               ), //i
+    .axi_w_payload_last      (axi_w_payload_last               ), //i
+    .axi_b_valid             (area_axi4top_axi_b_valid         ), //o
+    .axi_b_ready             (axi_b_ready                      ), //i
+    .axi_b_payload_id        (area_axi4top_axi_b_payload_id    ), //o
+    .axi_b_payload_resp      (area_axi4top_axi_b_payload_resp  ), //o
+    .axi_ar_valid            (axi_ar_valid                     ), //i
+    .axi_ar_ready            (area_axi4top_axi_ar_ready        ), //o
+    .axi_ar_payload_addr     (axi_ar_payload_addr              ), //i
+    .axi_ar_payload_id       (axi_ar_payload_id                ), //i
+    .axi_ar_payload_len      (axi_ar_payload_len               ), //i
+    .axi_ar_payload_size     (axi_ar_payload_size              ), //i
+    .axi_ar_payload_burst    (axi_ar_payload_burst             ), //i
+    .axi_r_valid             (area_axi4top_axi_r_valid         ), //o
+    .axi_r_ready             (axi_r_ready                      ), //i
+    .axi_r_payload_data      (area_axi4top_axi_r_payload_data  ), //o
+    .axi_r_payload_id        (area_axi4top_axi_r_payload_id    ), //o
+    .axi_r_payload_resp      (area_axi4top_axi_r_payload_resp  ), //o
+    .axi_r_payload_last      (area_axi4top_axi_r_payload_last  ), //o
+    .bram_en                 (area_axi4top_bram_en             ), //o
+    .bram_we                 (area_axi4top_bram_we             ), //o
+    .bram_addr               (area_axi4top_bram_addr           ), //o
+    .bram_wrdata             (area_axi4top_bram_wrdata         ), //o
+    .bram_rddata             (area_blockram_ioA_rddata         ), //i
+    .clk                     (clk                              ), //i
+    .reset                   (reset                            )  //i
+  );
+  BlockRam area_blockram (
+    .ioA_en        (area_axi4top_bram_en      ), //i
+    .ioA_we        (area_axi4top_bram_we      ), //i
+    .ioA_addr      (area_axi4top_bram_addr    ), //i
+    .ioA_wrdata    (area_axi4top_bram_wrdata  ), //i
+    .ioA_rddata    (area_blockram_ioA_rddata  ), //o
+    .ioB_en        (bram_en                   ), //i
+    .ioB_we        (bram_we                   ), //i
+    .ioB_addr      (bram_addr                 ), //i
+    .ioB_wrdata    (bram_wrdata               ), //i
+    .ioB_rddata    (area_blockram_ioB_rddata  ), //o
+    .clka          (clk                       ), //i
+    .clkb          (clk                       ), //i
+    .reseta        (reset                     ), //i
+    .resetb        (reset                     )  //i
+  );
+  assign axi_aw_ready = area_axi4top_axi_aw_ready;
+  assign axi_w_ready = area_axi4top_axi_w_ready;
+  assign axi_b_valid = area_axi4top_axi_b_valid;
+  assign axi_b_payload_id = area_axi4top_axi_b_payload_id;
+  assign axi_b_payload_resp = area_axi4top_axi_b_payload_resp;
+  assign axi_ar_ready = area_axi4top_axi_ar_ready;
+  assign axi_r_valid = area_axi4top_axi_r_valid;
+  assign axi_r_payload_data = area_axi4top_axi_r_payload_data;
+  assign axi_r_payload_id = area_axi4top_axi_r_payload_id;
+  assign axi_r_payload_resp = area_axi4top_axi_r_payload_resp;
+  assign axi_r_payload_last = area_axi4top_axi_r_payload_last;
+  assign bram_rddata = area_blockram_ioB_rddata;
+
+endmodule
+
+module BlockRam (
+  input               ioA_en,
+  input      [3:0]    ioA_we,
+  input      [7:0]    ioA_addr,
+  input      [31:0]   ioA_wrdata,
+  output     [31:0]   ioA_rddata,
+  input               ioB_en,
+  input      [3:0]    ioB_we,
+  input      [7:0]    ioB_addr,
+  input      [31:0]   ioB_wrdata,
+  output     [31:0]   ioB_rddata,
+  input               clka,
+  input               clkb,
+  input               reseta,
+  input               resetb
+);
+  reg        [31:0]   _zz_bram_port0;
+  reg        [31:0]   _zz_bram_port2;
+  wire                _zz_bram_port;
+  wire                _zz_bram_port_1;
+  wire       [8:0]    i;
+  wire                _zz_ioA_rddata;
+  wire                _zz_ioB_rddata;
+  reg [31:0] bram [0:255];
+
+  assign _zz_bram_port = (ioA_en && (ioA_we == 4'b1111));
+  assign _zz_bram_port_1 = (ioB_en && (ioB_we == 4'b1111));
+  always @(posedge clka) begin
+    if(_zz_ioA_rddata) begin
+      _zz_bram_port0 <= bram[ioA_addr];
+    end
+  end
+
+  always @(posedge clka) begin
+    if(_zz_bram_port) begin
+      bram[ioA_addr] <= ioA_wrdata;
+    end
+  end
+
+  always @(posedge clkb) begin
+    if(_zz_ioB_rddata) begin
+      _zz_bram_port2 <= bram[ioB_addr];
+    end
+  end
+
+  always @(posedge clkb) begin
+    if(_zz_bram_port_1) begin
+      bram[ioB_addr] <= ioB_wrdata;
+    end
+  end
+
+  assign _zz_ioA_rddata = (ioA_en && (ioA_we == 4'b0000));
+  assign ioA_rddata = _zz_bram_port0;
+  assign _zz_ioB_rddata = (ioB_en && (ioB_we == 4'b0000));
+  assign ioB_rddata = _zz_bram_port2;
+
+endmodule
+
+module Axi4_top (
+  input               axi_aw_valid,
+  output              axi_aw_ready,
+  input      [19:0]   axi_aw_payload_addr,
+  input      [3:0]    axi_aw_payload_id,
+  input      [7:0]    axi_aw_payload_len,
+  input      [2:0]    axi_aw_payload_size,
+  input      [1:0]    axi_aw_payload_burst,
+  input               axi_w_valid,
+  output              axi_w_ready,
+  input      [31:0]   axi_w_payload_data,
+  input      [3:0]    axi_w_payload_strb,
+  input               axi_w_payload_last,
+  output              axi_b_valid,
+  input               axi_b_ready,
+  output     [3:0]    axi_b_payload_id,
+  output     [1:0]    axi_b_payload_resp,
+  input               axi_ar_valid,
+  output              axi_ar_ready,
+  input      [19:0]   axi_ar_payload_addr,
+  input      [3:0]    axi_ar_payload_id,
+  input      [7:0]    axi_ar_payload_len,
+  input      [2:0]    axi_ar_payload_size,
+  input      [1:0]    axi_ar_payload_burst,
+  output              axi_r_valid,
+  input               axi_r_ready,
+  output     [31:0]   axi_r_payload_data,
+  output     [3:0]    axi_r_payload_id,
+  output     [1:0]    axi_r_payload_resp,
+  output              axi_r_payload_last,
+  output              bram_en,
+  output     [3:0]    bram_we,
+  output     [7:0]    bram_addr,
+  output     [31:0]   bram_wrdata,
+  input      [31:0]   bram_rddata,
+  input               clk,
+  input               reset
+);
   wire                ram_io_axi_arbiter_io_output_arw_ready;
   wire                ram_io_axi_arbiter_io_output_w_ready;
   wire                apbBridge_io_axi_arbiter_io_output_arw_ready;
   wire                apbBridge_io_axi_arbiter_io_output_w_ready;
-  reg        [31:0]   _zz_mem_port1;
   wire                ram_io_axi_arw_ready;
   wire                ram_io_axi_w_ready;
   wire                ram_io_axi_b_valid;
@@ -178,7 +364,6 @@ module Axi_Sim (
   wire                apbBridge_io_axi_arbiter_io_output_w_payload_last;
   wire                apbBridge_io_axi_arbiter_io_output_b_ready;
   wire                apbBridge_io_axi_arbiter_io_output_r_ready;
-  wire                _zz_mem_port;
   wire                axi_readOnly_ar_valid;
   wire                axi_readOnly_ar_ready;
   wire       [19:0]   axi_readOnly_ar_payload_addr;
@@ -323,21 +508,6 @@ module Axi_Sim (
   reg        [31:0]   Apb3_reg2;
   wire                when_RegInst_l153_3;
   reg        [31:0]   Apb3_reg3;
-  wire                _zz_io_bram_rddata;
-  reg [31:0] mem [0:255];
-
-  assign _zz_mem_port = (ram_io_bram_en && (ram_io_bram_we == 4'b1111));
-  always @(posedge clk) begin
-    if(_zz_mem_port) begin
-      mem[ram_io_bram_addr] <= ram_io_bram_wrdata;
-    end
-  end
-
-  always @(posedge clk) begin
-    if(_zz_io_bram_rddata) begin
-      _zz_mem_port1 <= mem[ram_io_bram_addr];
-    end
-  end
 
   Axi4SharedToBram ram (
     .io_axi_arw_valid            (ram_io_axi_arbiter_io_output_arw_halfPipe_valid              ), //i
@@ -367,7 +537,7 @@ module Axi_Sim (
     .io_bram_we                  (ram_io_bram_we                                               ), //o
     .io_bram_addr                (ram_io_bram_addr                                             ), //o
     .io_bram_wrdata              (ram_io_bram_wrdata                                           ), //o
-    .io_bram_rddata              (ram_io_bram_rddata                                           ), //i
+    .io_bram_rddata              (bram_rddata                                                  ), //i
     .clk                         (clk                                                          ), //i
     .reset                       (reset                                                        )  //i
   );
@@ -613,6 +783,10 @@ module Axi_Sim (
     .clk                                  (clk                                                            ), //i
     .reset                                (reset                                                          )  //i
   );
+  assign bram_en = ram_io_bram_en;
+  assign bram_we = ram_io_bram_we;
+  assign bram_addr = ram_io_bram_addr;
+  assign bram_wrdata = ram_io_bram_wrdata;
   assign axi_readOnly_ar_valid = axi_ar_valid;
   assign axi_ar_ready = axi_readOnly_ar_ready;
   assign axi_readOnly_ar_payload_addr = axi_ar_payload_addr;
@@ -742,8 +916,6 @@ module Axi_Sim (
   assign when_RegInst_l153_1 = ((apbBridge_io_apb_PADDR == 20'h00004) && apb3busif_doWrite);
   assign when_RegInst_l153_2 = ((apbBridge_io_apb_PADDR == 20'h01010) && apb3busif_doWrite);
   assign when_RegInst_l153_3 = ((apbBridge_io_apb_PADDR == 20'h01014) && apb3busif_doWrite);
-  assign _zz_io_bram_rddata = (ram_io_bram_en && (ram_io_bram_we == 4'b0000));
-  assign ram_io_bram_rddata = _zz_mem_port1;
   always @(posedge clk or posedge reset) begin
     if(reset) begin
       axi_readOnly_decoder_io_outputs_0_ar_rValid <= 1'b0;
