@@ -54,7 +54,7 @@ void VApb3Test::_settle__TOP__3(VApb3Test__Syms* __restrict vlSymsp) {
             }
         }
     }
-    vlTOPp->Apb3Test__DOT__apb3tobram_1__DOT__when_Apb3ToBram_l42 
+    vlTOPp->Apb3Test__DOT__apb3tobram_1__DOT__when_Apb3ToBram_l41 
         = (((IData)(vlTOPp->apb3_PENABLE) & (IData)(vlTOPp->apb3_PWRITE)) 
            & (IData)(vlTOPp->Apb3Test__DOT__apb3_decoder_io_output_PSEL));
     vlTOPp->Apb3Test__DOT__gpioCtrl__DOT__ctrl_doWrite 
@@ -125,7 +125,7 @@ void VApb3Test::_ctor_var_reset() {
     { int __Vi0=0; for (; __Vi0<256; ++__Vi0) {
             Apb3Test__DOT__mem[__Vi0] = VL_RAND_RESET_I(32);
     }}
-    Apb3Test__DOT__apb3tobram_1__DOT__when_Apb3ToBram_l42 = VL_RAND_RESET_I(1);
+    Apb3Test__DOT__apb3tobram_1__DOT__when_Apb3ToBram_l41 = VL_RAND_RESET_I(1);
     Apb3Test__DOT__gpioCtrl__DOT__ctrl_doWrite = VL_RAND_RESET_I(1);
     Apb3Test__DOT__gpioCtrl__DOT__io_gpio_write_driver = VL_RAND_RESET_I(32);
     Apb3Test__DOT__gpioCtrl__DOT__io_gpio_writeEnable_driver = VL_RAND_RESET_I(32);

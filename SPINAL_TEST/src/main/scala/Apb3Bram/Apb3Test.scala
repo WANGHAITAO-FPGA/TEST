@@ -20,7 +20,7 @@ class Apb3Test extends Component {
   }
   noIoPrefix()
 
-  val apb3tobram = new Apb3ToBram(20,0,8,32)
+  val apb3tobram = new Apb3ToBram(20,8,32)
 
   val gpioCtrl = Apb3Gpio(gpioWidth = 32,withReadSync = true)
 

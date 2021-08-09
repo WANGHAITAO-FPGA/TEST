@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.6.0    git head : 73c8d8e2b86b45646e9d0b2e729291f2b65e6be3
 // Component : Apb3Test
-// Git hash  : aa52522608eb231392ebc67a74accdba89f54e2c
+// Git hash  : 7621f4359dd191a3fda351745854f11be096ae8c
 
 
 
@@ -381,15 +381,15 @@ module Apb3ToBram (
   output     [31:0]   io_bram_wrdata,
   input      [31:0]   io_bram_rddata
 );
-  wire                when_Apb3ToBram_l42;
+  wire                when_Apb3ToBram_l41;
 
   assign io_apb_PREADY = 1'b1;
   assign io_apb_PSLVERROR = 1'b0;
   assign io_bram_addr = io_apb_PADDR[7:0];
   assign io_bram_en = io_apb_PSEL[0];
-  assign when_Apb3ToBram_l42 = ((io_apb_PENABLE && io_apb_PWRITE) && io_apb_PSEL[0]);
+  assign when_Apb3ToBram_l41 = ((io_apb_PENABLE && io_apb_PWRITE) && io_apb_PSEL[0]);
   always @(*) begin
-    if(when_Apb3ToBram_l42) begin
+    if(when_Apb3ToBram_l41) begin
       io_bram_we = 4'b1111;
     end else begin
       io_bram_we = 4'b0000;

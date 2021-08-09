@@ -66,7 +66,7 @@ void VApb3Test::traceChgThis__3(VApb3Test__Syms* __restrict vlSymsp, VerilatedVc
     // Body
     {
         vcdp->chgBit(c+9,((1U & (IData)(vlTOPp->Apb3Test__DOT__apb3_decoder_io_output_PSEL))));
-        vcdp->chgBus(c+17,(((IData)(vlTOPp->Apb3Test__DOT__apb3tobram_1__DOT__when_Apb3ToBram_l42)
+        vcdp->chgBus(c+17,(((IData)(vlTOPp->Apb3Test__DOT__apb3tobram_1__DOT__when_Apb3ToBram_l41)
                              ? 0xfU : 0U)),4);
         vcdp->chgBus(c+25,(vlTOPp->Apb3Test__DOT__gpioCtrl_io_apb_PRDATA),32);
         vcdp->chgBit(c+33,(vlTOPp->Apb3Test__DOT__apb3_decoder_io_input_PREADY));
@@ -74,7 +74,7 @@ void VApb3Test::traceChgThis__3(VApb3Test__Syms* __restrict vlSymsp, VerilatedVc
         vcdp->chgBus(c+49,(vlTOPp->Apb3Test__DOT__apb3_decoder_io_output_PSEL),2);
         vcdp->chgBit(c+57,((1U & ((IData)(vlTOPp->Apb3Test__DOT__apb3_decoder_io_output_PSEL) 
                                   >> 1U))));
-        vcdp->chgBit(c+65,(vlTOPp->Apb3Test__DOT__apb3tobram_1__DOT__when_Apb3ToBram_l42));
+        vcdp->chgBit(c+65,(vlTOPp->Apb3Test__DOT__apb3tobram_1__DOT__when_Apb3ToBram_l41));
         vcdp->chgBit(c+73,(vlTOPp->Apb3Test__DOT__gpioCtrl__DOT__ctrl_doWrite));
         vcdp->chgBit(c+81,(vlTOPp->Apb3Test__DOT__apb3_decoder__DOT__when_Apb3Decoder_l84));
     }

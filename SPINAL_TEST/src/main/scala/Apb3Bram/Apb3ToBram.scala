@@ -7,12 +7,11 @@ import spinal.lib.{master, slave}
 
 object Apb3ToBram{
 
-  def getConfigs(addressApbWidth: Int, selId:Int, addressBRAMWidth: Int, dataWidth: Int): (Apb3Config, BRAMConfig) =
+  def getConfigs(addressApbWidth: Int, addressBRAMWidth: Int, dataWidth: Int): (Apb3Config, BRAMConfig) =
     (
       Apb3Config(
         addressWidth = addressApbWidth,
-        dataWidth    = dataWidth,
-        selWidth     = selId
+        dataWidth    = dataWidth
       ),
       BRAMConfig(
         dataWidth    = dataWidth,
@@ -21,10 +20,10 @@ object Apb3ToBram{
     )
 }
 
-class Apb3ToBram(addressApbWidth: Int, selId:Int, addressBRAMWidth: Int, dataWidth: Int) extends Component {
+class Apb3ToBram(addressApbWidth: Int, addressBRAMWidth: Int, dataWidth: Int) extends Component {
   assert(addressApbWidth >= addressBRAMWidth, "Address of the BRAM bus can be bigger than the Apb address")
 
-  val (apbConfig, bramConfig) = Apb3ToBram.getConfigs(addressApbWidth, selId:Int, addressBRAMWidth, dataWidth)
+  val (apbConfig, bramConfig) = Apb3ToBram.getConfigs(addressApbWidth, addressBRAMWidth, dataWidth)
 
   val io = new Bundle{
     val apb = slave(Apb3(apbConfig))
@@ -37,9 +36,9 @@ class Apb3ToBram(addressApbWidth: Int, selId:Int, addressBRAMWidth: Int, dataWid
 
   io.bram.addr := io.apb.PADDR.resized
 
-  io.bram.en := io.apb.PSEL(selId)
+  io.bram.en := io.apb.PSEL(0)
 
-  when(io.apb.PENABLE && io.apb.PWRITE && io.apb.PSEL(selId)){
+  when(io.apb.PENABLE && io.apb.PWRITE && io.apb.PSEL(0)){
     io.bram.we := (1<<(dataWidth/8)) - 1
   }otherwise{
     io.bram.we := 0
@@ -55,5 +54,5 @@ object Apb3ToBramMain extends App {
   SpinalConfig(
     //oneFilePerComponent = true,
     defaultClockDomainFrequency=FixedFrequency(100 MHz)
-  ).generateSystemVerilog(new Apb3ToBram(20,0,8,32))
+  ).generateSystemVerilog(new Apb3ToBram(20,8,32))
 }

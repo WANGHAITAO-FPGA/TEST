@@ -90,7 +90,7 @@ VL_INLINE_OPT void VApb3Test::_sequent__TOP__1(VApb3Test__Syms* __restrict vlSym
         = (1U & ((IData)(vlTOPp->Apb3Test__DOT__apb3_decoder_io_output_PSEL) 
                  >> 1U));
     if (((IData)(vlTOPp->Apb3Test__DOT__apb3_decoder_io_output_PSEL) 
-         & (0xfU == ((IData)(vlTOPp->Apb3Test__DOT__apb3tobram_1__DOT__when_Apb3ToBram_l42)
+         & (0xfU == ((IData)(vlTOPp->Apb3Test__DOT__apb3tobram_1__DOT__when_Apb3ToBram_l41)
                       ? 0xfU : 0U)))) {
         __Vdlyvval__Apb3Test__DOT__mem__v0 = vlTOPp->apb3_PWDATA;
         __Vdlyvset__Apb3Test__DOT__mem__v0 = 1U;
@@ -98,7 +98,7 @@ VL_INLINE_OPT void VApb3Test::_sequent__TOP__1(VApb3Test__Syms* __restrict vlSym
                                                & vlTOPp->apb3_PADDR);
     }
     if (((IData)(vlTOPp->Apb3Test__DOT__apb3_decoder_io_output_PSEL) 
-         & (0U == ((IData)(vlTOPp->Apb3Test__DOT__apb3tobram_1__DOT__when_Apb3ToBram_l42)
+         & (0U == ((IData)(vlTOPp->Apb3Test__DOT__apb3tobram_1__DOT__when_Apb3ToBram_l41)
                     ? 0xfU : 0U)))) {
         vlTOPp->Apb3Test__DOT___zz_mem_port1 = vlTOPp->Apb3Test__DOT__mem
             [(0xffU & vlTOPp->apb3_PADDR)];
@@ -156,7 +156,7 @@ VL_INLINE_OPT void VApb3Test::_combo__TOP__4(VApb3Test__Syms* __restrict vlSymsp
             }
         }
     }
-    vlTOPp->Apb3Test__DOT__apb3tobram_1__DOT__when_Apb3ToBram_l42 
+    vlTOPp->Apb3Test__DOT__apb3tobram_1__DOT__when_Apb3ToBram_l41 
         = (((IData)(vlTOPp->apb3_PENABLE) & (IData)(vlTOPp->apb3_PWRITE)) 
            & (IData)(vlTOPp->Apb3Test__DOT__apb3_decoder_io_output_PSEL));
     vlTOPp->Apb3Test__DOT__gpioCtrl__DOT__ctrl_doWrite 

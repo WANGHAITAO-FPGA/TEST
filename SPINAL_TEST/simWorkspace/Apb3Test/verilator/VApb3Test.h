@@ -43,7 +43,7 @@ VL_MODULE(VApb3Test) {
     CData/*0:0*/ Apb3Test__DOT__apb3_decoder_io_input_PREADY;
     CData/*0:0*/ Apb3Test__DOT__apb3_decoder_io_input_PSLVERROR;
     CData/*1:0*/ Apb3Test__DOT__apb3_decoder_io_output_PSEL;
-    CData/*0:0*/ Apb3Test__DOT__apb3tobram_1__DOT__when_Apb3ToBram_l42;
+    CData/*0:0*/ Apb3Test__DOT__apb3tobram_1__DOT__when_Apb3ToBram_l41;
     CData/*0:0*/ Apb3Test__DOT__gpioCtrl__DOT__ctrl_doWrite;
     CData/*0:0*/ Apb3Test__DOT__apb3_decoder__DOT__when_Apb3Decoder_l84;
     CData/*0:0*/ Apb3Test__DOT__apb3Router_1__DOT__selIndex;

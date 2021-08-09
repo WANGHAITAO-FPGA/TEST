@@ -6,12 +6,14 @@ import spinal.lib.{IMasterSlave, master}
 import spinal.lib.io.{InOutWrapper, TriState}
 import spinal.core.sim._
 
+import scala.util.Random
+
 case class EmifConfig(emifaddresswidth  : Int, emifdataWidth: Int, usejoint : Boolean)
 
 
 object EmifToApb{
 
-  def getConfigs(emifaddresswidth : Int,emifdataWidth: Int, apb3addressWidth: Int,  apb3dataWidth: Int, selId:Int, usejoint : Boolean): (EmifConfig, Apb3Config) =
+  def getConfigs(emifaddresswidth : Int,emifdataWidth: Int, apb3addressWidth: Int,  apb3dataWidth: Int, usejoint : Boolean): (EmifConfig, Apb3Config) =
     (
       EmifConfig(
         emifaddresswidth  = emifaddresswidth,
@@ -20,8 +22,7 @@ object EmifToApb{
       ),
       Apb3Config(
         addressWidth = apb3addressWidth,
-        dataWidth    = apb3dataWidth,
-        selWidth     = selId
+        dataWidth    = apb3dataWidth
       )
     )
 }
@@ -40,11 +41,11 @@ case class EmifInterface(config : EmifConfig) extends Bundle with IMasterSlave{
   }
 }
 
-class EmifToApb(emifaddresswidth : Int, emifdataWidth: Int, apb3addressWidth: Int, apb3dataWidth: Int,  selId:Int, usejoint:Boolean=false) extends Component{
+class EmifToApb(emifaddresswidth : Int, emifdataWidth: Int, apb3addressWidth: Int, apb3dataWidth: Int, usejoint:Boolean=false) extends Component{
   assert(apb3dataWidth >= emifdataWidth, "Address of the Apb3 bus can be bigger than the Emif datawidth")
   assert(emifaddresswidth >= apb3addressWidth, "Address of the Emif bus can be bigger than the Apb3 addresswidth")
 
-  val (emifConfig, apb3Config) = EmifToApb.getConfigs(emifaddresswidth, emifdataWidth, apb3addressWidth, apb3dataWidth, selId, usejoint)
+  val (emifConfig, apb3Config) = EmifToApb.getConfigs(emifaddresswidth, emifdataWidth, apb3addressWidth, apb3dataWidth, usejoint)
 
   val io = new Bundle{
     val emif = master(EmifInterface(emifConfig))
@@ -85,7 +86,7 @@ class EmifToApb(emifaddresswidth : Int, emifdataWidth: Int, apb3addressWidth: In
 }
 
 
-case class Emif_Ctrl_test(period:Int) extends EmifToApb(24,32,20,32,1,false){
+case class Emif_Ctrl_test(period:Int) extends EmifToApb(24,32,20,32,false){
   def init = {
     clockDomain.forkStimulus(period)
     io.emif.emif_cs #= true
@@ -142,7 +143,6 @@ object Emif_Test {
       dut.emif_read(0x000000)
       dut.emif_read(0x800000)
       sleep(100)
-
     }
   }
 

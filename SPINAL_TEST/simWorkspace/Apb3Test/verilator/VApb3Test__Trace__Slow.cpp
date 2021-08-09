@@ -135,7 +135,7 @@ void VApb3Test::traceInitThis__1(VApb3Test__Syms* __restrict vlSymsp, VerilatedV
         vcdp->declBus(c+249,"Apb3Test apb3tobram_1 io_bram_addr", false,-1, 7,0);
         vcdp->declBus(c+177,"Apb3Test apb3tobram_1 io_bram_wrdata", false,-1, 31,0);
         vcdp->declBus(c+89,"Apb3Test apb3tobram_1 io_bram_rddata", false,-1, 31,0);
-        vcdp->declBit(c+65,"Apb3Test apb3tobram_1 when_Apb3ToBram_l42", false,-1);
+        vcdp->declBit(c+65,"Apb3Test apb3tobram_1 when_Apb3ToBram_l41", false,-1);
         vcdp->declBus(c+241,"Apb3Test gpioCtrl io_apb_PADDR", false,-1, 3,0);
         vcdp->declBus(c+57,"Apb3Test gpioCtrl io_apb_PSEL", false,-1, 0,0);
         vcdp->declBit(c+153,"Apb3Test gpioCtrl io_apb_PENABLE", false,-1);
@@ -220,7 +220,7 @@ void VApb3Test::traceFullThis__1(VApb3Test__Syms* __restrict vlSymsp, VerilatedV
                              ? vlTOPp->Apb3Test__DOT__gpioCtrl_io_apb_PRDATA
                              : vlTOPp->Apb3Test__DOT___zz_mem_port1)),32);
         vcdp->fullBit(c+9,((1U & (IData)(vlTOPp->Apb3Test__DOT__apb3_decoder_io_output_PSEL))));
-        vcdp->fullBus(c+17,(((IData)(vlTOPp->Apb3Test__DOT__apb3tobram_1__DOT__when_Apb3ToBram_l42)
+        vcdp->fullBus(c+17,(((IData)(vlTOPp->Apb3Test__DOT__apb3tobram_1__DOT__when_Apb3ToBram_l41)
                               ? 0xfU : 0U)),4);
         vcdp->fullBus(c+25,(vlTOPp->Apb3Test__DOT__gpioCtrl_io_apb_PRDATA),32);
         vcdp->fullBit(c+33,(vlTOPp->Apb3Test__DOT__apb3_decoder_io_input_PREADY));
@@ -228,7 +228,7 @@ void VApb3Test::traceFullThis__1(VApb3Test__Syms* __restrict vlSymsp, VerilatedV
         vcdp->fullBus(c+49,(vlTOPp->Apb3Test__DOT__apb3_decoder_io_output_PSEL),2);
         vcdp->fullBit(c+57,((1U & ((IData)(vlTOPp->Apb3Test__DOT__apb3_decoder_io_output_PSEL) 
                                    >> 1U))));
-        vcdp->fullBit(c+65,(vlTOPp->Apb3Test__DOT__apb3tobram_1__DOT__when_Apb3ToBram_l42));
+        vcdp->fullBit(c+65,(vlTOPp->Apb3Test__DOT__apb3tobram_1__DOT__when_Apb3ToBram_l41));
         vcdp->fullBit(c+73,(vlTOPp->Apb3Test__DOT__gpioCtrl__DOT__ctrl_doWrite));
         vcdp->fullBit(c+81,(vlTOPp->Apb3Test__DOT__apb3_decoder__DOT__when_Apb3Decoder_l84));
         vcdp->fullBus(c+89,(vlTOPp->Apb3Test__DOT___zz_mem_port1),32);
