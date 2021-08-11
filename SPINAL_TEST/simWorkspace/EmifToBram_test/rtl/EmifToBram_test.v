@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.6.0    git head : 73c8d8e2b86b45646e9d0b2e729291f2b65e6be3
 // Component : EmifToBram_test
-// Git hash  : 7621f4359dd191a3fda351745854f11be096ae8c
+// Git hash  : a0a0837bb09980fcbcb4af011cef64006c57ba2c
 
 
 
@@ -199,7 +199,7 @@ module Apb3Decoder (
   assign io_output_PENABLE = io_input_PENABLE;
   assign io_output_PWRITE = io_input_PWRITE;
   assign io_output_PWDATA = io_input_PWDATA;
-  assign io_output_PSEL[0] = (((io_input_PADDR & (~ 20'h00fff)) == 20'h0) && io_input_PSEL[0]);
+  assign io_output_PSEL[0] = (((io_input_PADDR & (~ 20'h000ff)) == 20'h0) && io_input_PSEL[0]);
   always @(*) begin
     io_input_PREADY = io_output_PREADY;
     if(when_Apb3Decoder_l84) begin
