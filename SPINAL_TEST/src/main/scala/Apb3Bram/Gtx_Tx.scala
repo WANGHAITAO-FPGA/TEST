@@ -19,10 +19,10 @@ class AuroraTxCore(datawidth : Int , addresswidth : Int) extends Component{
   val axi4Config = Axi4Config(addressWidth = addresswidth,dataWidth = datawidth,idWidth = 1,useStrb = false)
   val io = new Bundle{
     val axiw = master Stream (Axi4W(axi4Config))
-    val tx_head = in Bits(32 bits)
+    val tx_head = in Bits(datawidth bits)
     val tx_start = in Bool()
     val tx_trigger = in Bool()
-    val bram = master(BRAM(BRAMConfig(32,8)))
+    val bram = master(BRAM(BRAMConfig(datawidth,addresswidth)))
   }
   noIoPrefix()
 
@@ -31,24 +31,24 @@ class AuroraTxCore(datawidth : Int , addresswidth : Int) extends Component{
     BigInt(normalized.toLong)
   }
 
-  val mem = Mem(Bits(32 bits), wordCount = 256) initBigInt(romSamples)
+  val mem = Mem(Bits(datawidth bits), wordCount = 256) initBigInt(romSamples)
 
-  var axi_txdata = Reg(Bits(32 bits)) init 0
+  var axi_txdata = Reg(Bits(datawidth bits)) init 0
   var axi_last = Reg(Bool()) init False
   val axi_valid = Reg(Bool()) init False
 
-  val axi_txhead = Reg(Bits(32 bits))
+  val axi_txhead = Reg(Bits(datawidth bits))
   axi_txhead := io.tx_head
 
-  val length = Reg(UInt(8 bits))
+  val length = Reg(UInt(addresswidth bits))
   val mem_rden = Reg(Bool()) init False
-  val mem_data = Bits(32 bits)
+  val mem_data = Bits(datawidth bits)
 
-  val mem_addrtemp = Reg(UInt(8 bits)) init 0
+  val mem_addrtemp = Reg(UInt(addresswidth bits)) init 0
 
-  var crc_data = Reg(Bits(32 bits))
+  var crc_data = Reg(Bits(datawidth bits))
 
-  val data_cnt = Reg(UInt(8 bits))
+  val data_cnt = Reg(UInt(addresswidth bits))
 
   val stateMachine = new Area {
     import AuroraState._
@@ -71,7 +71,7 @@ class AuroraTxCore(datawidth : Int , addresswidth : Int) extends Component{
       is(START){
         when(io.axiw.fire){
           mem_rden := True
-          length := axi_txhead(7 downto 0).asUInt
+          length := axi_txhead(addresswidth-1 downto 0).asUInt
           when(axi_txhead(15 downto 8) === 0){
             mem_addrtemp := 1
           }otherwise{

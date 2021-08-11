@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.6.0    git head : 73c8d8e2b86b45646e9d0b2e729291f2b65e6be3
 // Component : AuroraTxCore
-// Git hash  : 29ba7b6d1d21bdf7c0f69bdad0472b51cd83b1a8
+// Git hash  : e5f762e3680c1d869ca7d2d0c1dce4014fe830ed
 
 
 `define AuroraState_binary_sequential_type [2:0]

@@ -11,21 +11,21 @@ class AuroraRxCore(datawidth : Int , addresswidth : Int) extends Component{
 
   val io = new Bundle{
     val axir = slave Stream (Axi4R(axi4Config))
-    val bram = master(BRAM(BRAMConfig(32,8)))
+    val bram = master(BRAM(BRAMConfig(datawidth,addresswidth)))
   }
   noIoPrefix()
 
   io.axir.ready := True
 
   val mem_wren = Reg(Bool()) init False
-  val mem_addr = Reg(UInt(8 bits)) init 0
-  val mem_data = Reg(Bits(32 bits)) init 0
-  val mem_wrwe = Reg(Bits(4 bits)) init 0
+  val mem_addr = Reg(UInt(addresswidth bits)) init 0
+  val mem_data = Reg(Bits(datawidth bits)) init 0
+  val mem_wrwe = Reg(Bits(datawidth/8 bits)) init 0
 
-  val length = Reg(UInt(8 bits))
-  val data_cnt = Reg(UInt(8 bits))
+  val length = Reg(UInt(addresswidth bits))
+  val data_cnt = Reg(UInt(addresswidth bits))
 
-  val crc_data = Reg(Bits(32 bits))
+  val crc_data = Reg(Bits(datawidth bits))
 
   val crc_status = Reg(Bool()) init False
 
@@ -49,7 +49,7 @@ class AuroraRxCore(datawidth : Int , addresswidth : Int) extends Component{
       }
       is(LENGTH){
         when(io.axir.fire){
-          length := io.axir.payload.data(7 downto 0).asUInt
+          length := io.axir.payload.data(addresswidth-1 downto 0).asUInt
           data_cnt := 0
           state := DATA
         }
