@@ -1,6 +1,6 @@
 package Apb3Bram
 
-import Apb3Bram.AuroraTxState.{CRC, DATA, DEVICEID, IDLE, LENGTH, START, STOP, WAIT}
+import Apb3Bram.AuroraState.{CRC, DATA, DEVICEID, IDLE, LENGTH, START, STOP, WAIT}
 import GTX_TEST.axi4config.bramConfig
 import spinal.core._
 import spinal.core.sim.SimConfig
@@ -11,7 +11,7 @@ import spinal.core.sim._
 
 import scala.util.Random
 
-object AuroraTxState extends SpinalEnum {
+object AuroraState extends SpinalEnum {
   val IDLE, WAIT, START, DEVICEID, LENGTH, DATA, CRC, STOP = newElement()
 }
 
@@ -51,7 +51,7 @@ class AuroraTxCore(datawidth : Int , addresswidth : Int) extends Component{
   val data_cnt = Reg(UInt(8 bits))
 
   val stateMachine = new Area {
-    import AuroraTxState._
+    import AuroraState._
 
     val state = RegInit(IDLE)
     switch(state) {
@@ -159,6 +159,16 @@ class AuroraTxCore(datawidth : Int , addresswidth : Int) extends Component{
   io.bram.en := mem_rden
   io.bram.we := 0
   io.bram.wrdata := 0
+
+  val aurarorx = new AuroraRxCore(32,8)
+  aurarorx.io.axir.payload.data := axi_txdata
+  aurarorx.io.axir.payload.last := axi_last
+  aurarorx.io.axir.valid := io.axiw.ready & (stateMachine.state =/= IDLE)
+
+  val aura_wren = aurarorx.io.bram.en
+  val aura_addr = aurarorx.io.bram.addr
+  val aura_data = aurarorx.io.bram.wrdata
+  val aura_wrwe = aurarorx.io.bram.we
 }
 
 object AuroraTxCore {
@@ -169,8 +179,8 @@ object AuroraTxCore {
       dut.io.tx_start #= false
       dut.clockDomain.waitSampling(10)
       var idx = 0
-      while(idx < 10){
-        dut.io.tx_head #= 0x00000002
+      while(idx < 1){
+        dut.io.tx_head #= 0x00000304
         dut.io.axiw.ready #= true
         dut.io.tx_start #= true
         dut.clockDomain.waitSampling()
@@ -178,9 +188,22 @@ object AuroraTxCore {
           dut.clockDomain.waitSampling()
           dut.io.tx_start #= false
           dut.io.axiw.ready #= Random.nextBoolean()
-          //println(dut.io.axiw.payload.data)
         }
         idx = idx + 1
+      }
+
+      var idx1 = 0
+      while(idx1 < 1){
+        dut.io.tx_head #= 0x00000004
+        dut.io.axiw.ready #= true
+        dut.io.tx_start #= true
+        dut.clockDomain.waitSampling()
+        for(i <- 0 until 50)yield{
+          dut.clockDomain.waitSampling()
+          dut.io.tx_start #= false
+          dut.io.axiw.ready #= Random.nextBoolean()
+        }
+        idx1 = idx1 + 1
       }
       sleep(100)
     }

@@ -7,6 +7,7 @@
 
 //==========
 QData/*63:0*/ VAuroraTxCore::__Vtable1_AuroraTxCore__DOT__stateMachine_state_string[8];
+QData/*63:0*/ VAuroraTxCore::__Vtable2_AuroraTxCore__DOT__aurarorx__DOT__stateMachine_state_string[8];
 
 VL_CTOR_IMP(VAuroraTxCore) {
     VAuroraTxCore__Syms* __restrict vlSymsp = __VlSymsp = new VAuroraTxCore__Syms(this, name());
@@ -47,21 +48,43 @@ void VAuroraTxCore::_initial__TOP__1(VAuroraTxCore__Syms* __restrict vlSymsp) {
                  , ~VL_ULL(0));
 }
 
-void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VAuroraTxCore::_settle__TOP__4\n"); );
+void VAuroraTxCore::_settle__TOP__5(VAuroraTxCore__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VAuroraTxCore::_settle__TOP__5\n"); );
     VAuroraTxCore* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
+    vlTOPp->AuroraTxCore__DOT__aurarorx__DOT__when_Gtx_Rx_l59 
+        = ((IData)(vlTOPp->AuroraTxCore__DOT__aurarorx__DOT__data_cnt) 
+           < (0xffU & ((IData)(vlTOPp->AuroraTxCore__DOT__aurarorx__DOT__length) 
+                       - (IData)(1U))));
+    vlTOPp->__Vtableidx2 = vlTOPp->AuroraTxCore__DOT__aurarorx__DOT__stateMachine_state;
+    vlTOPp->AuroraTxCore__DOT__aurarorx__DOT__stateMachine_state_string 
+        = vlTOPp->__Vtable2_AuroraTxCore__DOT__aurarorx__DOT__stateMachine_state_string
+        [vlTOPp->__Vtableidx2];
     vlTOPp->bram_en = vlTOPp->AuroraTxCore__DOT__mem_rden;
     vlTOPp->__Vtableidx1 = vlTOPp->AuroraTxCore__DOT__stateMachine_state;
     vlTOPp->AuroraTxCore__DOT__stateMachine_state_string 
         = vlTOPp->__Vtable1_AuroraTxCore__DOT__stateMachine_state_string
         [vlTOPp->__Vtableidx1];
+    vlTOPp->AuroraTxCore__DOT__aurarorx_axir_valid 
+        = ((IData)(vlTOPp->axiw_ready) & (0U != (IData)(vlTOPp->AuroraTxCore__DOT__stateMachine_state)));
     vlTOPp->axiw_valid = ((IData)(vlTOPp->axiw_ready) 
                           & (0U != (IData)(vlTOPp->AuroraTxCore__DOT__stateMachine_state)));
     vlTOPp->AuroraTxCore__DOT__axi_txdata_1 = 0U;
     if ((2U == (IData)(vlTOPp->AuroraTxCore__DOT__stateMachine_state))) {
         vlTOPp->AuroraTxCore__DOT__axi_txdata_1 = 0xffbcU;
     }
+    vlTOPp->AuroraTxCore__DOT__aurarorx__DOT__when_Gtx_Rx_l92 
+        = ((3U == (IData)(vlTOPp->AuroraTxCore__DOT__aurarorx__DOT__stateMachine_state)) 
+           & (IData)(vlTOPp->AuroraTxCore__DOT__aurarorx_axir_valid));
+    vlTOPp->AuroraTxCore__DOT__aurarorx__DOT__when_Gtx_Rx_l97 
+        = ((4U == (IData)(vlTOPp->AuroraTxCore__DOT__aurarorx__DOT__stateMachine_state)) 
+           & (IData)(vlTOPp->AuroraTxCore__DOT__aurarorx_axir_valid));
+    vlTOPp->AuroraTxCore__DOT__aurarorx__DOT__when_Gtx_Rx_l106 
+        = (((5U == (IData)(vlTOPp->AuroraTxCore__DOT__aurarorx__DOT__stateMachine_state)) 
+            & (IData)(vlTOPp->AuroraTxCore__DOT__aurarorx_axir_valid)) 
+           & ((IData)(vlTOPp->AuroraTxCore__DOT__aurarorx__DOT__data_cnt) 
+              < (0xffU & ((IData)(vlTOPp->AuroraTxCore__DOT__aurarorx__DOT__length) 
+                          - (IData)(1U)))));
     vlTOPp->AuroraTxCore__DOT__axiw_fire_3 = ((IData)(vlTOPp->axiw_valid) 
                                               & (IData)(vlTOPp->axiw_ready));
     vlTOPp->AuroraTxCore__DOT__mem_addr = (0xffU & 
@@ -153,8 +176,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
         }
     }
     vlTOPp->axiw_payload_data = vlTOPp->AuroraTxCore__DOT__axi_txdata_7;
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0xfffffffeU 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0xfffffffeU 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (1U 
                                                    & ((((((((((((((((((((((((((vlTOPp->AuroraTxCore__DOT__axi_txdata_7 
                                                                                >> 0x1fU) 
@@ -229,8 +252,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
                                                       ^ 
                                                       (vlTOPp->AuroraTxCore__DOT__crc_data 
                                                        >> 0x1fU))));
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0xfffffffdU 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0xfffffffdU 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (2U 
                                                    & ((((((((((((((((((((((((((0x1eU 
                                                                                & (vlTOPp->AuroraTxCore__DOT__axi_txdata_7 
@@ -331,8 +354,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
                                                       (0x1eU 
                                                        & (vlTOPp->AuroraTxCore__DOT__crc_data 
                                                           >> 0x1bU)))));
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0xfffffffbU 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0xfffffffbU 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (4U 
                                                    & ((((((((((((((((((((((((((((((((4U 
                                                                                 & (vlTOPp->AuroraTxCore__DOT__axi_txdata_7 
@@ -457,8 +480,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
                                                       (4U 
                                                        & (vlTOPp->AuroraTxCore__DOT__crc_data 
                                                           >> 0x1dU)))));
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0xfffffff7U 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0xfffffff7U 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (8U 
                                                    & ((((((((((((((((((((((((((((((8U 
                                                                                 & (vlTOPp->AuroraTxCore__DOT__axi_txdata_7 
@@ -577,8 +600,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
                                                       (8U 
                                                        & (vlTOPp->AuroraTxCore__DOT__crc_data 
                                                           >> 0x1cU)))));
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0xffffffefU 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0xffffffefU 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (0x10U 
                                                    & ((((((((((((((((((((((((((((((((((0x10U 
                                                                                 & (vlTOPp->AuroraTxCore__DOT__axi_txdata_7 
@@ -711,8 +734,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
                                                       (0x10U 
                                                        & (vlTOPp->AuroraTxCore__DOT__crc_data 
                                                           >> 0x1bU)))));
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0xffffffdfU 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0xffffffdfU 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (0x20U 
                                                    & ((((((((((((((((((((((((((((((0xe0U 
                                                                                 & (vlTOPp->AuroraTxCore__DOT__axi_txdata_7 
@@ -829,8 +852,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
                                                       (0xe0U 
                                                        & (vlTOPp->AuroraTxCore__DOT__crc_data 
                                                           >> 0x18U)))));
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0xffffffbfU 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0xffffffbfU 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (0x40U 
                                                    & ((((((((((((((((((((((((((((((0xc0U 
                                                                                 & (vlTOPp->AuroraTxCore__DOT__axi_txdata_7 
@@ -949,8 +972,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
                                                       (0xc0U 
                                                        & (vlTOPp->AuroraTxCore__DOT__crc_data 
                                                           >> 0x18U)))));
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0xffffff7fU 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0xffffff7fU 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (0x80U 
                                                    & ((((((((((((((((((((((((((((((((0x380U 
                                                                                 & (vlTOPp->AuroraTxCore__DOT__axi_txdata_7 
@@ -1075,8 +1098,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
                                                       (0x380U 
                                                        & (vlTOPp->AuroraTxCore__DOT__crc_data 
                                                           >> 0x16U)))));
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0xfffffeffU 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0xfffffeffU 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (0x100U 
                                                    & ((((((((((((((((((((((((((0x100U 
                                                                                & (vlTOPp->AuroraTxCore__DOT__axi_txdata_7 
@@ -1177,8 +1200,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
                                                       (0x100U 
                                                        & (vlTOPp->AuroraTxCore__DOT__crc_data 
                                                           >> 0x17U)))));
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0xfffffdffU 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0xfffffdffU 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (0x200U 
                                                    & ((((((((((((((((((((((((0xe00U 
                                                                              & (vlTOPp->AuroraTxCore__DOT__axi_txdata_7 
@@ -1273,8 +1296,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
                                                       (0xe00U 
                                                        & (vlTOPp->AuroraTxCore__DOT__crc_data 
                                                           >> 0x14U)))));
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0xfffffbffU 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0xfffffbffU 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (0x400U 
                                                    & ((((((((((((((((((((((((((0x400U 
                                                                                & (vlTOPp->AuroraTxCore__DOT__axi_txdata_7 
@@ -1377,8 +1400,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
                                                       (0x400U 
                                                        & (vlTOPp->AuroraTxCore__DOT__crc_data 
                                                           >> 0x15U)))));
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0xfffff7ffU 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0xfffff7ffU 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (0x800U 
                                                    & ((((((((((((((((((((((((((((((((((0x800U 
                                                                                 & (vlTOPp->AuroraTxCore__DOT__axi_txdata_7 
@@ -1513,8 +1536,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
                                                       (0x800U 
                                                        & (vlTOPp->AuroraTxCore__DOT__crc_data 
                                                           >> 0x14U)))));
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0xffffefffU 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0xffffefffU 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (0x1000U 
                                                    & ((((((((((((((((((((((((((((((((((0x1000U 
                                                                                 & (vlTOPp->AuroraTxCore__DOT__axi_txdata_7 
@@ -1647,8 +1670,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
                                                       (0x1000U 
                                                        & (vlTOPp->AuroraTxCore__DOT__crc_data 
                                                           >> 0x13U)))));
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0xffffdfffU 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0xffffdfffU 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (0x2000U 
                                                    & ((((((((((((((((((((((((((((((((0x2000U 
                                                                                 & (vlTOPp->AuroraTxCore__DOT__axi_txdata_7 
@@ -1775,8 +1798,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
                                                       (0x2000U 
                                                        & (vlTOPp->AuroraTxCore__DOT__crc_data 
                                                           >> 0x12U)))));
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0xffffbfffU 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0xffffbfffU 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (0x4000U 
                                                    & ((((((((((((((((((((((((((((((0x1c000U 
                                                                                 & (vlTOPp->AuroraTxCore__DOT__axi_txdata_7 
@@ -1895,8 +1918,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
                                                       (0x1c000U 
                                                        & (vlTOPp->AuroraTxCore__DOT__crc_data 
                                                           >> 0xfU)))));
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0xffff7fffU 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0xffff7fffU 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (0x8000U 
                                                    & ((((((((((((((((((((((((((((((0x18000U 
                                                                                 & (vlTOPp->AuroraTxCore__DOT__axi_txdata_7 
@@ -2015,8 +2038,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
                                                       (0x18000U 
                                                        & (vlTOPp->AuroraTxCore__DOT__crc_data 
                                                           >> 0xfU)))));
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0xfffeffffU 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0xfffeffffU 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (0x10000U 
                                                    & ((((((((((((((((((((((((((((0x30000U 
                                                                                 & (vlTOPp->AuroraTxCore__DOT__axi_txdata_7 
@@ -2127,8 +2150,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
                                                       (0x30000U 
                                                        & (vlTOPp->AuroraTxCore__DOT__crc_data 
                                                           >> 0xeU)))));
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0xfffdffffU 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0xfffdffffU 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (0x20000U 
                                                    & ((((((((((((((((((((((((((((0x20000U 
                                                                                 & (vlTOPp->AuroraTxCore__DOT__axi_txdata_7 
@@ -2241,8 +2264,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
                                                       (0x20000U 
                                                        & (vlTOPp->AuroraTxCore__DOT__crc_data 
                                                           >> 0xeU)))));
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0xfffbffffU 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0xfffbffffU 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (0x40000U 
                                                    & ((((((((((((((((((((((((((0x40000U 
                                                                                & (vlTOPp->AuroraTxCore__DOT__axi_txdata_7 
@@ -2347,8 +2370,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
                                                       (0x40000U 
                                                        & (vlTOPp->AuroraTxCore__DOT__crc_data 
                                                           >> 0xdU)))));
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0xfff7ffffU 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0xfff7ffffU 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (0x80000U 
                                                    & ((((((((((((((((((((((((0x380000U 
                                                                              & (vlTOPp->AuroraTxCore__DOT__axi_txdata_7 
@@ -2445,8 +2468,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
                                                       (0x380000U 
                                                        & (vlTOPp->AuroraTxCore__DOT__crc_data 
                                                           >> 0xaU)))));
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0xffefffffU 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0xffefffffU 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (0x100000U 
                                                    & ((((((((((((((((((((((((0x300000U 
                                                                              & (vlTOPp->AuroraTxCore__DOT__axi_txdata_7 
@@ -2543,8 +2566,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
                                                       (0x300000U 
                                                        & (vlTOPp->AuroraTxCore__DOT__crc_data 
                                                           >> 0xaU)))));
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0xffdfffffU 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0xffdfffffU 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (0x200000U 
                                                    & ((((((((((((((((((((((((0x200000U 
                                                                              & (vlTOPp->AuroraTxCore__DOT__axi_txdata_7 
@@ -2641,8 +2664,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
                                                       (0x200000U 
                                                        & (vlTOPp->AuroraTxCore__DOT__crc_data 
                                                           >> 0xaU)))));
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0xffbfffffU 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0xffbfffffU 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (0x400000U 
                                                    & ((((((((((((((((((((((((((((0x400000U 
                                                                                 & (vlTOPp->AuroraTxCore__DOT__axi_txdata_7 
@@ -2753,8 +2776,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
                                                       (0x400000U 
                                                        & (vlTOPp->AuroraTxCore__DOT__crc_data 
                                                           >> 9U)))));
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0xff7fffffU 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0xff7fffffU 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (0x800000U 
                                                    & ((((((((((((((((((((((((((((0x800000U 
                                                                                 & (vlTOPp->AuroraTxCore__DOT__axi_txdata_7 
@@ -2865,8 +2888,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
                                                       (0x800000U 
                                                        & (vlTOPp->AuroraTxCore__DOT__crc_data 
                                                           >> 8U)))));
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0xfeffffffU 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0xfeffffffU 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (0x1000000U 
                                                    & ((((((((((((((((((((((((((0x3000000U 
                                                                                & (vlTOPp->AuroraTxCore__DOT__axi_txdata_7 
@@ -2971,8 +2994,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
                                                       (0x3000000U 
                                                        & (vlTOPp->AuroraTxCore__DOT__crc_data 
                                                           >> 6U)))));
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0xfdffffffU 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0xfdffffffU 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (0x2000000U 
                                                    & ((((((((((((((((((((((((((0x2000000U 
                                                                                & (vlTOPp->AuroraTxCore__DOT__axi_txdata_7 
@@ -3077,8 +3100,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
                                                       (0x2000000U 
                                                        & (vlTOPp->AuroraTxCore__DOT__crc_data 
                                                           >> 6U)))));
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0xfbffffffU 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0xfbffffffU 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (0x4000000U 
                                                    & ((((((((((((((((((((((((((((((0x4000000U 
                                                                                 & (vlTOPp->AuroraTxCore__DOT__axi_txdata_7 
@@ -3195,8 +3218,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
                                                       (0x4000000U 
                                                        & (vlTOPp->AuroraTxCore__DOT__crc_data 
                                                           >> 5U)))));
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0xf7ffffffU 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0xf7ffffffU 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (0x8000000U 
                                                    & ((((((((((((((((((((((((((((0x38000000U 
                                                                                 & (vlTOPp->AuroraTxCore__DOT__axi_txdata_7 
@@ -3307,8 +3330,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
                                                       (0x38000000U 
                                                        & (vlTOPp->AuroraTxCore__DOT__crc_data 
                                                           >> 2U)))));
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0xefffffffU 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0xefffffffU 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (0x10000000U 
                                                    & ((((((((((((((((((((((((((((0x30000000U 
                                                                                 & (vlTOPp->AuroraTxCore__DOT__axi_txdata_7 
@@ -3419,8 +3442,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
                                                       (0x30000000U 
                                                        & (vlTOPp->AuroraTxCore__DOT__crc_data 
                                                           >> 2U)))));
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0xdfffffffU 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0xdfffffffU 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (0x20000000U 
                                                    & ((((((((((((((((((((((((((((0x20000000U 
                                                                                 & (vlTOPp->AuroraTxCore__DOT__axi_txdata_7 
@@ -3531,8 +3554,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
                                                       (0x20000000U 
                                                        & (vlTOPp->AuroraTxCore__DOT__crc_data 
                                                           >> 2U)))));
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0xbfffffffU 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0xbfffffffU 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (0x40000000U 
                                                    & ((((((((((((((((((((((((((0xc0000000U 
                                                                                & vlTOPp->AuroraTxCore__DOT__axi_txdata_7) 
@@ -3635,8 +3658,8 @@ void VAuroraTxCore::_settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) {
                                                       ^ 
                                                       (0xc0000000U 
                                                        & vlTOPp->AuroraTxCore__DOT__crc_data))));
-    vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o = ((0x7fffffffU 
-                                                 & vlTOPp->AuroraTxCore__DOT__crc32_1_crc_o) 
+    vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o = ((0x7fffffffU 
+                                                 & vlTOPp->AuroraTxCore__DOT__crc32_2_crc_o) 
                                                 | (0x80000000U 
                                                    & ((((((((((((((((((((((((((0x80000000U 
                                                                                & vlTOPp->AuroraTxCore__DOT__axi_txdata_7) 

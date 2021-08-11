@@ -41,6 +41,7 @@ VL_MODULE(VAuroraTxCore) {
     
     // LOCAL SIGNALS
     // Internals; generally not touched by application code
+    CData/*0:0*/ AuroraTxCore__DOT__aurarorx_axir_valid;
     CData/*0:0*/ AuroraTxCore__DOT__axi_last_2;
     CData/*0:0*/ AuroraTxCore__DOT__axi_last_1;
     CData/*0:0*/ AuroraTxCore__DOT__axi_last;
@@ -52,8 +53,20 @@ VL_MODULE(VAuroraTxCore) {
     CData/*0:0*/ AuroraTxCore__DOT__axiw_fire_3;
     CData/*0:0*/ AuroraTxCore__DOT__when_Gtx_Tx_l134;
     CData/*7:0*/ AuroraTxCore__DOT__mem_addr;
+    CData/*0:0*/ AuroraTxCore__DOT__aurarorx__DOT__mem_wren;
+    CData/*7:0*/ AuroraTxCore__DOT__aurarorx__DOT__mem_addr;
+    CData/*3:0*/ AuroraTxCore__DOT__aurarorx__DOT__mem_wrwe;
+    CData/*7:0*/ AuroraTxCore__DOT__aurarorx__DOT__length;
+    CData/*7:0*/ AuroraTxCore__DOT__aurarorx__DOT__data_cnt;
+    CData/*0:0*/ AuroraTxCore__DOT__aurarorx__DOT__crc_status;
+    CData/*2:0*/ AuroraTxCore__DOT__aurarorx__DOT__stateMachine_state;
+    CData/*0:0*/ AuroraTxCore__DOT__aurarorx__DOT__when_Gtx_Rx_l59;
+    CData/*0:0*/ AuroraTxCore__DOT__aurarorx__DOT__when_Gtx_Rx_l92;
+    CData/*0:0*/ AuroraTxCore__DOT__aurarorx__DOT__when_Gtx_Rx_l97;
+    CData/*0:0*/ AuroraTxCore__DOT__aurarorx__DOT__when_Gtx_Rx_l106;
+    IData/*31:0*/ AuroraTxCore__DOT__aurarorx_bram_rddata;
     IData/*31:0*/ AuroraTxCore__DOT___zz_mem_port0;
-    IData/*31:0*/ AuroraTxCore__DOT__crc32_1_crc_o;
+    IData/*31:0*/ AuroraTxCore__DOT__crc32_2_crc_o;
     IData/*31:0*/ AuroraTxCore__DOT__axi_txdata_7;
     IData/*31:0*/ AuroraTxCore__DOT__axi_txdata_6;
     IData/*31:0*/ AuroraTxCore__DOT__axi_txdata_5;
@@ -63,18 +76,28 @@ VL_MODULE(VAuroraTxCore) {
     IData/*31:0*/ AuroraTxCore__DOT__axi_txdata_1;
     IData/*31:0*/ AuroraTxCore__DOT__axi_txhead;
     IData/*31:0*/ AuroraTxCore__DOT__crc_data;
+    IData/*31:0*/ AuroraTxCore__DOT__aurarorx__DOT__crc32_2_crc_o;
+    IData/*31:0*/ AuroraTxCore__DOT__aurarorx__DOT__mem_data;
+    IData/*31:0*/ AuroraTxCore__DOT__aurarorx__DOT__crc_data;
     QData/*63:0*/ AuroraTxCore__DOT__stateMachine_state_string;
+    QData/*63:0*/ AuroraTxCore__DOT__aurarorx__DOT__stateMachine_state_string;
     IData/*31:0*/ AuroraTxCore__DOT__mem[256];
     
     // LOCAL VARIABLES
     // Internals; generally not touched by application code
     CData/*2:0*/ __Vtableidx1;
+    CData/*2:0*/ __Vtableidx2;
     CData/*7:0*/ __Vdly__AuroraTxCore__DOT__data_cnt;
+    CData/*7:0*/ __Vdly__AuroraTxCore__DOT__mem_addrtemp;
     CData/*2:0*/ __Vdly__AuroraTxCore__DOT__stateMachine_state;
+    CData/*2:0*/ __Vdly__AuroraTxCore__DOT__aurarorx__DOT__stateMachine_state;
+    CData/*7:0*/ __Vdly__AuroraTxCore__DOT__aurarorx__DOT__mem_addr;
     CData/*0:0*/ __Vclklast__TOP__clk;
     CData/*0:0*/ __Vclklast__TOP__reset;
+    IData/*31:0*/ __Vdly__AuroraTxCore__DOT__aurarorx__DOT__crc_data;
     IData/*31:0*/ __Vm_traceActivity;
     static QData/*63:0*/ __Vtable1_AuroraTxCore__DOT__stateMachine_state_string[8];
+    static QData/*63:0*/ __Vtable2_AuroraTxCore__DOT__aurarorx__DOT__stateMachine_state_string[8];
     
     // INTERNAL VARIABLES
     // Internals; generally not touched by application code
@@ -113,7 +136,7 @@ VL_MODULE(VAuroraTxCore) {
     static QData _change_request(VAuroraTxCore__Syms* __restrict vlSymsp);
     static QData _change_request_1(VAuroraTxCore__Syms* __restrict vlSymsp);
   public:
-    static void _combo__TOP__7(VAuroraTxCore__Syms* __restrict vlSymsp);
+    static void _combo__TOP__9(VAuroraTxCore__Syms* __restrict vlSymsp);
   private:
     void _ctor_var_reset() VL_ATTR_COLD;
   public:
@@ -128,10 +151,15 @@ VL_MODULE(VAuroraTxCore) {
     static void _initial__TOP__1(VAuroraTxCore__Syms* __restrict vlSymsp) VL_ATTR_COLD;
     static void _sequent__TOP__2(VAuroraTxCore__Syms* __restrict vlSymsp);
     static void _sequent__TOP__3(VAuroraTxCore__Syms* __restrict vlSymsp);
-    static void _sequent__TOP__5(VAuroraTxCore__Syms* __restrict vlSymsp);
-    static void _sequent__TOP__6(VAuroraTxCore__Syms* __restrict vlSymsp);
-    static void _settle__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp) VL_ATTR_COLD;
+    static void _sequent__TOP__4(VAuroraTxCore__Syms* __restrict vlSymsp);
+    static void _sequent__TOP__7(VAuroraTxCore__Syms* __restrict vlSymsp);
+    static void _sequent__TOP__8(VAuroraTxCore__Syms* __restrict vlSymsp);
+    static void _settle__TOP__5(VAuroraTxCore__Syms* __restrict vlSymsp) VL_ATTR_COLD;
+    static void _settle__TOP__6(VAuroraTxCore__Syms* __restrict vlSymsp);
     static void traceChgThis(VAuroraTxCore__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
+    static void traceChgThis__10(VAuroraTxCore__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
+    static void traceChgThis__11(VAuroraTxCore__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
+    static void traceChgThis__12(VAuroraTxCore__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
     static void traceChgThis__2(VAuroraTxCore__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
     static void traceChgThis__3(VAuroraTxCore__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
     static void traceChgThis__4(VAuroraTxCore__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
@@ -139,6 +167,7 @@ VL_MODULE(VAuroraTxCore) {
     static void traceChgThis__6(VAuroraTxCore__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
     static void traceChgThis__7(VAuroraTxCore__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
     static void traceChgThis__8(VAuroraTxCore__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
+    static void traceChgThis__9(VAuroraTxCore__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
     static void traceFullThis(VAuroraTxCore__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code) VL_ATTR_COLD;
     static void traceFullThis__1(VAuroraTxCore__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code) VL_ATTR_COLD;
     static void traceInitThis(VAuroraTxCore__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code) VL_ATTR_COLD;
