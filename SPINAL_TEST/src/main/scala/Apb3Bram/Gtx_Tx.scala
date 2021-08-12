@@ -18,174 +18,175 @@ object AuroraState extends SpinalEnum {
 class AuroraTxCore(datawidth : Int , addresswidth : Int) extends Component{
   val axi4Config = Axi4Config(addressWidth = addresswidth,dataWidth = datawidth,idWidth = 1,useStrb = false)
   val io = new Bundle{
+    val aurora_userclk = in Bool()
+    val reset = in Bool()
     val axiw = master Stream (Axi4W(axi4Config))
     val tx_head = in Bits(datawidth bits)
     val tx_start = in Bool()
     val tx_trigger = in Bool()
     val bram = master(BRAM(BRAMConfig(datawidth,addresswidth)))
+    val bram_clkout = out Bool()
+    val bram_resetout = out Bool()
   }
   noIoPrefix()
 
-  val romSamples = for(sampleId <- 0 until 256)yield{
-    val normalized = sampleId + 1
-    BigInt(normalized.toLong)
-  }
+  val auroraClkDomain = ClockDomain(io.aurora_userclk,io.reset)
 
-  val mem = Mem(Bits(datawidth bits), wordCount = 256) initBigInt(romSamples)
+  val auroraTxArea = new ClockingArea(auroraClkDomain){
+    /*val romSamples = for(sampleId <- 0 until 256)yield{
+      val normalized = sampleId + 1
+      BigInt(normalized.toLong)
+    }
 
-  var axi_txdata = Reg(Bits(datawidth bits)) init 0
-  var axi_last = Reg(Bool()) init False
-  val axi_valid = Reg(Bool()) init False
+    val mem = Mem(Bits(datawidth bits), wordCount = 256) initBigInt(romSamples)*/
 
-  val axi_txhead = Reg(Bits(datawidth bits))
-  axi_txhead := io.tx_head
+    var axi_txdata = Reg(Bits(datawidth bits)) init 0
+    var axi_last = Reg(Bool()) init False
 
-  val length = Reg(UInt(addresswidth bits))
-  val mem_rden = Reg(Bool()) init False
-  val mem_data = Bits(datawidth bits)
+    val axi_txhead = Reg(Bits(datawidth bits))
+    axi_txhead := io.tx_head
 
-  val mem_addrtemp = Reg(UInt(addresswidth bits)) init 0
+    val length = Reg(UInt(addresswidth bits))
+    val mem_rden = Reg(Bool()) init False
+    val mem_data = Bits(datawidth bits)
 
-  var crc_data = Reg(Bits(datawidth bits))
+    val mem_addrtemp = Reg(UInt(addresswidth bits)) init 0
 
-  val data_cnt = Reg(UInt(addresswidth bits))
+    var crc_data = Reg(Bits(datawidth bits))
 
-  val stateMachine = new Area {
-    import AuroraState._
+    val data_cnt = Reg(UInt(addresswidth bits))
 
-    val state = RegInit(IDLE)
-    switch(state) {
-      is(IDLE){
-        axi_last := False
-        when(io.tx_start && io.axiw.ready){
-          state := START
-        }elsewhen(io.tx_start && (!io.axiw.ready)){
-          state := WAIT
-        }
-      }
-      is(WAIT){
-        when(io.axiw.ready){
-          state := START
-        }
-      }
-      is(START){
-        when(io.axiw.fire){
-          mem_rden := True
-          length := axi_txhead(addresswidth-1 downto 0).asUInt
-          when(axi_txhead(15 downto 8) === 0){
-            mem_addrtemp := 1
-          }otherwise{
-            mem_addrtemp := axi_txhead(15 downto 8).asUInt
+    val stateMachine = new Area {
+      import AuroraState._
+
+      val state = RegInit(IDLE)
+      switch(state) {
+        is(IDLE){
+          axi_last := False
+          when(io.tx_start && io.axiw.ready){
+            state := START
+          }elsewhen(io.tx_start && (!io.axiw.ready)){
+            state := WAIT
           }
-          state := DEVICEID
         }
-      }
-      is(DEVICEID){
-        when(io.axiw.fire){
-          state := LENGTH
+        is(WAIT){
+          when(io.axiw.ready){
+            state := START
+          }
         }
-      }
-      is(LENGTH){
-        when(io.axiw.fire){
-          mem_addrtemp := mem_addrtemp + 1
-          state := DATA
-          data_cnt := 0
+        is(START){
+          when(io.axiw.fire){
+            mem_rden := True
+            length := axi_txhead(addresswidth-1 downto 0).asUInt
+            when(axi_txhead(15 downto 8) === 0){
+              mem_addrtemp := 1
+            }otherwise{
+              mem_addrtemp := axi_txhead(15 downto 8).asUInt
+            }
+            state := DEVICEID
+          }
         }
-      }
-      is(DATA){
-        when(io.axiw.fire){
-          data_cnt := data_cnt + 1
-          when(data_cnt < length-1){
+        is(DEVICEID){
+          when(io.axiw.fire){
+            state := LENGTH
+          }
+        }
+        is(LENGTH){
+          when(io.axiw.fire){
             mem_addrtemp := mem_addrtemp + 1
-          }otherwise{
-            state := CRC
+            state := DATA
+            data_cnt := 0
           }
         }
-      }
-      is(CRC){
-        when(io.axiw.fire){
-          state := STOP
+        is(DATA){
+          when(io.axiw.fire){
+            data_cnt := data_cnt + 1
+            when(data_cnt < length-1){
+              mem_addrtemp := mem_addrtemp + 1
+            }otherwise{
+              state := CRC
+            }
+          }
         }
-      }
-      is(STOP){
-        when(io.axiw.fire) {
-          state := IDLE
+        is(CRC){
+          when(io.axiw.fire){
+            state := STOP
+          }
+        }
+        is(STOP){
+          when(io.axiw.fire) {
+            state := IDLE
+          }
         }
       }
     }
+
+    when(stateMachine.state === START){
+      axi_txdata \= B"32'h0000FFBC"
+    }elsewhen(stateMachine.state === DEVICEID){
+      axi_txdata \= B"32'h00000001"
+    }elsewhen(stateMachine.state === LENGTH){
+      axi_txdata \= io.tx_head
+    }elsewhen(stateMachine.state === DATA){
+      axi_txdata \= mem_data
+    }elsewhen(stateMachine.state === CRC){
+      axi_txdata \= crc_data
+    }elsewhen(stateMachine.state === STOP){
+      axi_txdata \= B"32'h0000FFBD"
+    }otherwise{
+      axi_txdata \= B"32'h00000000"
+    }
+
+    when(stateMachine.state === STOP & io.axiw.fire){
+      axi_last \= True
+    }otherwise{
+      axi_last \= False
+    }
+
+    when(stateMachine.state === START){
+      crc_data := B"32'hFFFFFFFF"
+    }elsewhen((stateMachine.state === DEVICEID|stateMachine.state === LENGTH|stateMachine.state === DATA)&io.axiw.fire){
+      crc_data := Crc32.crc32(crc_data,axi_txdata)
+    }otherwise{
+      crc_data := crc_data
+    }
+
+    val mem_addr = Mux(io.axiw.fire,mem_addrtemp,mem_addrtemp-1)
+
+    /*mem_data := mem.readSync(
+      enable  = mem_rden,
+      address = mem_addr)*/
+
+    io.axiw.valid := io.axiw.ready & (stateMachine.state =/= IDLE)
+    io.axiw.payload.data := axi_txdata
+    io.axiw.payload.last := axi_last
+
+    io.bram.addr := mem_addr
+    io.bram.en := mem_rden
+    io.bram.we := 0
+    io.bram.wrdata := 0
+    mem_data := io.bram.rddata
+
+    io.bram_clkout := io.aurora_userclk
+    io.bram_resetout := io.reset
   }
-
-  when(stateMachine.state === START){
-    axi_txdata \= B"32'h0000FFBC"
-  }elsewhen(stateMachine.state === DEVICEID){
-    axi_txdata \= B"32'h00000001"
-  }elsewhen(stateMachine.state === LENGTH){
-    axi_txdata \= io.tx_head
-  }elsewhen(stateMachine.state === DATA){
-    axi_txdata \= mem_data
-  }elsewhen(stateMachine.state === CRC){
-    axi_txdata \= crc_data
-  }elsewhen(stateMachine.state === STOP){
-    axi_txdata \= B"32'h0000FFBC"
-  }otherwise{
-    axi_txdata \= B"32'h00000000"
-  }
-
-  when(stateMachine.state === STOP & io.axiw.fire){
-    axi_last \= True
-  }otherwise{
-    axi_last \= False
-  }
-
-  when(stateMachine.state === START){
-    crc_data := B"32'hFFFFFFFF"
-  }elsewhen((stateMachine.state === DEVICEID|stateMachine.state === LENGTH|stateMachine.state === DATA)&io.axiw.fire){
-    crc_data := Crc32.crc32(crc_data,axi_txdata)
-  }otherwise{
-    crc_data := crc_data
-  }
-
-  val mem_addr = Mux(io.axiw.fire,mem_addrtemp,mem_addrtemp-1)
-
-  mem_data := mem.readSync(
-    enable  = mem_rden,
-    address = mem_addr)
-
-  io.axiw.valid := io.axiw.ready & (stateMachine.state =/= IDLE)
-  io.axiw.payload.data := axi_txdata
-  io.axiw.payload.last := axi_last
-
-  io.bram.addr := mem_addr
-  io.bram.en := mem_rden
-  io.bram.we := 0
-  io.bram.wrdata := 0
-
-  val aurarorx = new AuroraRxCore(32,8)
-  aurarorx.io.axir.payload.data := axi_txdata
-  aurarorx.io.axir.payload.last := axi_last
-  aurarorx.io.axir.valid := io.axiw.ready & (stateMachine.state =/= IDLE)
-
-  val aura_wren = aurarorx.io.bram.en
-  val aura_addr = aurarorx.io.bram.addr
-  val aura_data = aurarorx.io.bram.wrdata
-  val aura_wrwe = aurarorx.io.bram.we
 }
 
 object AuroraTxCore {
   def main(args: Array[String]): Unit = {
     SimConfig.withWave.doSim(new AuroraTxCore(32,8)) { dut =>
-      dut.clockDomain.forkStimulus(10)
+      dut.auroraTxArea.clockDomain.forkStimulus(10)
       dut.io.tx_trigger #= false
       dut.io.tx_start #= false
-      dut.clockDomain.waitSampling(10)
+      dut.auroraTxArea.clockDomain.waitSampling(10)
       var idx = 0
       while(idx < 1){
         dut.io.tx_head #= 0x00000304
         dut.io.axiw.ready #= true
         dut.io.tx_start #= true
-        dut.clockDomain.waitSampling()
+        dut.auroraTxArea.clockDomain.waitSampling()
         for(i <- 0 until 50)yield{
-          dut.clockDomain.waitSampling()
+          dut.auroraTxArea.clockDomain.waitSampling()
           dut.io.tx_start #= false
           dut.io.axiw.ready #= Random.nextBoolean()
         }
@@ -197,9 +198,9 @@ object AuroraTxCore {
         dut.io.tx_head #= 0x00000004
         dut.io.axiw.ready #= true
         dut.io.tx_start #= true
-        dut.clockDomain.waitSampling()
+        dut.auroraTxArea.clockDomain.waitSampling()
         for(i <- 0 until 50)yield{
-          dut.clockDomain.waitSampling()
+          dut.auroraTxArea.clockDomain.waitSampling()
           dut.io.tx_start #= false
           dut.io.axiw.ready #= Random.nextBoolean()
         }

@@ -51,13 +51,11 @@ case class BlockRam(config: BRAMConfig) extends Component {
   val bram = Mem(Bits(config.dataWidth bits), BigInt(1) << config.addressWidth)
 
   val brama_area = new ClockingArea(bramacd){
-    //ioA.dataOut := bram.readWriteSync(ioA.addr, ioA.dataIn, ioA.en, ioA.we.asBool)
     ioA.rddata := bram.readSync(ioA.addr,ioA.en&&(ioA.we === 0))
-    bram.write(ioA.addr,ioA.wrdata,ioA.en&&(ioA.we === ((BigInt(1) << config.dataWidth/8)-1)))
+    //bram.write(ioA.addr,ioA.wrdata,ioA.en&&(ioA.we === ((BigInt(1) << config.dataWidth/8)-1)))
   }
 
   val bramb_area = new ClockingArea(brambcd){
-    //ioB.dataOut := bram.readWriteSync(ioB.addr, ioB.dataIn, ioB.en, ioB.we.asBool)
     ioB.rddata := bram.readSync(ioB.addr,ioB.en&&(ioB.we === 0))
     bram.write(ioB.addr,ioB.wrdata,ioB.en&&(ioB.we === ((BigInt(1) << config.dataWidth/8)-1)))
   }

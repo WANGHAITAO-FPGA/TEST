@@ -21,7 +21,6 @@ VM_TRACE_THREADED = 0
 VM_CLASSES_FAST += \
 	VAuroraTxCore \
 	VAuroraTxCore__1 \
-	VAuroraTxCore__2 \
 
 # Generated module classes, non-fast-path, compile with low/medium optimization
 VM_CLASSES_SLOW += \

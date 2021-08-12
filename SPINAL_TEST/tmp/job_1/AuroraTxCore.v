@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.6.0    git head : 73c8d8e2b86b45646e9d0b2e729291f2b65e6be3
 // Component : AuroraTxCore
-// Git hash  : e5f762e3680c1d869ca7d2d0c1dce4014fe830ed
+// Git hash  : 1cba8ab088250767381bb3d3535fbb8033cb009e
 
 
 `define AuroraState_binary_sequential_type [2:0]
@@ -15,6 +15,8 @@
 
 
 module AuroraTxCore (
+  input               aurora_userclk,
+  input               reset,
   output              axiw_valid,
   input               axiw_ready,
   output     [31:0]   axiw_payload_data,
@@ -27,137 +29,116 @@ module AuroraTxCore (
   output     [7:0]    bram_addr,
   output     [31:0]   bram_wrdata,
   input      [31:0]   bram_rddata,
-  input               clk,
-  input               reset
+  output              bram_clkout,
+  output              bram_resetout
 );
-  wire                aurarorx_axir_valid;
-  wire       [31:0]   aurarorx_bram_rddata;
-  reg        [31:0]   _zz_mem_port0;
-  wire       [31:0]   crc32_2_crc_o;
-  wire                aurarorx_axir_ready;
-  wire                aurarorx_bram_en;
-  wire       [3:0]    aurarorx_bram_we;
-  wire       [7:0]    aurarorx_bram_addr;
-  wire       [31:0]   aurarorx_bram_wrdata;
-  wire       [7:0]    _zz_when_Gtx_Tx_l98;
-  wire       [7:0]    _zz_mem_addr;
-  reg                 axi_last_2;
-  reg                 axi_last_1;
-  reg        [31:0]   axi_txdata_7;
-  reg        [31:0]   axi_txdata_6;
-  reg        [31:0]   axi_txdata_5;
-  reg        [31:0]   axi_txdata_4;
-  reg        [31:0]   axi_txdata_3;
-  reg        [31:0]   axi_txdata_2;
-  reg        [31:0]   axi_txdata_1;
-  wire       [31:0]   axi_txdata;
-  reg                 axi_last;
-  wire                axi_valid;
-  reg        [31:0]   axi_txhead;
-  reg        [7:0]    length;
-  reg                 mem_rden;
-  wire       [31:0]   mem_data;
-  reg        [7:0]    mem_addrtemp;
-  reg        [31:0]   crc_data;
-  reg        [7:0]    data_cnt;
-  reg        `AuroraState_binary_sequential_type stateMachine_state;
-  wire                when_Gtx_Tx_l60;
-  wire                when_Gtx_Tx_l62;
+  reg        [31:0]   _zz_auroraTxArea_mem_port0;
+  wire       [31:0]   crc32_1_crc_o;
+  wire       [7:0]    _zz_when_Gtx_Tx_l104;
+  wire       [7:0]    _zz_auroraTxArea_mem_addr;
+  reg                 auroraTxArea_axi_last_2;
+  reg                 auroraTxArea_axi_last_1;
+  reg        [31:0]   auroraTxArea_axi_txdata_7;
+  reg        [31:0]   auroraTxArea_axi_txdata_6;
+  reg        [31:0]   auroraTxArea_axi_txdata_5;
+  reg        [31:0]   auroraTxArea_axi_txdata_4;
+  reg        [31:0]   auroraTxArea_axi_txdata_3;
+  reg        [31:0]   auroraTxArea_axi_txdata_2;
+  reg        [31:0]   auroraTxArea_axi_txdata_1;
+  wire       [31:0]   auroraTxArea_axi_txdata;
+  reg                 auroraTxArea_axi_last;
+  reg        [31:0]   auroraTxArea_axi_txhead;
+  reg        [7:0]    auroraTxArea_length;
+  reg                 auroraTxArea_mem_rden;
+  wire       [31:0]   auroraTxArea_mem_data;
+  reg        [7:0]    auroraTxArea_mem_addrtemp;
+  reg        [31:0]   auroraTxArea_crc_data;
+  reg        [7:0]    auroraTxArea_data_cnt;
+  reg        `AuroraState_binary_sequential_type auroraTxArea_stateMachine_state;
+  wire                when_Gtx_Tx_l66;
+  wire                when_Gtx_Tx_l68;
   wire                axiw_fire;
-  wire                when_Gtx_Tx_l75;
+  wire                when_Gtx_Tx_l81;
   wire                axiw_fire_1;
   wire                axiw_fire_2;
   wire                axiw_fire_3;
-  wire                when_Gtx_Tx_l98;
+  wire                when_Gtx_Tx_l104;
   wire                axiw_fire_4;
   wire                axiw_fire_5;
-  wire                when_Gtx_Tx_l118;
-  wire                when_Gtx_Tx_l120;
-  wire                when_Gtx_Tx_l122;
   wire                when_Gtx_Tx_l124;
   wire                when_Gtx_Tx_l126;
   wire                when_Gtx_Tx_l128;
-  wire                axiw_fire_6;
+  wire                when_Gtx_Tx_l130;
+  wire                when_Gtx_Tx_l132;
   wire                when_Gtx_Tx_l134;
+  wire                axiw_fire_6;
   wire                when_Gtx_Tx_l140;
+  wire                when_Gtx_Tx_l146;
   wire                axiw_fire_7;
-  wire                when_Gtx_Tx_l142;
+  wire                when_Gtx_Tx_l148;
   wire                axiw_fire_8;
-  wire       [7:0]    mem_addr;
+  wire       [7:0]    auroraTxArea_mem_addr;
   `ifndef SYNTHESIS
-  reg [63:0] stateMachine_state_string;
+  reg [63:0] auroraTxArea_stateMachine_state_string;
   `endif
 
-  reg [31:0] mem [0:255];
+  reg [31:0] auroraTxArea_mem [0:255];
 
-  assign _zz_when_Gtx_Tx_l98 = (length - 8'h01);
-  assign _zz_mem_addr = (mem_addrtemp - 8'h01);
+  assign _zz_when_Gtx_Tx_l104 = (auroraTxArea_length - 8'h01);
+  assign _zz_auroraTxArea_mem_addr = (auroraTxArea_mem_addrtemp - 8'h01);
   initial begin
-    $readmemb("AuroraTxCore.v_toplevel_mem.bin",mem);
+    $readmemb("AuroraTxCore.v_toplevel_auroraTxArea_mem.bin",auroraTxArea_mem);
   end
-  always @(posedge clk) begin
-    if(mem_rden) begin
-      _zz_mem_port0 <= mem[mem_addr];
+  always @(posedge aurora_userclk) begin
+    if(auroraTxArea_mem_rden) begin
+      _zz_auroraTxArea_mem_port0 <= auroraTxArea_mem[auroraTxArea_mem_addr];
     end
   end
 
-  Crc32 crc32_2 (
-    .crc_i     (crc_data       ), //i
-    .data_i    (axi_txdata_7   ), //i
-    .crc_o     (crc32_2_crc_o  )  //o
-  );
-  AuroraRxCore aurarorx (
-    .axir_valid           (aurarorx_axir_valid   ), //i
-    .axir_ready           (aurarorx_axir_ready   ), //o
-    .axir_payload_data    (axi_txdata_7          ), //i
-    .axir_payload_last    (axi_last_2            ), //i
-    .bram_en              (aurarorx_bram_en      ), //o
-    .bram_we              (aurarorx_bram_we      ), //o
-    .bram_addr            (aurarorx_bram_addr    ), //o
-    .bram_wrdata          (aurarorx_bram_wrdata  ), //o
-    .bram_rddata          (aurarorx_bram_rddata  ), //i
-    .clk                  (clk                   ), //i
-    .reset                (reset                 )  //i
+  Crc32 crc32_1 (
+    .crc_i     (auroraTxArea_crc_data      ), //i
+    .data_i    (auroraTxArea_axi_txdata_7  ), //i
+    .crc_o     (crc32_1_crc_o              )  //o
   );
   `ifndef SYNTHESIS
   always @(*) begin
-    case(stateMachine_state)
-      `AuroraState_binary_sequential_IDLE : stateMachine_state_string = "IDLE    ";
-      `AuroraState_binary_sequential_WAIT_1 : stateMachine_state_string = "WAIT_1  ";
-      `AuroraState_binary_sequential_START : stateMachine_state_string = "START   ";
-      `AuroraState_binary_sequential_DEVICEID : stateMachine_state_string = "DEVICEID";
-      `AuroraState_binary_sequential_LENGTH : stateMachine_state_string = "LENGTH  ";
-      `AuroraState_binary_sequential_DATA : stateMachine_state_string = "DATA    ";
-      `AuroraState_binary_sequential_CRC : stateMachine_state_string = "CRC     ";
-      `AuroraState_binary_sequential_STOP : stateMachine_state_string = "STOP    ";
-      default : stateMachine_state_string = "????????";
+    case(auroraTxArea_stateMachine_state)
+      `AuroraState_binary_sequential_IDLE : auroraTxArea_stateMachine_state_string = "IDLE    ";
+      `AuroraState_binary_sequential_WAIT_1 : auroraTxArea_stateMachine_state_string = "WAIT_1  ";
+      `AuroraState_binary_sequential_START : auroraTxArea_stateMachine_state_string = "START   ";
+      `AuroraState_binary_sequential_DEVICEID : auroraTxArea_stateMachine_state_string = "DEVICEID";
+      `AuroraState_binary_sequential_LENGTH : auroraTxArea_stateMachine_state_string = "LENGTH  ";
+      `AuroraState_binary_sequential_DATA : auroraTxArea_stateMachine_state_string = "DATA    ";
+      `AuroraState_binary_sequential_CRC : auroraTxArea_stateMachine_state_string = "CRC     ";
+      `AuroraState_binary_sequential_STOP : auroraTxArea_stateMachine_state_string = "STOP    ";
+      default : auroraTxArea_stateMachine_state_string = "????????";
     endcase
   end
   `endif
 
   always @(*) begin
-    axi_last_2 = axi_last_1;
-    if(!when_Gtx_Tx_l134) begin
-      axi_last_2 = 1'b0;
+    auroraTxArea_axi_last_2 = auroraTxArea_axi_last_1;
+    if(!when_Gtx_Tx_l140) begin
+      auroraTxArea_axi_last_2 = 1'b0;
     end
   end
 
   always @(*) begin
-    axi_last_1 = axi_last;
-    if(when_Gtx_Tx_l134) begin
-      axi_last_1 = 1'b1;
+    auroraTxArea_axi_last_1 = auroraTxArea_axi_last;
+    if(when_Gtx_Tx_l140) begin
+      auroraTxArea_axi_last_1 = 1'b1;
     end
   end
 
   always @(*) begin
-    axi_txdata_7 = axi_txdata_6;
-    if(!when_Gtx_Tx_l118) begin
-      if(!when_Gtx_Tx_l120) begin
-        if(!when_Gtx_Tx_l122) begin
-          if(!when_Gtx_Tx_l124) begin
-            if(!when_Gtx_Tx_l126) begin
-              if(!when_Gtx_Tx_l128) begin
-                axi_txdata_7 = 32'h0;
+    auroraTxArea_axi_txdata_7 = auroraTxArea_axi_txdata_6;
+    if(!when_Gtx_Tx_l124) begin
+      if(!when_Gtx_Tx_l126) begin
+        if(!when_Gtx_Tx_l128) begin
+          if(!when_Gtx_Tx_l130) begin
+            if(!when_Gtx_Tx_l132) begin
+              if(!when_Gtx_Tx_l134) begin
+                auroraTxArea_axi_txdata_7 = 32'h0;
               end
             end
           end
@@ -167,14 +148,14 @@ module AuroraTxCore (
   end
 
   always @(*) begin
-    axi_txdata_6 = axi_txdata_5;
-    if(!when_Gtx_Tx_l118) begin
-      if(!when_Gtx_Tx_l120) begin
-        if(!when_Gtx_Tx_l122) begin
-          if(!when_Gtx_Tx_l124) begin
-            if(!when_Gtx_Tx_l126) begin
-              if(when_Gtx_Tx_l128) begin
-                axi_txdata_6 = 32'h0000ffbc;
+    auroraTxArea_axi_txdata_6 = auroraTxArea_axi_txdata_5;
+    if(!when_Gtx_Tx_l124) begin
+      if(!when_Gtx_Tx_l126) begin
+        if(!when_Gtx_Tx_l128) begin
+          if(!when_Gtx_Tx_l130) begin
+            if(!when_Gtx_Tx_l132) begin
+              if(when_Gtx_Tx_l134) begin
+                auroraTxArea_axi_txdata_6 = 32'h0000ffbd;
               end
             end
           end
@@ -184,13 +165,13 @@ module AuroraTxCore (
   end
 
   always @(*) begin
-    axi_txdata_5 = axi_txdata_4;
-    if(!when_Gtx_Tx_l118) begin
-      if(!when_Gtx_Tx_l120) begin
-        if(!when_Gtx_Tx_l122) begin
-          if(!when_Gtx_Tx_l124) begin
-            if(when_Gtx_Tx_l126) begin
-              axi_txdata_5 = crc_data;
+    auroraTxArea_axi_txdata_5 = auroraTxArea_axi_txdata_4;
+    if(!when_Gtx_Tx_l124) begin
+      if(!when_Gtx_Tx_l126) begin
+        if(!when_Gtx_Tx_l128) begin
+          if(!when_Gtx_Tx_l130) begin
+            if(when_Gtx_Tx_l132) begin
+              auroraTxArea_axi_txdata_5 = auroraTxArea_crc_data;
             end
           end
         end
@@ -199,12 +180,12 @@ module AuroraTxCore (
   end
 
   always @(*) begin
-    axi_txdata_4 = axi_txdata_3;
-    if(!when_Gtx_Tx_l118) begin
-      if(!when_Gtx_Tx_l120) begin
-        if(!when_Gtx_Tx_l122) begin
-          if(when_Gtx_Tx_l124) begin
-            axi_txdata_4 = mem_data;
+    auroraTxArea_axi_txdata_4 = auroraTxArea_axi_txdata_3;
+    if(!when_Gtx_Tx_l124) begin
+      if(!when_Gtx_Tx_l126) begin
+        if(!when_Gtx_Tx_l128) begin
+          if(when_Gtx_Tx_l130) begin
+            auroraTxArea_axi_txdata_4 = auroraTxArea_mem_data;
           end
         end
       end
@@ -212,156 +193,156 @@ module AuroraTxCore (
   end
 
   always @(*) begin
-    axi_txdata_3 = axi_txdata_2;
-    if(!when_Gtx_Tx_l118) begin
-      if(!when_Gtx_Tx_l120) begin
-        if(when_Gtx_Tx_l122) begin
-          axi_txdata_3 = tx_head;
+    auroraTxArea_axi_txdata_3 = auroraTxArea_axi_txdata_2;
+    if(!when_Gtx_Tx_l124) begin
+      if(!when_Gtx_Tx_l126) begin
+        if(when_Gtx_Tx_l128) begin
+          auroraTxArea_axi_txdata_3 = tx_head;
         end
       end
     end
   end
 
   always @(*) begin
-    axi_txdata_2 = axi_txdata_1;
-    if(!when_Gtx_Tx_l118) begin
-      if(when_Gtx_Tx_l120) begin
-        axi_txdata_2 = 32'h00000001;
+    auroraTxArea_axi_txdata_2 = auroraTxArea_axi_txdata_1;
+    if(!when_Gtx_Tx_l124) begin
+      if(when_Gtx_Tx_l126) begin
+        auroraTxArea_axi_txdata_2 = 32'h00000001;
       end
     end
   end
 
   always @(*) begin
-    axi_txdata_1 = axi_txdata;
-    if(when_Gtx_Tx_l118) begin
-      axi_txdata_1 = 32'h0000ffbc;
+    auroraTxArea_axi_txdata_1 = auroraTxArea_axi_txdata;
+    if(when_Gtx_Tx_l124) begin
+      auroraTxArea_axi_txdata_1 = 32'h0000ffbc;
     end
   end
 
-  assign axi_txdata = 32'h0;
-  assign axi_valid = 1'b0;
-  assign when_Gtx_Tx_l60 = (tx_start && axiw_ready);
-  assign when_Gtx_Tx_l62 = (tx_start && (! axiw_ready));
+  assign auroraTxArea_axi_txdata = 32'h0;
+  assign when_Gtx_Tx_l66 = (tx_start && axiw_ready);
+  assign when_Gtx_Tx_l68 = (tx_start && (! axiw_ready));
   assign axiw_fire = (axiw_valid && axiw_ready);
-  assign when_Gtx_Tx_l75 = (axi_txhead[15 : 8] == 8'h0);
+  assign when_Gtx_Tx_l81 = (auroraTxArea_axi_txhead[15 : 8] == 8'h0);
   assign axiw_fire_1 = (axiw_valid && axiw_ready);
   assign axiw_fire_2 = (axiw_valid && axiw_ready);
   assign axiw_fire_3 = (axiw_valid && axiw_ready);
-  assign when_Gtx_Tx_l98 = (data_cnt < _zz_when_Gtx_Tx_l98);
+  assign when_Gtx_Tx_l104 = (auroraTxArea_data_cnt < _zz_when_Gtx_Tx_l104);
   assign axiw_fire_4 = (axiw_valid && axiw_ready);
   assign axiw_fire_5 = (axiw_valid && axiw_ready);
-  assign when_Gtx_Tx_l118 = (stateMachine_state == `AuroraState_binary_sequential_START);
-  assign when_Gtx_Tx_l120 = (stateMachine_state == `AuroraState_binary_sequential_DEVICEID);
-  assign when_Gtx_Tx_l122 = (stateMachine_state == `AuroraState_binary_sequential_LENGTH);
-  assign when_Gtx_Tx_l124 = (stateMachine_state == `AuroraState_binary_sequential_DATA);
-  assign when_Gtx_Tx_l126 = (stateMachine_state == `AuroraState_binary_sequential_CRC);
-  assign when_Gtx_Tx_l128 = (stateMachine_state == `AuroraState_binary_sequential_STOP);
+  assign when_Gtx_Tx_l124 = (auroraTxArea_stateMachine_state == `AuroraState_binary_sequential_START);
+  assign when_Gtx_Tx_l126 = (auroraTxArea_stateMachine_state == `AuroraState_binary_sequential_DEVICEID);
+  assign when_Gtx_Tx_l128 = (auroraTxArea_stateMachine_state == `AuroraState_binary_sequential_LENGTH);
+  assign when_Gtx_Tx_l130 = (auroraTxArea_stateMachine_state == `AuroraState_binary_sequential_DATA);
+  assign when_Gtx_Tx_l132 = (auroraTxArea_stateMachine_state == `AuroraState_binary_sequential_CRC);
+  assign when_Gtx_Tx_l134 = (auroraTxArea_stateMachine_state == `AuroraState_binary_sequential_STOP);
   assign axiw_fire_6 = (axiw_valid && axiw_ready);
-  assign when_Gtx_Tx_l134 = ((stateMachine_state == `AuroraState_binary_sequential_STOP) && axiw_fire_6);
-  assign when_Gtx_Tx_l140 = (stateMachine_state == `AuroraState_binary_sequential_START);
+  assign when_Gtx_Tx_l140 = ((auroraTxArea_stateMachine_state == `AuroraState_binary_sequential_STOP) && axiw_fire_6);
+  assign when_Gtx_Tx_l146 = (auroraTxArea_stateMachine_state == `AuroraState_binary_sequential_START);
   assign axiw_fire_7 = (axiw_valid && axiw_ready);
-  assign when_Gtx_Tx_l142 = ((((stateMachine_state == `AuroraState_binary_sequential_DEVICEID) || (stateMachine_state == `AuroraState_binary_sequential_LENGTH)) || (stateMachine_state == `AuroraState_binary_sequential_DATA)) && axiw_fire_7);
+  assign when_Gtx_Tx_l148 = ((((auroraTxArea_stateMachine_state == `AuroraState_binary_sequential_DEVICEID) || (auroraTxArea_stateMachine_state == `AuroraState_binary_sequential_LENGTH)) || (auroraTxArea_stateMachine_state == `AuroraState_binary_sequential_DATA)) && axiw_fire_7);
   assign axiw_fire_8 = (axiw_valid && axiw_ready);
-  assign mem_addr = (axiw_fire_8 ? mem_addrtemp : _zz_mem_addr);
-  assign mem_data = _zz_mem_port0;
-  assign axiw_valid = (axiw_ready && (stateMachine_state != `AuroraState_binary_sequential_IDLE));
-  assign axiw_payload_data = axi_txdata_7;
-  assign axiw_payload_last = axi_last_2;
-  assign bram_addr = mem_addr;
-  assign bram_en = mem_rden;
+  assign auroraTxArea_mem_addr = (axiw_fire_8 ? auroraTxArea_mem_addrtemp : _zz_auroraTxArea_mem_addr);
+  assign auroraTxArea_mem_data = _zz_auroraTxArea_mem_port0;
+  assign axiw_valid = (axiw_ready && (auroraTxArea_stateMachine_state != `AuroraState_binary_sequential_IDLE));
+  assign axiw_payload_data = auroraTxArea_axi_txdata_7;
+  assign axiw_payload_last = auroraTxArea_axi_last_2;
+  assign bram_addr = auroraTxArea_mem_addr;
+  assign bram_en = auroraTxArea_mem_rden;
   assign bram_we = 4'b0000;
   assign bram_wrdata = 32'h0;
-  assign aurarorx_axir_valid = (axiw_ready && (stateMachine_state != `AuroraState_binary_sequential_IDLE));
-  always @(posedge clk or posedge reset) begin
+  assign bram_clkout = aurora_userclk;
+  assign bram_resetout = reset;
+  always @(posedge aurora_userclk or posedge reset) begin
     if(reset) begin
-      axi_last <= 1'b0;
-      mem_rden <= 1'b0;
-      mem_addrtemp <= 8'h0;
-      stateMachine_state <= `AuroraState_binary_sequential_IDLE;
+      auroraTxArea_axi_last <= 1'b0;
+      auroraTxArea_mem_rden <= 1'b0;
+      auroraTxArea_mem_addrtemp <= 8'h0;
+      auroraTxArea_stateMachine_state <= `AuroraState_binary_sequential_IDLE;
     end else begin
-      case(stateMachine_state)
+      case(auroraTxArea_stateMachine_state)
         `AuroraState_binary_sequential_IDLE : begin
-          axi_last <= 1'b0;
-          if(when_Gtx_Tx_l60) begin
-            stateMachine_state <= `AuroraState_binary_sequential_START;
+          auroraTxArea_axi_last <= 1'b0;
+          if(when_Gtx_Tx_l66) begin
+            auroraTxArea_stateMachine_state <= `AuroraState_binary_sequential_START;
           end else begin
-            if(when_Gtx_Tx_l62) begin
-              stateMachine_state <= `AuroraState_binary_sequential_WAIT_1;
+            if(when_Gtx_Tx_l68) begin
+              auroraTxArea_stateMachine_state <= `AuroraState_binary_sequential_WAIT_1;
             end
           end
         end
         `AuroraState_binary_sequential_WAIT_1 : begin
           if(axiw_ready) begin
-            stateMachine_state <= `AuroraState_binary_sequential_START;
+            auroraTxArea_stateMachine_state <= `AuroraState_binary_sequential_START;
           end
         end
         `AuroraState_binary_sequential_START : begin
           if(axiw_fire) begin
-            mem_rden <= 1'b1;
-            if(when_Gtx_Tx_l75) begin
-              mem_addrtemp <= 8'h01;
+            auroraTxArea_mem_rden <= 1'b1;
+            if(when_Gtx_Tx_l81) begin
+              auroraTxArea_mem_addrtemp <= 8'h01;
             end else begin
-              mem_addrtemp <= axi_txhead[15 : 8];
+              auroraTxArea_mem_addrtemp <= auroraTxArea_axi_txhead[15 : 8];
             end
-            stateMachine_state <= `AuroraState_binary_sequential_DEVICEID;
+            auroraTxArea_stateMachine_state <= `AuroraState_binary_sequential_DEVICEID;
           end
         end
         `AuroraState_binary_sequential_DEVICEID : begin
           if(axiw_fire_1) begin
-            stateMachine_state <= `AuroraState_binary_sequential_LENGTH;
+            auroraTxArea_stateMachine_state <= `AuroraState_binary_sequential_LENGTH;
           end
         end
         `AuroraState_binary_sequential_LENGTH : begin
           if(axiw_fire_2) begin
-            mem_addrtemp <= (mem_addrtemp + 8'h01);
-            stateMachine_state <= `AuroraState_binary_sequential_DATA;
+            auroraTxArea_mem_addrtemp <= (auroraTxArea_mem_addrtemp + 8'h01);
+            auroraTxArea_stateMachine_state <= `AuroraState_binary_sequential_DATA;
           end
         end
         `AuroraState_binary_sequential_DATA : begin
           if(axiw_fire_3) begin
-            if(when_Gtx_Tx_l98) begin
-              mem_addrtemp <= (mem_addrtemp + 8'h01);
+            if(when_Gtx_Tx_l104) begin
+              auroraTxArea_mem_addrtemp <= (auroraTxArea_mem_addrtemp + 8'h01);
             end else begin
-              stateMachine_state <= `AuroraState_binary_sequential_CRC;
+              auroraTxArea_stateMachine_state <= `AuroraState_binary_sequential_CRC;
             end
           end
         end
         `AuroraState_binary_sequential_CRC : begin
           if(axiw_fire_4) begin
-            stateMachine_state <= `AuroraState_binary_sequential_STOP;
+            auroraTxArea_stateMachine_state <= `AuroraState_binary_sequential_STOP;
           end
         end
         default : begin
           if(axiw_fire_5) begin
-            stateMachine_state <= `AuroraState_binary_sequential_IDLE;
+            auroraTxArea_stateMachine_state <= `AuroraState_binary_sequential_IDLE;
           end
         end
       endcase
     end
   end
 
-  always @(posedge clk) begin
-    axi_txhead <= tx_head;
-    case(stateMachine_state)
+  always @(posedge aurora_userclk) begin
+    auroraTxArea_axi_txhead <= tx_head;
+    case(auroraTxArea_stateMachine_state)
       `AuroraState_binary_sequential_IDLE : begin
       end
       `AuroraState_binary_sequential_WAIT_1 : begin
       end
       `AuroraState_binary_sequential_START : begin
         if(axiw_fire) begin
-          length <= axi_txhead[7 : 0];
+          auroraTxArea_length <= auroraTxArea_axi_txhead[7 : 0];
         end
       end
       `AuroraState_binary_sequential_DEVICEID : begin
       end
       `AuroraState_binary_sequential_LENGTH : begin
         if(axiw_fire_2) begin
-          data_cnt <= 8'h0;
+          auroraTxArea_data_cnt <= 8'h0;
         end
       end
       `AuroraState_binary_sequential_DATA : begin
         if(axiw_fire_3) begin
-          data_cnt <= (data_cnt + 8'h01);
+          auroraTxArea_data_cnt <= (auroraTxArea_data_cnt + 8'h01);
         end
       end
       `AuroraState_binary_sequential_CRC : begin
@@ -369,237 +350,19 @@ module AuroraTxCore (
       default : begin
       end
     endcase
-    if(when_Gtx_Tx_l140) begin
-      crc_data <= 32'hffffffff;
+    if(when_Gtx_Tx_l146) begin
+      auroraTxArea_crc_data <= 32'hffffffff;
     end else begin
-      if(when_Gtx_Tx_l142) begin
-        crc_data <= crc32_2_crc_o;
+      if(when_Gtx_Tx_l148) begin
+        auroraTxArea_crc_data <= crc32_1_crc_o;
       end else begin
-        crc_data <= crc_data;
+        auroraTxArea_crc_data <= auroraTxArea_crc_data;
       end
     end
   end
 
 
 endmodule
-
-module AuroraRxCore (
-  input               axir_valid,
-  output              axir_ready,
-  input      [31:0]   axir_payload_data,
-  input               axir_payload_last,
-  output              bram_en,
-  output     [3:0]    bram_we,
-  output     [7:0]    bram_addr,
-  output     [31:0]   bram_wrdata,
-  input      [31:0]   bram_rddata,
-  input               clk,
-  input               reset
-);
-  wire       [31:0]   crc32_2_crc_o;
-  wire       [7:0]    _zz_when_Gtx_Rx_l59;
-  wire       [7:0]    _zz_when_Gtx_Rx_l106;
-  reg                 mem_wren;
-  reg        [7:0]    mem_addr;
-  reg        [31:0]   mem_data;
-  reg        [3:0]    mem_wrwe;
-  reg        [7:0]    length;
-  reg        [7:0]    data_cnt;
-  reg        [31:0]   crc_data;
-  reg                 crc_status;
-  reg        `AuroraState_binary_sequential_type stateMachine_state;
-  wire                axir_fire;
-  wire                when_Gtx_Rx_l37;
-  wire                axir_fire_1;
-  wire                when_Gtx_Rx_l43;
-  wire                axir_fire_2;
-  wire                axir_fire_3;
-  wire                when_Gtx_Rx_l59;
-  wire                axir_fire_4;
-  wire                when_Gtx_Rx_l68;
-  wire                axir_fire_5;
-  wire                when_Gtx_Rx_l77;
-  wire                when_Gtx_Rx_l84;
-  wire                axir_fire_6;
-  wire                when_Gtx_Rx_l86;
-  wire                axir_fire_7;
-  wire                when_Gtx_Rx_l92;
-  wire                when_Gtx_Rx_l99;
-  wire                axir_fire_8;
-  wire                when_Gtx_Rx_l97;
-  wire                axir_fire_9;
-  wire                when_Gtx_Rx_l106;
-  `ifndef SYNTHESIS
-  reg [63:0] stateMachine_state_string;
-  `endif
-
-
-  assign _zz_when_Gtx_Rx_l59 = (length - 8'h01);
-  assign _zz_when_Gtx_Rx_l106 = (length - 8'h01);
-  Crc32 crc32_2 (
-    .crc_i     (crc_data           ), //i
-    .data_i    (axir_payload_data  ), //i
-    .crc_o     (crc32_2_crc_o      )  //o
-  );
-  `ifndef SYNTHESIS
-  always @(*) begin
-    case(stateMachine_state)
-      `AuroraState_binary_sequential_IDLE : stateMachine_state_string = "IDLE    ";
-      `AuroraState_binary_sequential_WAIT_1 : stateMachine_state_string = "WAIT_1  ";
-      `AuroraState_binary_sequential_START : stateMachine_state_string = "START   ";
-      `AuroraState_binary_sequential_DEVICEID : stateMachine_state_string = "DEVICEID";
-      `AuroraState_binary_sequential_LENGTH : stateMachine_state_string = "LENGTH  ";
-      `AuroraState_binary_sequential_DATA : stateMachine_state_string = "DATA    ";
-      `AuroraState_binary_sequential_CRC : stateMachine_state_string = "CRC     ";
-      `AuroraState_binary_sequential_STOP : stateMachine_state_string = "STOP    ";
-      default : stateMachine_state_string = "????????";
-    endcase
-  end
-  `endif
-
-  assign axir_ready = 1'b1;
-  assign axir_fire = (axir_valid && axir_ready);
-  assign when_Gtx_Rx_l37 = (axir_fire && (axir_payload_data == 32'h0000ffbc));
-  assign axir_fire_1 = (axir_valid && axir_ready);
-  assign when_Gtx_Rx_l43 = (axir_payload_data == 32'h00000001);
-  assign axir_fire_2 = (axir_valid && axir_ready);
-  assign axir_fire_3 = (axir_valid && axir_ready);
-  assign when_Gtx_Rx_l59 = (data_cnt < _zz_when_Gtx_Rx_l59);
-  assign axir_fire_4 = (axir_valid && axir_ready);
-  assign when_Gtx_Rx_l68 = (crc_data != axir_payload_data);
-  assign axir_fire_5 = (axir_valid && axir_ready);
-  assign when_Gtx_Rx_l77 = (axir_fire_5 && axir_payload_last);
-  assign when_Gtx_Rx_l84 = (stateMachine_state == `AuroraState_binary_sequential_IDLE);
-  assign axir_fire_6 = (axir_valid && axir_ready);
-  assign when_Gtx_Rx_l86 = ((((stateMachine_state == `AuroraState_binary_sequential_DEVICEID) || (stateMachine_state == `AuroraState_binary_sequential_LENGTH)) || (stateMachine_state == `AuroraState_binary_sequential_DATA)) && axir_fire_6);
-  assign axir_fire_7 = (axir_valid && axir_ready);
-  assign when_Gtx_Rx_l92 = ((stateMachine_state == `AuroraState_binary_sequential_DEVICEID) && axir_fire_7);
-  assign when_Gtx_Rx_l99 = (axir_payload_data[15 : 8] == 8'h0);
-  assign axir_fire_8 = (axir_valid && axir_ready);
-  assign when_Gtx_Rx_l97 = ((stateMachine_state == `AuroraState_binary_sequential_LENGTH) && axir_fire_8);
-  assign axir_fire_9 = (axir_valid && axir_ready);
-  assign when_Gtx_Rx_l106 = (((stateMachine_state == `AuroraState_binary_sequential_DATA) && axir_fire_9) && (data_cnt < _zz_when_Gtx_Rx_l106));
-  assign bram_en = mem_wren;
-  assign bram_wrdata = axir_payload_data;
-  assign bram_addr = mem_addr;
-  assign bram_we = mem_wrwe;
-  always @(posedge clk or posedge reset) begin
-    if(reset) begin
-      mem_wren <= 1'b0;
-      mem_addr <= 8'h0;
-      mem_data <= 32'h0;
-      mem_wrwe <= 4'b0000;
-      crc_status <= 1'b0;
-      stateMachine_state <= `AuroraState_binary_sequential_IDLE;
-    end else begin
-      case(stateMachine_state)
-        `AuroraState_binary_sequential_IDLE : begin
-          if(when_Gtx_Rx_l37) begin
-            stateMachine_state <= `AuroraState_binary_sequential_DEVICEID;
-          end
-        end
-        `AuroraState_binary_sequential_DEVICEID : begin
-          if(axir_fire_1) begin
-            if(when_Gtx_Rx_l43) begin
-              stateMachine_state <= `AuroraState_binary_sequential_LENGTH;
-            end else begin
-              stateMachine_state <= `AuroraState_binary_sequential_IDLE;
-            end
-          end
-        end
-        `AuroraState_binary_sequential_LENGTH : begin
-          if(axir_fire_2) begin
-            stateMachine_state <= `AuroraState_binary_sequential_DATA;
-          end
-        end
-        `AuroraState_binary_sequential_DATA : begin
-          if(axir_fire_3) begin
-            if(!when_Gtx_Rx_l59) begin
-              stateMachine_state <= `AuroraState_binary_sequential_CRC;
-            end
-          end
-        end
-        `AuroraState_binary_sequential_CRC : begin
-          if(axir_fire_4) begin
-            if(when_Gtx_Rx_l68) begin
-              crc_status <= 1'b1;
-            end else begin
-              crc_status <= 1'b0;
-            end
-            stateMachine_state <= `AuroraState_binary_sequential_STOP;
-          end
-        end
-        `AuroraState_binary_sequential_STOP : begin
-          if(when_Gtx_Rx_l77) begin
-            stateMachine_state <= `AuroraState_binary_sequential_IDLE;
-          end
-        end
-        default : begin
-        end
-      endcase
-      if(when_Gtx_Rx_l92) begin
-        mem_wren <= 1'b1;
-        mem_addr <= 8'h0;
-        mem_data <= axir_payload_data;
-        mem_wrwe <= 4'b1111;
-      end else begin
-        if(when_Gtx_Rx_l97) begin
-          mem_wren <= 1'b1;
-          if(when_Gtx_Rx_l99) begin
-            mem_addr <= 8'h01;
-          end else begin
-            mem_addr <= axir_payload_data[15 : 8];
-          end
-          mem_data <= axir_payload_data;
-          mem_wrwe <= 4'b1111;
-        end else begin
-          if(when_Gtx_Rx_l106) begin
-            mem_wren <= 1'b1;
-            mem_addr <= (mem_addr + 8'h01);
-            mem_data <= axir_payload_data;
-            mem_wrwe <= 4'b1111;
-          end else begin
-            mem_wren <= 1'b0;
-            mem_wrwe <= 4'b0000;
-          end
-        end
-      end
-    end
-  end
-
-  always @(posedge clk) begin
-    case(stateMachine_state)
-      `AuroraState_binary_sequential_LENGTH : begin
-        if(axir_fire_2) begin
-          length <= axir_payload_data[7 : 0];
-          data_cnt <= 8'h0;
-        end
-      end
-      `AuroraState_binary_sequential_DATA : begin
-        if(axir_fire_3) begin
-          if(when_Gtx_Rx_l59) begin
-            data_cnt <= (data_cnt + 8'h01);
-          end
-        end
-      end
-      default : begin
-      end
-    endcase
-    if(when_Gtx_Rx_l84) begin
-      crc_data <= 32'hffffffff;
-    end else begin
-      if(when_Gtx_Rx_l86) begin
-        crc_data <= crc32_2_crc_o;
-      end else begin
-        crc_data <= crc_data;
-      end
-    end
-  end
-
-
-endmodule
-
-//Crc32 replaced by Crc32
 
 module Crc32 (
   input      [31:0]   crc_i,
