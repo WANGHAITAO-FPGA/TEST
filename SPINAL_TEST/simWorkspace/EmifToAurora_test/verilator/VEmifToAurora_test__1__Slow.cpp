@@ -43,6 +43,7 @@ void VEmifToAurora_test::_ctor_var_reset() {
     clk = VL_RAND_RESET_I(1);
     reset = VL_RAND_RESET_I(1);
     aurora_userclk = VL_RAND_RESET_I(1);
+    intrrupt = VL_RAND_RESET_I(1);
     EmifToAurora_test__DOT__area_emiftoapb_apb_PENABLE = VL_RAND_RESET_I(1);
     EmifToAurora_test__DOT__area_emiftoapb_apb_PWRITE = VL_RAND_RESET_I(1);
     EmifToAurora_test__DOT__area_emiftoapb_apb_PWDATA = VL_RAND_RESET_I(32);
@@ -69,11 +70,13 @@ void VEmifToAurora_test::_ctor_var_reset() {
     EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_data_cnt = VL_RAND_RESET_I(8);
     EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_crc_data = VL_RAND_RESET_I(32);
     EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_crc_status = VL_RAND_RESET_I(1);
+    EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_aurora_intrrupt = VL_RAND_RESET_I(1);
     EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_stateMachine_state = VL_RAND_RESET_I(3);
-    EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l66 = VL_RAND_RESET_I(1);
-    EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l99 = VL_RAND_RESET_I(1);
-    EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l104 = VL_RAND_RESET_I(1);
-    EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l113 = VL_RAND_RESET_I(1);
+    EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l70 = VL_RAND_RESET_I(1);
+    EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l89 = VL_RAND_RESET_I(1);
+    EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l106 = VL_RAND_RESET_I(1);
+    EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l111 = VL_RAND_RESET_I(1);
+    EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l120 = VL_RAND_RESET_I(1);
     EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_stateMachine_state_string = VL_RAND_RESET_Q(64);
     EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_auroratxcore__DOT__crc32_2_crc_o = VL_RAND_RESET_I(32);
     EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_axi_last_2 = VL_RAND_RESET_I(1);
@@ -131,8 +134,8 @@ void VEmifToAurora_test::_ctor_var_reset() {
     __Vdlyvdim0__EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_auroraTxBlockRam__DOT__bram__v0 = 0;
     __Vdlyvval__EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_auroraTxBlockRam__DOT__bram__v0 = VL_RAND_RESET_I(32);
     __Vdlyvset__EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_auroraTxBlockRam__DOT__bram__v0 = 0;
-    __Vdly__EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_stateMachine_state = VL_RAND_RESET_I(3);
     __Vdly__EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_mem_addr = VL_RAND_RESET_I(8);
+    __Vdly__EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_stateMachine_state = VL_RAND_RESET_I(3);
     __Vdly__EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_mem_addrtemp = VL_RAND_RESET_I(8);
     __Vdly__EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_stateMachine_state = VL_RAND_RESET_I(3);
     __Vdly__EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_data_cnt = VL_RAND_RESET_I(8);

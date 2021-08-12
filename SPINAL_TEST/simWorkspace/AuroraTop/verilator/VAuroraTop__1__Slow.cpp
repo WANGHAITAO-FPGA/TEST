@@ -68,11 +68,13 @@ void VAuroraTop::_ctor_var_reset() {
     AuroraTop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_data_cnt = VL_RAND_RESET_I(8);
     AuroraTop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_crc_data = VL_RAND_RESET_I(32);
     AuroraTop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_crc_status = VL_RAND_RESET_I(1);
+    AuroraTop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_aurora_intrrupt = VL_RAND_RESET_I(1);
     AuroraTop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_stateMachine_state = VL_RAND_RESET_I(3);
-    AuroraTop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l66 = VL_RAND_RESET_I(1);
-    AuroraTop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l99 = VL_RAND_RESET_I(1);
-    AuroraTop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l104 = VL_RAND_RESET_I(1);
-    AuroraTop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l113 = VL_RAND_RESET_I(1);
+    AuroraTop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l70 = VL_RAND_RESET_I(1);
+    AuroraTop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l89 = VL_RAND_RESET_I(1);
+    AuroraTop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l106 = VL_RAND_RESET_I(1);
+    AuroraTop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l111 = VL_RAND_RESET_I(1);
+    AuroraTop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l120 = VL_RAND_RESET_I(1);
     AuroraTop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_stateMachine_state_string = VL_RAND_RESET_Q(64);
     AuroraTop__DOT__auroraArea_auroratxcore__DOT__crc32_2_crc_o = VL_RAND_RESET_I(32);
     AuroraTop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_axi_last_2 = VL_RAND_RESET_I(1);
@@ -127,8 +129,8 @@ void VAuroraTop::_ctor_var_reset() {
     __Vdlyvdim0__AuroraTop__DOT__auroraArea_auroraTxBlockRam__DOT__bram__v0 = 0;
     __Vdlyvval__AuroraTop__DOT__auroraArea_auroraTxBlockRam__DOT__bram__v0 = VL_RAND_RESET_I(32);
     __Vdlyvset__AuroraTop__DOT__auroraArea_auroraTxBlockRam__DOT__bram__v0 = 0;
-    __Vdly__AuroraTop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_stateMachine_state = VL_RAND_RESET_I(3);
     __Vdly__AuroraTop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_mem_addr = VL_RAND_RESET_I(8);
+    __Vdly__AuroraTop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_stateMachine_state = VL_RAND_RESET_I(3);
     __Vdly__AuroraTop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_mem_addrtemp = VL_RAND_RESET_I(8);
     __Vdly__AuroraTop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_stateMachine_state = VL_RAND_RESET_I(3);
     __Vdly__AuroraTop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_data_cnt = VL_RAND_RESET_I(8);

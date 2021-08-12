@@ -56,11 +56,13 @@ VL_MODULE(VAuroraTop) {
     CData/*7:0*/ AuroraTop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_length;
     CData/*7:0*/ AuroraTop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_data_cnt;
     CData/*0:0*/ AuroraTop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_crc_status;
+    CData/*0:0*/ AuroraTop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_aurora_intrrupt;
     CData/*2:0*/ AuroraTop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_stateMachine_state;
-    CData/*0:0*/ AuroraTop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l66;
-    CData/*0:0*/ AuroraTop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l99;
-    CData/*0:0*/ AuroraTop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l104;
-    CData/*0:0*/ AuroraTop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l113;
+    CData/*0:0*/ AuroraTop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l70;
+    CData/*0:0*/ AuroraTop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l89;
+    CData/*0:0*/ AuroraTop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l106;
+    CData/*0:0*/ AuroraTop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l111;
+    CData/*0:0*/ AuroraTop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l120;
     CData/*0:0*/ AuroraTop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_axi_last_2;
     CData/*0:0*/ AuroraTop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_axi_last_1;
     CData/*0:0*/ AuroraTop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_axi_last;
@@ -102,8 +104,8 @@ VL_MODULE(VAuroraTop) {
     CData/*2:0*/ __Vtableidx2;
     CData/*7:0*/ __Vdlyvdim0__AuroraTop__DOT__auroraArea_auroraTxBlockRam__DOT__bram__v0;
     CData/*0:0*/ __Vdlyvset__AuroraTop__DOT__auroraArea_auroraTxBlockRam__DOT__bram__v0;
-    CData/*2:0*/ __Vdly__AuroraTop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_stateMachine_state;
     CData/*7:0*/ __Vdly__AuroraTop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_mem_addr;
+    CData/*2:0*/ __Vdly__AuroraTop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_stateMachine_state;
     CData/*7:0*/ __Vdly__AuroraTop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_mem_addrtemp;
     CData/*2:0*/ __Vdly__AuroraTop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_stateMachine_state;
     CData/*7:0*/ __Vdly__AuroraTop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_data_cnt;
@@ -187,6 +189,7 @@ VL_MODULE(VAuroraTop) {
     static void traceChgThis__16(VAuroraTop__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
     static void traceChgThis__17(VAuroraTop__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
     static void traceChgThis__18(VAuroraTop__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
+    static void traceChgThis__19(VAuroraTop__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
     static void traceChgThis__2(VAuroraTop__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
     static void traceChgThis__3(VAuroraTop__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
     static void traceChgThis__4(VAuroraTop__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);

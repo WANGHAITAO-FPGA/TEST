@@ -41,7 +41,7 @@ void VAuroraTop::_settle__TOP__7(VAuroraTop__Syms* __restrict vlSymsp) {
     // Body
     vlTOPp->rx_bram_rddata = vlTOPp->AuroraTop__DOT__auroraArea_auroraRxBlockRam__DOT___zz_bram_port0;
     vlTOPp->tx_bram_rddata = vlTOPp->AuroraTop__DOT__auroraArea_auroraTxBlockRam__DOT___zz_bram_port1;
-    vlTOPp->AuroraTop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l66 
+    vlTOPp->AuroraTop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l70 
         = ((IData)(vlTOPp->AuroraTop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_data_cnt) 
            < (0xffU & ((IData)(vlTOPp->AuroraTop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_length) 
                        - (IData)(1U))));
@@ -51,13 +51,13 @@ void VAuroraTop::_settle__TOP__7(VAuroraTop__Syms* __restrict vlSymsp) {
         [vlTOPp->__Vtableidx1];
     vlTOPp->AuroraTop__DOT__auroraArea_auroratxcore_axiw_valid 
         = (0U != (IData)(vlTOPp->AuroraTop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_stateMachine_state));
-    vlTOPp->AuroraTop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l99 
+    vlTOPp->AuroraTop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l106 
         = ((3U == (IData)(vlTOPp->AuroraTop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_stateMachine_state)) 
            & (0U != (IData)(vlTOPp->AuroraTop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_stateMachine_state)));
-    vlTOPp->AuroraTop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l104 
+    vlTOPp->AuroraTop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l111 
         = ((4U == (IData)(vlTOPp->AuroraTop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_stateMachine_state)) 
            & (0U != (IData)(vlTOPp->AuroraTop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_stateMachine_state)));
-    vlTOPp->AuroraTop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l113 
+    vlTOPp->AuroraTop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l120 
         = (((5U == (IData)(vlTOPp->AuroraTop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_stateMachine_state)) 
             & (0U != (IData)(vlTOPp->AuroraTop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_stateMachine_state))) 
            & ((IData)(vlTOPp->AuroraTop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_data_cnt) 
@@ -78,10 +78,10 @@ void VAuroraTop::_settle__TOP__7(VAuroraTop__Syms* __restrict vlSymsp) {
         (((IData)(vlTOPp->apb_PSEL) & (IData)(vlTOPp->apb_PENABLE)) 
          & (IData)(vlTOPp->apb_PWRITE));
     vlTOPp->apb_PRDATA = 0U;
-    if ((0U == vlTOPp->apb_PADDR)) {
+    if ((0x3000U == vlTOPp->apb_PADDR)) {
         vlTOPp->apb_PRDATA = vlTOPp->AuroraTop__DOT__toparea_tx_headtemp;
     } else {
-        if ((4U == vlTOPp->apb_PADDR)) {
+        if ((0x3004U == vlTOPp->apb_PADDR)) {
             vlTOPp->apb_PRDATA = vlTOPp->AuroraTop__DOT__toparea_tx_ctrl;
         }
     }
@@ -168,6 +168,9 @@ void VAuroraTop::_settle__TOP__7(VAuroraTop__Syms* __restrict vlSymsp) {
             }
         }
     }
+    vlTOPp->AuroraTop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l89 
+        = ((~ (IData)(vlTOPp->AuroraTop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_crc_status)) 
+           & (0xffbdU == vlTOPp->AuroraTop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_axi_txdata_7));
     vlTOPp->AuroraTop__DOT__auroraArea_aurorarxcore__DOT__crc32_2_crc_o 
         = ((0xfffffffeU & vlTOPp->AuroraTop__DOT__auroraArea_aurorarxcore__DOT__crc32_2_crc_o) 
            | (1U & ((((((((((((((((((((((((((vlTOPp->AuroraTop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_axi_txdata_7 

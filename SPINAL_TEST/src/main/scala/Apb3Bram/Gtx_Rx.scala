@@ -16,6 +16,7 @@ class AuroraRxCore(datawidth : Int , addresswidth : Int) extends Component{
     val bram = master(BRAM(BRAMConfig(datawidth,addresswidth)))
     val bram_clkout = out Bool()
     val bram_resetout = out Bool()
+    val intrrupt = out Bool()
   }
   noIoPrefix()
 
@@ -36,6 +37,8 @@ class AuroraRxCore(datawidth : Int , addresswidth : Int) extends Component{
 
     val crc_status = Reg(Bool()) init False
 
+    val aurora_intrrupt = Reg(Bool()) init False
+
     val stateMachine = new Area {
       import AuroraState._
       val state = RegInit(IDLE)
@@ -44,6 +47,7 @@ class AuroraRxCore(datawidth : Int , addresswidth : Int) extends Component{
           when(io.axir.fire & (io.axir.payload.data === 0x00000FFBC)){
             state := DEVICEID
           }
+          aurora_intrrupt := False
         }
         is(DEVICEID){
           when(io.axir.fire){
@@ -82,6 +86,9 @@ class AuroraRxCore(datawidth : Int , addresswidth : Int) extends Component{
         }
         is(STOP){
           when(io.axir.fire & io.axir.payload.last){
+            when((!crc_status) & (io.axir.payload.data === 0x0000FFBD)){
+              aurora_intrrupt := True
+            }
             state := IDLE
           }
         }
@@ -127,6 +134,7 @@ class AuroraRxCore(datawidth : Int , addresswidth : Int) extends Component{
 
     io.bram_clkout := io.aurora_userclk
     io.bram_resetout := io.reset
+    io.intrrupt := aurora_intrrupt
   }
 }
 

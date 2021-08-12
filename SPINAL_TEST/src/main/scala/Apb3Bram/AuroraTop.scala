@@ -19,6 +19,7 @@ class AuroraTop(addressApbWidth: Int, addressBRAMWidth: Int, dataWidth: Int, loo
     val clk = in Bool()
     val reset = in Bool()
     val aurora_userclk = in Bool()
+    val intrrupt = out Bool()
   }
   noIoPrefix()
 
@@ -80,6 +81,7 @@ class AuroraTop(addressApbWidth: Int, addressBRAMWidth: Int, dataWidth: Int, loo
   io.reset <> auroraArea.auroratxcore.io.reset
   io.reset <> auroraArea.aurorarxcore.io.reset
 
+  io.intrrupt <> auroraArea.aurorarxcore.io.intrrupt
 }
 
 object AuroraTop{

@@ -159,7 +159,7 @@ public:
     uint32_t timeCheck;
     bool waveEnabled;
     VEmifToAurora_test top;
-    ISignalAccess *signalAccess[10];
+    ISignalAccess *signalAccess[11];
     #ifdef TRACE
 	  VerilatedVcdC tfp;
 	  #endif
@@ -181,6 +181,7 @@ public:
       signalAccess[7] = new CDataSignalAccess( top.clk );
       signalAccess[8] = new CDataSignalAccess( top.reset );
       signalAccess[9] = new CDataSignalAccess( top.aurora_userclk );
+      signalAccess[10] = new CDataSignalAccess( top.intrrupt );
 
       #ifdef TRACE
       Verilated::traceEverOn(true);
@@ -191,7 +192,7 @@ public:
     }
 
     virtual ~Wrapper_1(){
-      for(int idx = 0;idx < 10;idx++){
+      for(int idx = 0;idx < 11;idx++){
           delete signalAccess[idx];
       }
 

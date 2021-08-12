@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.6.0    git head : 73c8d8e2b86b45646e9d0b2e729291f2b65e6be3
 // Component : EmifToAurora_test
-// Git hash  : 1cba8ab088250767381bb3d3535fbb8033cb009e
+// Git hash  : 74d84fa32e504fbd8a4bade453eba465f26f8774
 
 
 `define AuroraState_binary_sequential_type [2:0]
@@ -24,7 +24,8 @@ module EmifToAurora_test (
   input               emif_emif_oe,
   input               clk,
   input               reset,
-  input               aurora_userclk
+  input               aurora_userclk,
+  output              intrrupt
 );
   wire       [15:0]   area_emiftoapb_emif_emif_data_write;
   wire                area_emiftoapb_emif_emif_data_writeEnable;
@@ -52,6 +53,7 @@ module EmifToAurora_test (
   wire                area_auroratop_apb_PSLVERROR;
   wire       [31:0]   area_auroratop_tx_bram_rddata;
   wire       [31:0]   area_auroratop_rx_bram_rddata;
+  wire                area_auroratop_intrrupt;
   wire                apb_decoder_io_input_PREADY;
   wire       [31:0]   apb_decoder_io_input_PRDATA;
   wire                apb_decoder_io_input_PSLVERROR;
@@ -149,7 +151,8 @@ module EmifToAurora_test (
     .rx_bram_rddata    (area_auroratop_rx_bram_rddata      ), //o
     .clk               (clk                                ), //i
     .reset             (reset                              ), //i
-    .aurora_userclk    (aurora_userclk                     )  //i
+    .aurora_userclk    (aurora_userclk                     ), //i
+    .intrrupt          (area_auroratop_intrrupt            )  //o
   );
   Apb3Decoder apb_decoder (
     .io_input_PADDR         (area_emiftoapb_apb_PADDR         ), //i
@@ -207,6 +210,7 @@ module EmifToAurora_test (
   );
   assign emif_emif_data_write = area_emiftoapb_emif_emif_data_write;
   assign emif_emif_data_writeEnable = area_emiftoapb_emif_emif_data_writeEnable;
+  assign intrrupt = area_auroratop_intrrupt;
 
 endmodule
 
@@ -370,7 +374,8 @@ module AuroraTop (
   output     [31:0]   rx_bram_rddata,
   input               clk,
   input               reset,
-  input               aurora_userclk
+  input               aurora_userclk,
+  output              intrrupt
 );
   wire                auroraArea_auroratxcore_tx_start;
   wire                auroraArea_auroratxcore_tx_trigger;
@@ -381,6 +386,7 @@ module AuroraTop (
   wire       [31:0]   auroraArea_aurorarxcore_bram_wrdata;
   wire                auroraArea_aurorarxcore_bram_clkout;
   wire                auroraArea_aurorarxcore_bram_resetout;
+  wire                auroraArea_aurorarxcore_intrrupt;
   wire                auroraArea_auroratxcore_axiw_valid;
   wire       [31:0]   auroraArea_auroratxcore_axiw_payload_data;
   wire                auroraArea_auroratxcore_axiw_payload_last;
@@ -414,7 +420,8 @@ module AuroraTop (
     .bram_wrdata          (auroraArea_aurorarxcore_bram_wrdata        ), //o
     .bram_rddata          (auroraArea_auroraRxBlockRam_ioB_rddata     ), //i
     .bram_clkout          (auroraArea_aurorarxcore_bram_clkout        ), //o
-    .bram_resetout        (auroraArea_aurorarxcore_bram_resetout      )  //o
+    .bram_resetout        (auroraArea_aurorarxcore_bram_resetout      ), //o
+    .intrrupt             (auroraArea_aurorarxcore_intrrupt           )  //o
   );
   AuroraTxCore auroraArea_auroratxcore (
     .aurora_userclk       (aurora_userclk                             ), //i
@@ -490,6 +497,7 @@ module AuroraTop (
   assign auroraArea_auroratxcore_tx_trigger = toparea_tx_ctrl[4];
   assign rx_bram_rddata = auroraArea_auroraRxBlockRam_ioA_rddata;
   assign tx_bram_rddata = auroraArea_auroraTxBlockRam_ioB_rddata;
+  assign intrrupt = auroraArea_aurorarxcore_intrrupt;
   always @(posedge clk or posedge reset) begin
     if(reset) begin
       toparea_tx_ctrl <= 32'h0;
@@ -1039,11 +1047,12 @@ module AuroraRxCore (
   output     [31:0]   bram_wrdata,
   input      [31:0]   bram_rddata,
   output              bram_clkout,
-  output              bram_resetout
+  output              bram_resetout,
+  output              intrrupt
 );
   wire       [31:0]   crc32_2_crc_o;
-  wire       [7:0]    _zz_when_Gtx_Rx_l66;
-  wire       [7:0]    _zz_when_Gtx_Rx_l113;
+  wire       [7:0]    _zz_when_Gtx_Rx_l70;
+  wire       [7:0]    _zz_when_Gtx_Rx_l120;
   reg                 auroraRxArea_mem_wren;
   reg        [7:0]    auroraRxArea_mem_addr;
   reg        [31:0]   auroraRxArea_mem_data;
@@ -1052,35 +1061,37 @@ module AuroraRxCore (
   reg        [7:0]    auroraRxArea_data_cnt;
   reg        [31:0]   auroraRxArea_crc_data;
   reg                 auroraRxArea_crc_status;
+  reg                 auroraRxArea_aurora_intrrupt;
   reg        `AuroraState_binary_sequential_type auroraRxArea_stateMachine_state;
   wire                axir_fire;
-  wire                when_Gtx_Rx_l44;
+  wire                when_Gtx_Rx_l47;
   wire                axir_fire_1;
-  wire                when_Gtx_Rx_l50;
+  wire                when_Gtx_Rx_l54;
   wire                axir_fire_2;
   wire                axir_fire_3;
-  wire                when_Gtx_Rx_l66;
+  wire                when_Gtx_Rx_l70;
   wire                axir_fire_4;
-  wire                when_Gtx_Rx_l75;
+  wire                when_Gtx_Rx_l79;
   wire                axir_fire_5;
-  wire                when_Gtx_Rx_l84;
-  wire                when_Gtx_Rx_l91;
+  wire                when_Gtx_Rx_l88;
+  wire                when_Gtx_Rx_l89;
+  wire                when_Gtx_Rx_l98;
   wire                axir_fire_6;
-  wire                when_Gtx_Rx_l93;
+  wire                when_Gtx_Rx_l100;
   wire                axir_fire_7;
-  wire                when_Gtx_Rx_l99;
   wire                when_Gtx_Rx_l106;
-  wire                axir_fire_8;
-  wire                when_Gtx_Rx_l104;
-  wire                axir_fire_9;
   wire                when_Gtx_Rx_l113;
+  wire                axir_fire_8;
+  wire                when_Gtx_Rx_l111;
+  wire                axir_fire_9;
+  wire                when_Gtx_Rx_l120;
   `ifndef SYNTHESIS
   reg [63:0] auroraRxArea_stateMachine_state_string;
   `endif
 
 
-  assign _zz_when_Gtx_Rx_l66 = (auroraRxArea_length - 8'h01);
-  assign _zz_when_Gtx_Rx_l113 = (auroraRxArea_length - 8'h01);
+  assign _zz_when_Gtx_Rx_l70 = (auroraRxArea_length - 8'h01);
+  assign _zz_when_Gtx_Rx_l120 = (auroraRxArea_length - 8'h01);
   Crc32 crc32_2 (
     .crc_i     (auroraRxArea_crc_data  ), //i
     .data_i    (axir_payload_data      ), //i
@@ -1104,32 +1115,34 @@ module AuroraRxCore (
 
   assign axir_ready = 1'b1;
   assign axir_fire = (axir_valid && axir_ready);
-  assign when_Gtx_Rx_l44 = (axir_fire && (axir_payload_data == 32'h0000ffbc));
+  assign when_Gtx_Rx_l47 = (axir_fire && (axir_payload_data == 32'h0000ffbc));
   assign axir_fire_1 = (axir_valid && axir_ready);
-  assign when_Gtx_Rx_l50 = (axir_payload_data == 32'h00000001);
+  assign when_Gtx_Rx_l54 = (axir_payload_data == 32'h00000001);
   assign axir_fire_2 = (axir_valid && axir_ready);
   assign axir_fire_3 = (axir_valid && axir_ready);
-  assign when_Gtx_Rx_l66 = (auroraRxArea_data_cnt < _zz_when_Gtx_Rx_l66);
+  assign when_Gtx_Rx_l70 = (auroraRxArea_data_cnt < _zz_when_Gtx_Rx_l70);
   assign axir_fire_4 = (axir_valid && axir_ready);
-  assign when_Gtx_Rx_l75 = (auroraRxArea_crc_data != axir_payload_data);
+  assign when_Gtx_Rx_l79 = (auroraRxArea_crc_data != axir_payload_data);
   assign axir_fire_5 = (axir_valid && axir_ready);
-  assign when_Gtx_Rx_l84 = (axir_fire_5 && axir_payload_last);
-  assign when_Gtx_Rx_l91 = (auroraRxArea_stateMachine_state == `AuroraState_binary_sequential_IDLE);
+  assign when_Gtx_Rx_l88 = (axir_fire_5 && axir_payload_last);
+  assign when_Gtx_Rx_l89 = ((! auroraRxArea_crc_status) && (axir_payload_data == 32'h0000ffbd));
+  assign when_Gtx_Rx_l98 = (auroraRxArea_stateMachine_state == `AuroraState_binary_sequential_IDLE);
   assign axir_fire_6 = (axir_valid && axir_ready);
-  assign when_Gtx_Rx_l93 = ((((auroraRxArea_stateMachine_state == `AuroraState_binary_sequential_DEVICEID) || (auroraRxArea_stateMachine_state == `AuroraState_binary_sequential_LENGTH)) || (auroraRxArea_stateMachine_state == `AuroraState_binary_sequential_DATA)) && axir_fire_6);
+  assign when_Gtx_Rx_l100 = ((((auroraRxArea_stateMachine_state == `AuroraState_binary_sequential_DEVICEID) || (auroraRxArea_stateMachine_state == `AuroraState_binary_sequential_LENGTH)) || (auroraRxArea_stateMachine_state == `AuroraState_binary_sequential_DATA)) && axir_fire_6);
   assign axir_fire_7 = (axir_valid && axir_ready);
-  assign when_Gtx_Rx_l99 = ((auroraRxArea_stateMachine_state == `AuroraState_binary_sequential_DEVICEID) && axir_fire_7);
-  assign when_Gtx_Rx_l106 = (axir_payload_data[15 : 8] == 8'h0);
+  assign when_Gtx_Rx_l106 = ((auroraRxArea_stateMachine_state == `AuroraState_binary_sequential_DEVICEID) && axir_fire_7);
+  assign when_Gtx_Rx_l113 = (axir_payload_data[15 : 8] == 8'h0);
   assign axir_fire_8 = (axir_valid && axir_ready);
-  assign when_Gtx_Rx_l104 = ((auroraRxArea_stateMachine_state == `AuroraState_binary_sequential_LENGTH) && axir_fire_8);
+  assign when_Gtx_Rx_l111 = ((auroraRxArea_stateMachine_state == `AuroraState_binary_sequential_LENGTH) && axir_fire_8);
   assign axir_fire_9 = (axir_valid && axir_ready);
-  assign when_Gtx_Rx_l113 = (((auroraRxArea_stateMachine_state == `AuroraState_binary_sequential_DATA) && axir_fire_9) && (auroraRxArea_data_cnt < _zz_when_Gtx_Rx_l113));
+  assign when_Gtx_Rx_l120 = (((auroraRxArea_stateMachine_state == `AuroraState_binary_sequential_DATA) && axir_fire_9) && (auroraRxArea_data_cnt < _zz_when_Gtx_Rx_l120));
   assign bram_en = auroraRxArea_mem_wren;
   assign bram_wrdata = axir_payload_data;
   assign bram_addr = auroraRxArea_mem_addr;
   assign bram_we = auroraRxArea_mem_wrwe;
   assign bram_clkout = aurora_userclk;
   assign bram_resetout = reset;
+  assign intrrupt = auroraRxArea_aurora_intrrupt;
   always @(posedge aurora_userclk or posedge reset) begin
     if(reset) begin
       auroraRxArea_mem_wren <= 1'b0;
@@ -1137,17 +1150,19 @@ module AuroraRxCore (
       auroraRxArea_mem_data <= 32'h0;
       auroraRxArea_mem_wrwe <= 4'b0000;
       auroraRxArea_crc_status <= 1'b0;
+      auroraRxArea_aurora_intrrupt <= 1'b0;
       auroraRxArea_stateMachine_state <= `AuroraState_binary_sequential_IDLE;
     end else begin
       case(auroraRxArea_stateMachine_state)
         `AuroraState_binary_sequential_IDLE : begin
-          if(when_Gtx_Rx_l44) begin
+          if(when_Gtx_Rx_l47) begin
             auroraRxArea_stateMachine_state <= `AuroraState_binary_sequential_DEVICEID;
           end
+          auroraRxArea_aurora_intrrupt <= 1'b0;
         end
         `AuroraState_binary_sequential_DEVICEID : begin
           if(axir_fire_1) begin
-            if(when_Gtx_Rx_l50) begin
+            if(when_Gtx_Rx_l54) begin
               auroraRxArea_stateMachine_state <= `AuroraState_binary_sequential_LENGTH;
             end else begin
               auroraRxArea_stateMachine_state <= `AuroraState_binary_sequential_IDLE;
@@ -1161,14 +1176,14 @@ module AuroraRxCore (
         end
         `AuroraState_binary_sequential_DATA : begin
           if(axir_fire_3) begin
-            if(!when_Gtx_Rx_l66) begin
+            if(!when_Gtx_Rx_l70) begin
               auroraRxArea_stateMachine_state <= `AuroraState_binary_sequential_CRC;
             end
           end
         end
         `AuroraState_binary_sequential_CRC : begin
           if(axir_fire_4) begin
-            if(when_Gtx_Rx_l75) begin
+            if(when_Gtx_Rx_l79) begin
               auroraRxArea_crc_status <= 1'b1;
             end else begin
               auroraRxArea_crc_status <= 1'b0;
@@ -1177,22 +1192,25 @@ module AuroraRxCore (
           end
         end
         `AuroraState_binary_sequential_STOP : begin
-          if(when_Gtx_Rx_l84) begin
+          if(when_Gtx_Rx_l88) begin
+            if(when_Gtx_Rx_l89) begin
+              auroraRxArea_aurora_intrrupt <= 1'b1;
+            end
             auroraRxArea_stateMachine_state <= `AuroraState_binary_sequential_IDLE;
           end
         end
         default : begin
         end
       endcase
-      if(when_Gtx_Rx_l99) begin
+      if(when_Gtx_Rx_l106) begin
         auroraRxArea_mem_wren <= 1'b1;
         auroraRxArea_mem_addr <= 8'h0;
         auroraRxArea_mem_data <= axir_payload_data;
         auroraRxArea_mem_wrwe <= 4'b1111;
       end else begin
-        if(when_Gtx_Rx_l104) begin
+        if(when_Gtx_Rx_l111) begin
           auroraRxArea_mem_wren <= 1'b1;
-          if(when_Gtx_Rx_l106) begin
+          if(when_Gtx_Rx_l113) begin
             auroraRxArea_mem_addr <= 8'h01;
           end else begin
             auroraRxArea_mem_addr <= axir_payload_data[15 : 8];
@@ -1200,7 +1218,7 @@ module AuroraRxCore (
           auroraRxArea_mem_data <= axir_payload_data;
           auroraRxArea_mem_wrwe <= 4'b1111;
         end else begin
-          if(when_Gtx_Rx_l113) begin
+          if(when_Gtx_Rx_l120) begin
             auroraRxArea_mem_wren <= 1'b1;
             auroraRxArea_mem_addr <= (auroraRxArea_mem_addr + 8'h01);
             auroraRxArea_mem_data <= axir_payload_data;
@@ -1224,7 +1242,7 @@ module AuroraRxCore (
       end
       `AuroraState_binary_sequential_DATA : begin
         if(axir_fire_3) begin
-          if(when_Gtx_Rx_l66) begin
+          if(when_Gtx_Rx_l70) begin
             auroraRxArea_data_cnt <= (auroraRxArea_data_cnt + 8'h01);
           end
         end
@@ -1232,10 +1250,10 @@ module AuroraRxCore (
       default : begin
       end
     endcase
-    if(when_Gtx_Rx_l91) begin
+    if(when_Gtx_Rx_l98) begin
       auroraRxArea_crc_data <= 32'hffffffff;
     end else begin
-      if(when_Gtx_Rx_l93) begin
+      if(when_Gtx_Rx_l100) begin
         auroraRxArea_crc_data <= crc32_2_crc_o;
       end else begin
         auroraRxArea_crc_data <= auroraRxArea_crc_data;

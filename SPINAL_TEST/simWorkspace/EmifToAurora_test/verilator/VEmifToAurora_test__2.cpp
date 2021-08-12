@@ -19,6 +19,7 @@ void VEmifToAurora_test::_eval(VEmifToAurora_test__Syms* __restrict vlSymsp) {
          | ((IData)(vlTOPp->reset) & (~ (IData)(vlTOPp->__Vclklast__TOP__reset))))) {
         vlTOPp->_sequent__TOP__5(vlSymsp);
         vlTOPp->__Vm_traceActivity = (8U | vlTOPp->__Vm_traceActivity);
+        vlTOPp->_sequent__TOP__6(vlSymsp);
     }
     if ((((IData)(vlTOPp->clk) & (~ (IData)(vlTOPp->__Vclklast__TOP__clk))) 
          | ((IData)(vlTOPp->reset) & (~ (IData)(vlTOPp->__Vclklast__TOP__reset))))) {

@@ -5,6 +5,7 @@ import spinal.core.sim._
 import spinal.lib.bus.amba3.apb.Apb3Decoder
 import spinal.lib.master
 
+import scala.collection.mutable
 import scala.util.Random
 
 class EmifToAurora(emifaddresswidth: Int, emifdatawidth : Int, apb3addresswidth: Int, bramaddresswidth : Int, datawidth : Int) extends Component{
@@ -16,6 +17,7 @@ class EmifToAurora(emifaddresswidth: Int, emifdatawidth : Int, apb3addresswidth:
     val clk = in Bool()
     val reset = in Bool()
     val aurora_userclk = in Bool()
+    val intrrupt = out Bool()
   }
   noIoPrefix()
 
@@ -49,6 +51,8 @@ class EmifToAurora(emifaddresswidth: Int, emifdatawidth : Int, apb3addresswidth:
     io.clk <> auroratop.io.clk
     io.reset <> auroratop.io.reset
     io.aurora_userclk <> auroratop.io.aurora_userclk
+
+    io.intrrupt <> auroratop.io.intrrupt
   }
 }
 
@@ -167,23 +171,29 @@ object EmifToAurora_test {
       dut.init
       dut.auroraarea.clockDomain.forkStimulus(20)
       dut.auroraarea.clockDomain.waitSampling(10)
-      dut.emif_write32(0x003000,0x00000305)
-      dut.emif_write32(0x000003,0x00000004)
-      dut.emif_write32(0x000004,0x00000005)
-      dut.emif_write32(0x000005,0x00000006)
-      dut.emif_write32(0x000006,0x00000007)
-      dut.emif_write32(0x000007,0x00000008)
-      dut.emif_write32(0x003004,0x00000001)
-      dut.emif_write32(0x003004,0x00000000)
-      sleep(1000)
-      val data = dut.emif_read32(0x001000)
-      val data1 = dut.emif_read32(0x001003)
-      val data2 = dut.emif_read32(0x001004)
-      val data3 = dut.emif_read32(0x001005)
-      val data4 = dut.emif_read32(0x001006)
-      val data5 = dut.emif_read32(0x001007)
-      sleep(1000)
-
+      var idx = 0
+      while(idx < 100){
+        var addr = Random.nextInt(100)
+        var length = Random.nextInt(100)
+        var headdata = (addr<<8) + length
+        val q1 = new mutable.Queue[Int]
+        dut.emif_write32(0x003000,headdata)
+        var data = 0
+        for(i <- 0 until length){
+          data = Random.nextInt(1000000)
+          dut.emif_write32(addr+i,data)
+          q1.enqueue(data)
+        }
+        dut.emif_write32(0x003004,1)
+        dut.emif_write32(0x003004,0)
+        sleep(5000)
+        for(i <- 0 until length){
+          val rddata = dut.emif_read32(addr+i+0x1000)
+          assert(rddata == q1.dequeue())
+        }
+        sleep(5000)
+        idx = idx + 1
+      }
     }
   }
 
