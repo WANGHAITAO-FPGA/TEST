@@ -10,52 +10,54 @@ void VAuroraTop::_eval(VAuroraTop__Syms* __restrict vlSymsp) {
     VAuroraTop* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     if (((IData)(vlTOPp->clk) & (~ (IData)(vlTOPp->__Vclklast__TOP__clk)))) {
-        vlTOPp->_sequent__TOP__2(vlSymsp);
+        vlTOPp->_sequent__TOP__4(vlSymsp);
         vlTOPp->__Vm_traceActivity = (2U | vlTOPp->__Vm_traceActivity);
     }
     if ((((IData)(vlTOPp->aurora_userclk) & (~ (IData)(vlTOPp->__Vclklast__TOP__aurora_userclk))) 
          | ((IData)(vlTOPp->reset) & (~ (IData)(vlTOPp->__Vclklast__TOP__reset))))) {
-        vlTOPp->_sequent__TOP__4(vlSymsp);
+        vlTOPp->_sequent__TOP__6(vlSymsp);
         vlTOPp->__Vm_traceActivity = (4U | vlTOPp->__Vm_traceActivity);
+        vlTOPp->_sequent__TOP__7(vlSymsp);
     }
     if (((IData)(vlTOPp->aurora_userclk) & (~ (IData)(vlTOPp->__Vclklast__TOP__aurora_userclk)))) {
-        vlTOPp->_sequent__TOP__6(vlSymsp);
+        vlTOPp->_sequent__TOP__8(vlSymsp);
         vlTOPp->__Vm_traceActivity = (8U | vlTOPp->__Vm_traceActivity);
     }
+    vlTOPp->_combo__TOP__9(vlSymsp);
+    vlTOPp->__Vm_traceActivity = (0x10U | vlTOPp->__Vm_traceActivity);
     if ((((IData)(vlTOPp->aurora_userclk) & (~ (IData)(vlTOPp->__Vclklast__TOP__aurora_userclk))) 
          | ((IData)(vlTOPp->reset) & (~ (IData)(vlTOPp->__Vclklast__TOP__reset))))) {
-        vlTOPp->_sequent__TOP__9(vlSymsp);
-        vlTOPp->__Vm_traceActivity = (0x10U | vlTOPp->__Vm_traceActivity);
+        vlTOPp->_sequent__TOP__10(vlSymsp);
+        vlTOPp->__Vm_traceActivity = (0x20U | vlTOPp->__Vm_traceActivity);
     }
     if (((IData)(vlTOPp->clk) & (~ (IData)(vlTOPp->__Vclklast__TOP__clk)))) {
-        vlTOPp->_sequent__TOP__10(vlSymsp);
-    }
-    if (((IData)(vlTOPp->aurora_userclk) & (~ (IData)(vlTOPp->__Vclklast__TOP__aurora_userclk)))) {
         vlTOPp->_sequent__TOP__11(vlSymsp);
-        vlTOPp->__Vm_traceActivity = (0x20U | vlTOPp->__Vm_traceActivity);
+    }
+    vlTOPp->_combo__TOP__12(vlSymsp);
+    if (((IData)(vlTOPp->aurora_userclk) & (~ (IData)(vlTOPp->__Vclklast__TOP__aurora_userclk)))) {
+        vlTOPp->_sequent__TOP__13(vlSymsp);
+        vlTOPp->__Vm_traceActivity = (0x40U | vlTOPp->__Vm_traceActivity);
     }
     if ((((IData)(vlTOPp->clk) & (~ (IData)(vlTOPp->__Vclklast__TOP__clk))) 
          | ((IData)(vlTOPp->reset) & (~ (IData)(vlTOPp->__Vclklast__TOP__reset))))) {
-        vlTOPp->_sequent__TOP__12(vlSymsp);
-        vlTOPp->__Vm_traceActivity = (0x40U | vlTOPp->__Vm_traceActivity);
+        vlTOPp->_sequent__TOP__14(vlSymsp);
+        vlTOPp->__Vm_traceActivity = (0x80U | vlTOPp->__Vm_traceActivity);
     }
     if ((((IData)(vlTOPp->aurora_userclk) & (~ (IData)(vlTOPp->__Vclklast__TOP__aurora_userclk))) 
          | ((IData)(vlTOPp->reset) & (~ (IData)(vlTOPp->__Vclklast__TOP__reset))))) {
-        vlTOPp->_sequent__TOP__13(vlSymsp);
-        vlTOPp->__Vm_traceActivity = (0x80U | vlTOPp->__Vm_traceActivity);
-    }
-    if (((IData)(vlTOPp->clk) & (~ (IData)(vlTOPp->__Vclklast__TOP__clk)))) {
-        vlTOPp->_sequent__TOP__14(vlSymsp);
+        vlTOPp->_sequent__TOP__15(vlSymsp);
         vlTOPp->__Vm_traceActivity = (0x100U | vlTOPp->__Vm_traceActivity);
     }
-    vlTOPp->_combo__TOP__15(vlSymsp);
-    vlTOPp->__Vm_traceActivity = (0x200U | vlTOPp->__Vm_traceActivity);
+    if (((IData)(vlTOPp->clk) & (~ (IData)(vlTOPp->__Vclklast__TOP__clk)))) {
+        vlTOPp->_sequent__TOP__16(vlSymsp);
+        vlTOPp->__Vm_traceActivity = (0x200U | vlTOPp->__Vm_traceActivity);
+    }
+    vlTOPp->_combo__TOP__17(vlSymsp);
     if (((((IData)(vlTOPp->aurora_userclk) & (~ (IData)(vlTOPp->__Vclklast__TOP__aurora_userclk))) 
           | ((IData)(vlTOPp->clk) & (~ (IData)(vlTOPp->__Vclklast__TOP__clk)))) 
          | ((IData)(vlTOPp->reset) & (~ (IData)(vlTOPp->__Vclklast__TOP__reset))))) {
-        vlTOPp->_multiclk__TOP__16(vlSymsp);
+        vlTOPp->_multiclk__TOP__18(vlSymsp);
         vlTOPp->__Vm_traceActivity = (0x400U | vlTOPp->__Vm_traceActivity);
-        vlTOPp->_settle__TOP__8(vlSymsp);
     }
     // Final
     vlTOPp->__Vclklast__TOP__clk = vlTOPp->clk;
@@ -91,6 +93,12 @@ void VAuroraTop::_eval_debug_assertions() {
         Verilated::overWidthError("apb_PENABLE");}
     if (VL_UNLIKELY((apb_PWRITE & 0xfeU))) {
         Verilated::overWidthError("apb_PWRITE");}
+    if (VL_UNLIKELY((axiw_ready & 0xfeU))) {
+        Verilated::overWidthError("axiw_ready");}
+    if (VL_UNLIKELY((axir_valid & 0xfeU))) {
+        Verilated::overWidthError("axir_valid");}
+    if (VL_UNLIKELY((axir_payload_last & 0xfeU))) {
+        Verilated::overWidthError("axir_payload_last");}
     if (VL_UNLIKELY((tx_bram_en & 0xfeU))) {
         Verilated::overWidthError("tx_bram_en");}
     if (VL_UNLIKELY((tx_bram_we & 0xf0U))) {

@@ -5,6 +5,25 @@
 #include "VEmifToAurora_test.h"
 #include "VEmifToAurora_test__Syms.h"
 
+void VEmifToAurora_test::_initial__TOP__9(VEmifToAurora_test__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VEmifToAurora_test::_initial__TOP__9\n"); );
+    VEmifToAurora_test* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
+    // Body
+    vlTOPp->EmifToAurora_test__DOT__resetCtrl_axiResetCounter = 0U;
+}
+
+void VEmifToAurora_test::_settle__TOP__13(VEmifToAurora_test__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VEmifToAurora_test::_settle__TOP__13\n"); );
+    VEmifToAurora_test* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
+    // Body
+    vlTOPp->EmifToAurora_test__DOT__resetCtrl_axiResetUnbuffered = 0U;
+    if ((0x3fU != (IData)(vlTOPp->EmifToAurora_test__DOT__resetCtrl_axiResetCounter))) {
+        vlTOPp->EmifToAurora_test__DOT__resetCtrl_axiResetUnbuffered = 1U;
+    }
+    vlTOPp->EmifToAurora_test__DOT__when_EmifToAurora_l34 
+        = (0x3fU != (IData)(vlTOPp->EmifToAurora_test__DOT__resetCtrl_axiResetCounter));
+}
+
 void VEmifToAurora_test::_eval_initial(VEmifToAurora_test__Syms* __restrict vlSymsp) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    VEmifToAurora_test::_eval_initial\n"); );
     VEmifToAurora_test* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
@@ -12,6 +31,8 @@ void VEmifToAurora_test::_eval_initial(VEmifToAurora_test__Syms* __restrict vlSy
     vlTOPp->__Vclklast__TOP__clk = vlTOPp->clk;
     vlTOPp->__Vclklast__TOP__aurora_userclk = vlTOPp->aurora_userclk;
     vlTOPp->__Vclklast__TOP__reset = vlTOPp->reset;
+    vlTOPp->_initial__TOP__9(vlSymsp);
+    vlTOPp->__Vm_traceActivity = (1U | vlTOPp->__Vm_traceActivity);
 }
 
 void VEmifToAurora_test::final() {
@@ -28,6 +49,7 @@ void VEmifToAurora_test::_eval_settle(VEmifToAurora_test__Syms* __restrict vlSym
     vlTOPp->_settle__TOP__2(vlSymsp);
     vlTOPp->__Vm_traceActivity = (1U | vlTOPp->__Vm_traceActivity);
     vlTOPp->_settle__TOP__3(vlSymsp);
+    vlTOPp->_settle__TOP__13(vlSymsp);
 }
 
 void VEmifToAurora_test::_ctor_var_reset() {
@@ -51,6 +73,10 @@ void VEmifToAurora_test::_ctor_var_reset() {
     EmifToAurora_test__DOT__apb_decoder_io_input_PREADY = VL_RAND_RESET_I(1);
     EmifToAurora_test__DOT__apb_decoder_io_input_PSLVERROR = VL_RAND_RESET_I(1);
     EmifToAurora_test__DOT__apb_decoder_io_output_PSEL = VL_RAND_RESET_I(3);
+    EmifToAurora_test__DOT__resetCtrl_axiResetUnbuffered = VL_RAND_RESET_I(1);
+    EmifToAurora_test__DOT__resetCtrl_axiResetCounter = VL_RAND_RESET_I(6);
+    EmifToAurora_test__DOT__when_EmifToAurora_l34 = VL_RAND_RESET_I(1);
+    EmifToAurora_test__DOT__resetCtrl_axiReset = VL_RAND_RESET_I(1);
     EmifToAurora_test__DOT__area_emiftoapb__DOT__penable = VL_RAND_RESET_I(1);
     EmifToAurora_test__DOT__area_emiftoapb__DOT__emifdatatemp = VL_RAND_RESET_I(16);
     EmifToAurora_test__DOT__area_emiftoapb__DOT__penable_regNext = VL_RAND_RESET_I(1);

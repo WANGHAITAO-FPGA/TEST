@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.6.0    git head : 73c8d8e2b86b45646e9d0b2e729291f2b65e6be3
 // Component : EmifToBram_test
-// Git hash  : a0a0837bb09980fcbcb4af011cef64006c57ba2c
+// Git hash  : e92a7073a9005c8061ce6d28747ca441a4ff39f8
 
 
 
@@ -199,7 +199,7 @@ module Apb3Decoder (
   assign io_output_PENABLE = io_input_PENABLE;
   assign io_output_PWRITE = io_input_PWRITE;
   assign io_output_PWDATA = io_input_PWDATA;
-  assign io_output_PSEL[0] = (((io_input_PADDR & (~ 20'h000ff)) == 20'h0) && io_input_PSEL[0]);
+  assign io_output_PSEL[0] = (((io_input_PADDR & (~ 20'h003ff)) == 20'h0) && io_input_PSEL[0]);
   always @(*) begin
     io_input_PREADY = io_output_PREADY;
     if(when_Apb3Decoder_l84) begin
@@ -273,34 +273,38 @@ module EmifToApb (
   input               clk,
   input               reset
 );
+  wire       [25:0]   _zz_apb_PADDR;
   reg                 penable;
   reg        [15:0]   emifdatatemp;
+  wire       [1:0]    emif_default_bits;
   reg                 penable_regNext;
-  wire                when_EmifToApb_l70;
-  wire                when_EmifToApb_l80;
-  wire                when_EmifToApb_l81;
-  reg        [15:0]   _zz_emif_emif_data_write;
+  wire                when_EmifToApb_l73;
   wire                when_EmifToApb_l83;
+  wire                when_EmifToApb_l84;
+  reg        [15:0]   _zz_emif_emif_data_write;
+  wire                when_EmifToApb_l86;
   reg        [15:0]   _zz_emif_emif_data_write_1;
 
-  assign apb_PADDR = emif_emif_addr[19:0];
+  assign _zz_apb_PADDR = ({2'd0,emif_emif_addr} <<< 2);
+  assign emif_default_bits = 2'b00;
+  assign apb_PADDR = _zz_apb_PADDR[19:0];
   assign apb_PSEL = (~ emif_emif_cs);
   assign apb_PENABLE = ((penable && (! penable_regNext)) ? penable : 1'b0);
   assign apb_PWRITE = (((! emif_emif_we) && emif_emif_oe) && emif_emif_addr[23]);
-  assign when_EmifToApb_l70 = (((! emif_emif_we) && emif_emif_oe) && (! emif_emif_addr[23]));
+  assign when_EmifToApb_l73 = (((! emif_emif_we) && emif_emif_oe) && (! emif_emif_addr[23]));
   assign apb_PWDATA = {emif_emif_data_read,emifdatatemp};
   assign emif_emif_data_writeEnable = (! emif_emif_oe);
-  assign when_EmifToApb_l80 = emif_emif_addr[23];
-  assign when_EmifToApb_l81 = (! emif_emif_oe);
+  assign when_EmifToApb_l83 = emif_emif_addr[23];
+  assign when_EmifToApb_l84 = (! emif_emif_oe);
   always @(*) begin
-    if(when_EmifToApb_l80) begin
+    if(when_EmifToApb_l83) begin
       emif_emif_data_write = _zz_emif_emif_data_write;
     end else begin
       emif_emif_data_write = _zz_emif_emif_data_write_1;
     end
   end
 
-  assign when_EmifToApb_l83 = (! emif_emif_oe);
+  assign when_EmifToApb_l86 = (! emif_emif_oe);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
       penable <= 1'b0;
@@ -311,19 +315,19 @@ module EmifToApb (
 
   always @(posedge clk) begin
     penable_regNext <= penable;
-    if(when_EmifToApb_l70) begin
+    if(when_EmifToApb_l73) begin
       emifdatatemp <= emif_emif_data_read;
     end
   end
 
   always @(posedge clk) begin
-    if(when_EmifToApb_l81) begin
+    if(when_EmifToApb_l84) begin
       _zz_emif_emif_data_write <= apb_PRDATA[31 : 16];
     end
   end
 
   always @(posedge clk) begin
-    if(when_EmifToApb_l83) begin
+    if(when_EmifToApb_l86) begin
       _zz_emif_emif_data_write_1 <= apb_PRDATA[15 : 0];
     end
   end

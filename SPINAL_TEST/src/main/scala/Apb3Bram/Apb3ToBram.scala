@@ -34,7 +34,7 @@ class Apb3ToBram(addressApbWidth: Int, addressBRAMWidth: Int, dataWidth: Int) ex
 
   io.apb.PSLVERROR := False
 
-  io.bram.addr := io.apb.PADDR.resized
+  io.bram.addr := (io.apb.PADDR >>2).resized
 
   io.bram.en := io.apb.PSEL(0)
 

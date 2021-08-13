@@ -73,28 +73,33 @@ VL_INLINE_OPT void VEmif_Ctrl_test::_combo__TOP__1(VEmif_Ctrl_test__Syms* __rest
     VL_DEBUG_IF(VL_DBG_MSGF("+    VEmif_Ctrl_test::_combo__TOP__1\n"); );
     VEmif_Ctrl_test* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    vlTOPp->apb_PADDR = (0xfffffU & vlTOPp->emif_emif_addr);
+    vlTOPp->apb_PADDR = (0xfffffU & (vlTOPp->emif_emif_addr 
+                                     << 2U));
     vlTOPp->apb_PSEL = (1U & (~ (IData)(vlTOPp->emif_emif_cs)));
-    vlTOPp->apb_PWDATA = vlTOPp->emif_emif_data_read;
     vlTOPp->emif_emif_data_writeEnable = (1U & (~ (IData)(vlTOPp->emif_emif_oe)));
-    vlTOPp->apb_PWRITE = ((~ (IData)(vlTOPp->emif_emif_we)) 
-                          & (IData)(vlTOPp->emif_emif_oe));
+    vlTOPp->apb_PWRITE = (((~ (IData)(vlTOPp->emif_emif_we)) 
+                           & (IData)(vlTOPp->emif_emif_oe)) 
+                          & (vlTOPp->emif_emif_addr 
+                             >> 0x17U));
 }
 
 VL_INLINE_OPT void VEmif_Ctrl_test::_sequent__TOP__4(VEmif_Ctrl_test__Syms* __restrict vlSymsp) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    VEmif_Ctrl_test::_sequent__TOP__4\n"); );
     VEmif_Ctrl_test* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
+    if ((1U & (~ (IData)(vlTOPp->emif_emif_oe)))) {
+        vlTOPp->Emif_Ctrl_test__DOT___zz_emif_emif_data_write_1 
+            = (0xffffU & vlTOPp->apb_PRDATA);
+    }
+    if ((1U & (~ (IData)(vlTOPp->emif_emif_oe)))) {
+        vlTOPp->Emif_Ctrl_test__DOT___zz_emif_emif_data_write 
+            = (0xffffU & (vlTOPp->apb_PRDATA >> 0x10U));
+    }
     if ((((~ (IData)(vlTOPp->emif_emif_we)) & (IData)(vlTOPp->emif_emif_oe)) 
          & (~ (vlTOPp->emif_emif_addr >> 0x17U)))) {
         vlTOPp->Emif_Ctrl_test__DOT__emifdatatemp = vlTOPp->emif_emif_data_read;
     }
-    if ((1U & (~ (IData)(vlTOPp->emif_emif_oe)))) {
-        vlTOPp->Emif_Ctrl_test__DOT__apb_PRDATA_regNextWhen 
-            = vlTOPp->apb_PRDATA;
-    }
     vlTOPp->Emif_Ctrl_test__DOT__penable_regNext = vlTOPp->Emif_Ctrl_test__DOT__penable;
-    vlTOPp->emif_emif_data_write = vlTOPp->Emif_Ctrl_test__DOT__apb_PRDATA_regNextWhen;
 }
 
 VL_INLINE_OPT void VEmif_Ctrl_test::_sequent__TOP__5(VEmif_Ctrl_test__Syms* __restrict vlSymsp) {
@@ -102,11 +107,24 @@ VL_INLINE_OPT void VEmif_Ctrl_test::_sequent__TOP__5(VEmif_Ctrl_test__Syms* __re
     VEmif_Ctrl_test* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlTOPp->Emif_Ctrl_test__DOT__penable = (1U & ((~ (IData)(vlTOPp->reset)) 
-                                                  & ((~ (IData)(vlTOPp->emif_emif_oe)) 
-                                                     | (~ (IData)(vlTOPp->emif_emif_we)))));
+                                                  & (((~ (IData)(vlTOPp->emif_emif_oe)) 
+                                                      | (~ (IData)(vlTOPp->emif_emif_we))) 
+                                                     & (vlTOPp->emif_emif_addr 
+                                                        >> 0x17U))));
     vlTOPp->apb_PENABLE = (((IData)(vlTOPp->Emif_Ctrl_test__DOT__penable) 
                             & (~ (IData)(vlTOPp->Emif_Ctrl_test__DOT__penable_regNext))) 
                            & (IData)(vlTOPp->Emif_Ctrl_test__DOT__penable));
+}
+
+VL_INLINE_OPT void VEmif_Ctrl_test::_combo__TOP__6(VEmif_Ctrl_test__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VEmif_Ctrl_test::_combo__TOP__6\n"); );
+    VEmif_Ctrl_test* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
+    // Body
+    vlTOPp->emif_emif_data_write = ((0x800000U & vlTOPp->emif_emif_addr)
+                                     ? (IData)(vlTOPp->Emif_Ctrl_test__DOT___zz_emif_emif_data_write)
+                                     : (IData)(vlTOPp->Emif_Ctrl_test__DOT___zz_emif_emif_data_write_1));
+    vlTOPp->apb_PWDATA = (((IData)(vlTOPp->emif_emif_data_read) 
+                           << 0x10U) | (IData)(vlTOPp->Emif_Ctrl_test__DOT__emifdatatemp));
 }
 
 void VEmif_Ctrl_test::_eval(VEmif_Ctrl_test__Syms* __restrict vlSymsp) {
@@ -123,6 +141,7 @@ void VEmif_Ctrl_test::_eval(VEmif_Ctrl_test__Syms* __restrict vlSymsp) {
         vlTOPp->_sequent__TOP__5(vlSymsp);
         vlTOPp->__Vm_traceActivity = (4U | vlTOPp->__Vm_traceActivity);
     }
+    vlTOPp->_combo__TOP__6(vlSymsp);
     // Final
     vlTOPp->__Vclklast__TOP__clk = vlTOPp->clk;
     vlTOPp->__Vclklast__TOP__reset = vlTOPp->reset;

@@ -35,9 +35,9 @@ VL_MODULE(VEmif_Ctrl_test) {
     VL_IN8(apb_PREADY,0,0);
     VL_OUT8(apb_PWRITE,0,0);
     VL_IN8(apb_PSLVERROR,0,0);
+    VL_IN16(emif_emif_data_read,15,0);
+    VL_OUT16(emif_emif_data_write,15,0);
     VL_IN(emif_emif_addr,23,0);
-    VL_IN(emif_emif_data_read,31,0);
-    VL_OUT(emif_emif_data_write,31,0);
     VL_OUT(apb_PADDR,19,0);
     VL_OUT(apb_PWDATA,31,0);
     VL_IN(apb_PRDATA,31,0);
@@ -46,8 +46,9 @@ VL_MODULE(VEmif_Ctrl_test) {
     // Internals; generally not touched by application code
     CData/*0:0*/ Emif_Ctrl_test__DOT__penable;
     CData/*0:0*/ Emif_Ctrl_test__DOT__penable_regNext;
-    IData/*31:0*/ Emif_Ctrl_test__DOT__emifdatatemp;
-    IData/*31:0*/ Emif_Ctrl_test__DOT__apb_PRDATA_regNextWhen;
+    SData/*15:0*/ Emif_Ctrl_test__DOT__emifdatatemp;
+    SData/*15:0*/ Emif_Ctrl_test__DOT___zz_emif_emif_data_write;
+    SData/*15:0*/ Emif_Ctrl_test__DOT___zz_emif_emif_data_write_1;
     
     // LOCAL VARIABLES
     // Internals; generally not touched by application code
@@ -93,6 +94,7 @@ VL_MODULE(VEmif_Ctrl_test) {
     static QData _change_request_1(VEmif_Ctrl_test__Syms* __restrict vlSymsp);
   public:
     static void _combo__TOP__1(VEmif_Ctrl_test__Syms* __restrict vlSymsp);
+    static void _combo__TOP__6(VEmif_Ctrl_test__Syms* __restrict vlSymsp);
   private:
     void _ctor_var_reset() VL_ATTR_COLD;
   public:

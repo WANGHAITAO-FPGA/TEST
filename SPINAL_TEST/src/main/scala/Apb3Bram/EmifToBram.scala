@@ -29,7 +29,7 @@ class EmifToBram extends Component {
   val apbDecoder = Apb3Decoder(
     master = emiftoapb.io.apb,
     slaves = List(
-      apb3tobram.io.apb -> (0x00000, 256 Bytes)
+      apb3tobram.io.apb -> (0x00000, 1 kB)
     )
   )
 

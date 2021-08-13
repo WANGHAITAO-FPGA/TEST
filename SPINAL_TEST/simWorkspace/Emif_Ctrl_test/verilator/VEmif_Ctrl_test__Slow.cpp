@@ -29,13 +29,19 @@ void VEmif_Ctrl_test::_settle__TOP__2(VEmif_Ctrl_test__Syms* __restrict vlSymsp)
     VL_DEBUG_IF(VL_DBG_MSGF("+    VEmif_Ctrl_test::_settle__TOP__2\n"); );
     VEmif_Ctrl_test* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    vlTOPp->apb_PADDR = (0xfffffU & vlTOPp->emif_emif_addr);
+    vlTOPp->apb_PADDR = (0xfffffU & (vlTOPp->emif_emif_addr 
+                                     << 2U));
     vlTOPp->apb_PSEL = (1U & (~ (IData)(vlTOPp->emif_emif_cs)));
-    vlTOPp->apb_PWDATA = vlTOPp->emif_emif_data_read;
     vlTOPp->emif_emif_data_writeEnable = (1U & (~ (IData)(vlTOPp->emif_emif_oe)));
-    vlTOPp->apb_PWRITE = ((~ (IData)(vlTOPp->emif_emif_we)) 
-                          & (IData)(vlTOPp->emif_emif_oe));
-    vlTOPp->emif_emif_data_write = vlTOPp->Emif_Ctrl_test__DOT__apb_PRDATA_regNextWhen;
+    vlTOPp->apb_PWRITE = (((~ (IData)(vlTOPp->emif_emif_we)) 
+                           & (IData)(vlTOPp->emif_emif_oe)) 
+                          & (vlTOPp->emif_emif_addr 
+                             >> 0x17U));
+    vlTOPp->apb_PWDATA = (((IData)(vlTOPp->emif_emif_data_read) 
+                           << 0x10U) | (IData)(vlTOPp->Emif_Ctrl_test__DOT__emifdatatemp));
+    vlTOPp->emif_emif_data_write = ((0x800000U & vlTOPp->emif_emif_addr)
+                                     ? (IData)(vlTOPp->Emif_Ctrl_test__DOT___zz_emif_emif_data_write)
+                                     : (IData)(vlTOPp->Emif_Ctrl_test__DOT___zz_emif_emif_data_write_1));
     vlTOPp->apb_PENABLE = (((IData)(vlTOPp->Emif_Ctrl_test__DOT__penable) 
                             & (~ (IData)(vlTOPp->Emif_Ctrl_test__DOT__penable_regNext))) 
                            & (IData)(vlTOPp->Emif_Ctrl_test__DOT__penable));
@@ -67,8 +73,8 @@ void VEmif_Ctrl_test::_ctor_var_reset() {
     VL_DEBUG_IF(VL_DBG_MSGF("+    VEmif_Ctrl_test::_ctor_var_reset\n"); );
     // Body
     emif_emif_addr = VL_RAND_RESET_I(24);
-    emif_emif_data_read = VL_RAND_RESET_I(32);
-    emif_emif_data_write = VL_RAND_RESET_I(32);
+    emif_emif_data_read = VL_RAND_RESET_I(16);
+    emif_emif_data_write = VL_RAND_RESET_I(16);
     emif_emif_data_writeEnable = VL_RAND_RESET_I(1);
     emif_emif_cs = VL_RAND_RESET_I(1);
     emif_emif_we = VL_RAND_RESET_I(1);
@@ -84,8 +90,9 @@ void VEmif_Ctrl_test::_ctor_var_reset() {
     clk = VL_RAND_RESET_I(1);
     reset = VL_RAND_RESET_I(1);
     Emif_Ctrl_test__DOT__penable = VL_RAND_RESET_I(1);
-    Emif_Ctrl_test__DOT__emifdatatemp = VL_RAND_RESET_I(32);
+    Emif_Ctrl_test__DOT__emifdatatemp = VL_RAND_RESET_I(16);
     Emif_Ctrl_test__DOT__penable_regNext = VL_RAND_RESET_I(1);
-    Emif_Ctrl_test__DOT__apb_PRDATA_regNextWhen = VL_RAND_RESET_I(32);
+    Emif_Ctrl_test__DOT___zz_emif_emif_data_write = VL_RAND_RESET_I(16);
+    Emif_Ctrl_test__DOT___zz_emif_emif_data_write_1 = VL_RAND_RESET_I(16);
     __Vm_traceActivity = 0;
 }

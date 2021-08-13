@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.6.0    git head : 73c8d8e2b86b45646e9d0b2e729291f2b65e6be3
 // Component : AuroraTop
-// Git hash  : 74d84fa32e504fbd8a4bade453eba465f26f8774
+// Git hash  : e92a7073a9005c8061ce6d28747ca441a4ff39f8
 
 
 `define AuroraState_binary_sequential_type [2:0]
@@ -23,6 +23,14 @@ module AuroraTop (
   input      [31:0]   apb_PWDATA,
   output reg [31:0]   apb_PRDATA,
   output              apb_PSLVERROR,
+  output              axiw_valid,
+  input               axiw_ready,
+  output     [31:0]   axiw_payload_data,
+  output              axiw_payload_last,
+  input               axir_valid,
+  output              axir_ready,
+  input      [31:0]   axir_payload_data,
+  input               axir_payload_last,
   input               tx_bram_en,
   input      [3:0]    tx_bram_we,
   input      [7:0]    tx_bram_addr,
@@ -35,7 +43,8 @@ module AuroraTop (
   output     [31:0]   rx_bram_rddata,
   input               clk,
   input               reset,
-  input               aurora_userclk
+  input               aurora_userclk,
+  output              intrrupt
 );
   wire                auroraArea_auroratxcore_tx_start;
   wire                auroraArea_auroratxcore_tx_trigger;
@@ -68,26 +77,26 @@ module AuroraTop (
   wire                toparea_ctrl_doRead;
 
   AuroraRxCore auroraArea_aurorarxcore (
-    .aurora_userclk       (aurora_userclk                             ), //i
-    .reset                (reset                                      ), //i
-    .axir_valid           (auroraArea_auroratxcore_axiw_valid         ), //i
-    .axir_ready           (auroraArea_aurorarxcore_axir_ready         ), //o
-    .axir_payload_data    (auroraArea_auroratxcore_axiw_payload_data  ), //i
-    .axir_payload_last    (auroraArea_auroratxcore_axiw_payload_last  ), //i
-    .bram_en              (auroraArea_aurorarxcore_bram_en            ), //o
-    .bram_we              (auroraArea_aurorarxcore_bram_we            ), //o
-    .bram_addr            (auroraArea_aurorarxcore_bram_addr          ), //o
-    .bram_wrdata          (auroraArea_aurorarxcore_bram_wrdata        ), //o
-    .bram_rddata          (auroraArea_auroraRxBlockRam_ioB_rddata     ), //i
-    .bram_clkout          (auroraArea_aurorarxcore_bram_clkout        ), //o
-    .bram_resetout        (auroraArea_aurorarxcore_bram_resetout      ), //o
-    .intrrupt             (auroraArea_aurorarxcore_intrrupt           )  //o
+    .aurora_userclk       (aurora_userclk                          ), //i
+    .reset                (reset                                   ), //i
+    .axir_valid           (axir_valid                              ), //i
+    .axir_ready           (auroraArea_aurorarxcore_axir_ready      ), //o
+    .axir_payload_data    (axir_payload_data                       ), //i
+    .axir_payload_last    (axir_payload_last                       ), //i
+    .bram_en              (auroraArea_aurorarxcore_bram_en         ), //o
+    .bram_we              (auroraArea_aurorarxcore_bram_we         ), //o
+    .bram_addr            (auroraArea_aurorarxcore_bram_addr       ), //o
+    .bram_wrdata          (auroraArea_aurorarxcore_bram_wrdata     ), //o
+    .bram_rddata          (auroraArea_auroraRxBlockRam_ioB_rddata  ), //i
+    .bram_clkout          (auroraArea_aurorarxcore_bram_clkout     ), //o
+    .bram_resetout        (auroraArea_aurorarxcore_bram_resetout   ), //o
+    .intrrupt             (auroraArea_aurorarxcore_intrrupt        )  //o
   );
   AuroraTxCore auroraArea_auroratxcore (
     .aurora_userclk       (aurora_userclk                             ), //i
     .reset                (reset                                      ), //i
     .axiw_valid           (auroraArea_auroratxcore_axiw_valid         ), //o
-    .axiw_ready           (auroraArea_aurorarxcore_axir_ready         ), //i
+    .axiw_ready           (axiw_ready                                 ), //i
     .axiw_payload_data    (auroraArea_auroratxcore_axiw_payload_data  ), //o
     .axiw_payload_last    (auroraArea_auroratxcore_axiw_payload_last  ), //o
     .tx_head              (toparea_tx_headtemp                        ), //i
@@ -153,10 +162,15 @@ module AuroraTop (
   assign toparea_ctrl_askRead = ((apb_PSEL[0] && apb_PENABLE) && (! apb_PWRITE));
   assign toparea_ctrl_doWrite = (((apb_PSEL[0] && apb_PENABLE) && apb_PREADY) && apb_PWRITE);
   assign toparea_ctrl_doRead = (((apb_PSEL[0] && apb_PENABLE) && apb_PREADY) && (! apb_PWRITE));
+  assign axiw_valid = auroraArea_auroratxcore_axiw_valid;
+  assign axiw_payload_data = auroraArea_auroratxcore_axiw_payload_data;
+  assign axiw_payload_last = auroraArea_auroratxcore_axiw_payload_last;
+  assign axir_ready = auroraArea_aurorarxcore_axir_ready;
   assign auroraArea_auroratxcore_tx_start = toparea_tx_ctrl[0];
   assign auroraArea_auroratxcore_tx_trigger = toparea_tx_ctrl[4];
   assign rx_bram_rddata = auroraArea_auroraRxBlockRam_ioA_rddata;
   assign tx_bram_rddata = auroraArea_auroraTxBlockRam_ioB_rddata;
+  assign intrrupt = auroraArea_aurorarxcore_intrrupt;
   always @(posedge clk or posedge reset) begin
     if(reset) begin
       toparea_tx_ctrl <= 32'h0;

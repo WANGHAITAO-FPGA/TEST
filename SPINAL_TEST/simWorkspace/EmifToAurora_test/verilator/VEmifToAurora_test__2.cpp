@@ -30,38 +30,38 @@ void VEmifToAurora_test::_eval(VEmifToAurora_test__Syms* __restrict vlSymsp) {
         vlTOPp->_sequent__TOP__8(vlSymsp);
         vlTOPp->__Vm_traceActivity = (0x20U | vlTOPp->__Vm_traceActivity);
     }
-    vlTOPp->_combo__TOP__9(vlSymsp);
+    vlTOPp->_combo__TOP__10(vlSymsp);
     if ((((IData)(vlTOPp->aurora_userclk) & (~ (IData)(vlTOPp->__Vclklast__TOP__aurora_userclk))) 
          | ((IData)(vlTOPp->reset) & (~ (IData)(vlTOPp->__Vclklast__TOP__reset))))) {
-        vlTOPp->_sequent__TOP__10(vlSymsp);
+        vlTOPp->_sequent__TOP__11(vlSymsp);
         vlTOPp->__Vm_traceActivity = (0x40U | vlTOPp->__Vm_traceActivity);
     }
     if (((IData)(vlTOPp->clk) & (~ (IData)(vlTOPp->__Vclklast__TOP__clk)))) {
-        vlTOPp->_sequent__TOP__11(vlSymsp);
+        vlTOPp->_sequent__TOP__12(vlSymsp);
     }
     if (((IData)(vlTOPp->aurora_userclk) & (~ (IData)(vlTOPp->__Vclklast__TOP__aurora_userclk)))) {
-        vlTOPp->_sequent__TOP__12(vlSymsp);
+        vlTOPp->_sequent__TOP__14(vlSymsp);
         vlTOPp->__Vm_traceActivity = (0x80U | vlTOPp->__Vm_traceActivity);
     }
     if ((((IData)(vlTOPp->clk) & (~ (IData)(vlTOPp->__Vclklast__TOP__clk))) 
          | ((IData)(vlTOPp->reset) & (~ (IData)(vlTOPp->__Vclklast__TOP__reset))))) {
-        vlTOPp->_sequent__TOP__13(vlSymsp);
+        vlTOPp->_sequent__TOP__15(vlSymsp);
         vlTOPp->__Vm_traceActivity = (0x100U | vlTOPp->__Vm_traceActivity);
     }
     if ((((IData)(vlTOPp->aurora_userclk) & (~ (IData)(vlTOPp->__Vclklast__TOP__aurora_userclk))) 
          | ((IData)(vlTOPp->reset) & (~ (IData)(vlTOPp->__Vclklast__TOP__reset))))) {
-        vlTOPp->_sequent__TOP__14(vlSymsp);
+        vlTOPp->_sequent__TOP__16(vlSymsp);
         vlTOPp->__Vm_traceActivity = (0x200U | vlTOPp->__Vm_traceActivity);
     }
     if (((IData)(vlTOPp->clk) & (~ (IData)(vlTOPp->__Vclklast__TOP__clk)))) {
-        vlTOPp->_sequent__TOP__15(vlSymsp);
+        vlTOPp->_sequent__TOP__17(vlSymsp);
         vlTOPp->__Vm_traceActivity = (0x400U | vlTOPp->__Vm_traceActivity);
     }
-    vlTOPp->_combo__TOP__16(vlSymsp);
+    vlTOPp->_combo__TOP__18(vlSymsp);
     if (((((IData)(vlTOPp->aurora_userclk) & (~ (IData)(vlTOPp->__Vclklast__TOP__aurora_userclk))) 
           | ((IData)(vlTOPp->clk) & (~ (IData)(vlTOPp->__Vclklast__TOP__clk)))) 
          | ((IData)(vlTOPp->reset) & (~ (IData)(vlTOPp->__Vclklast__TOP__reset))))) {
-        vlTOPp->_multiclk__TOP__17(vlSymsp);
+        vlTOPp->_multiclk__TOP__19(vlSymsp);
         vlTOPp->__Vm_traceActivity = (0x800U | vlTOPp->__Vm_traceActivity);
         vlTOPp->_settle__TOP__3(vlSymsp);
     }

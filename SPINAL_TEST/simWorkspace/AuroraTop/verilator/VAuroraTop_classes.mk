@@ -27,6 +27,7 @@ VM_CLASSES_FAST += \
 VM_CLASSES_SLOW += \
 	VAuroraTop__Slow \
 	VAuroraTop__1__Slow \
+	VAuroraTop__2__Slow \
 
 # Generated support classes, fast-path, compile with highest optimization
 VM_SUPPORT_FAST += \

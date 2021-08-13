@@ -57,9 +57,12 @@ class EmifToApb(emifaddresswidth : Int, emifdataWidth: Int, apb3addressWidth: In
 
   val emifdatatemp = Reg(Bits(emifdataWidth bits))
 
+  val emif_default_bits = Bits(2 bits)
+  emif_default_bits := 0
+
   if(!usejoint) penable := (!io.emif.emif_oe)||(!io.emif.emif_we) else penable := ((!io.emif.emif_oe)||(!io.emif.emif_we))&&io.emif.emif_addr(emifaddresswidth-1)
 
-  io.apb.PADDR := io.emif.emif_addr.resized
+  io.apb.PADDR := (io.emif.emif_addr<<2).resized
 
   io.apb.PSEL := ~(io.emif.emif_cs.asBits)
 
@@ -86,7 +89,7 @@ class EmifToApb(emifaddresswidth : Int, emifdataWidth: Int, apb3addressWidth: In
 }
 
 
-case class Emif_Ctrl_test(period:Int) extends EmifToApb(24,32,20,32,false){
+case class Emif_Ctrl_test(period:Int) extends EmifToApb(24,16,20,32,true){
   def init = {
     clockDomain.forkStimulus(period)
     io.emif.emif_cs #= true

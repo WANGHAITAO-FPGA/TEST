@@ -34,8 +34,8 @@ void VEmifToBram_test::_settle__TOP__2(VEmifToBram_test__Syms* __restrict vlSyms
                                      ? (IData)(vlTOPp->EmifToBram_test__DOT__emiftoapb_1__DOT___zz_emif_emif_data_write)
                                      : (IData)(vlTOPp->EmifToBram_test__DOT__emiftoapb_1__DOT___zz_emif_emif_data_write_1));
     vlTOPp->EmifToBram_test__DOT__apb_decoder_io_output_PSEL 
-        = ((0U == (0xfff00U & vlTOPp->emif_emif_addr)) 
-           & (~ (IData)(vlTOPp->emif_emif_cs)));
+        = ((0U == (0xffc00U & (vlTOPp->emif_emif_addr 
+                               << 2U))) & (~ (IData)(vlTOPp->emif_emif_cs)));
     vlTOPp->EmifToBram_test__DOT__apb3tobram_1__DOT__when_Apb3ToBram_l41 
         = (((((IData)(vlTOPp->EmifToBram_test__DOT__emiftoapb_1__DOT__penable) 
               & (~ (IData)(vlTOPp->EmifToBram_test__DOT__emiftoapb_1__DOT__penable_regNext))) 

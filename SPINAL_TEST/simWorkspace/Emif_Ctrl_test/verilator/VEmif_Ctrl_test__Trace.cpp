@@ -42,9 +42,8 @@ void VEmif_Ctrl_test::traceChgThis__2(VEmif_Ctrl_test__Syms* __restrict vlSymsp,
     if (0 && vcdp && c) {}  // Prevent unused
     // Body
     {
-        vcdp->chgBus(c+1,(vlTOPp->Emif_Ctrl_test__DOT__emifdatatemp),32);
+        vcdp->chgBus(c+1,(vlTOPp->Emif_Ctrl_test__DOT__emifdatatemp),16);
         vcdp->chgBit(c+9,(vlTOPp->Emif_Ctrl_test__DOT__penable_regNext));
-        vcdp->chgBus(c+17,(vlTOPp->Emif_Ctrl_test__DOT__apb_PRDATA_regNextWhen),32);
     }
 }
 
@@ -54,7 +53,7 @@ void VEmif_Ctrl_test::traceChgThis__3(VEmif_Ctrl_test__Syms* __restrict vlSymsp,
     if (0 && vcdp && c) {}  // Prevent unused
     // Body
     {
-        vcdp->chgBit(c+25,(vlTOPp->Emif_Ctrl_test__DOT__penable));
+        vcdp->chgBit(c+17,(vlTOPp->Emif_Ctrl_test__DOT__penable));
     }
 }
 
@@ -64,27 +63,29 @@ void VEmif_Ctrl_test::traceChgThis__4(VEmif_Ctrl_test__Syms* __restrict vlSymsp,
     if (0 && vcdp && c) {}  // Prevent unused
     // Body
     {
-        vcdp->chgBus(c+33,(vlTOPp->emif_emif_addr),24);
-        vcdp->chgBus(c+41,(vlTOPp->emif_emif_data_read),32);
-        vcdp->chgBus(c+49,(vlTOPp->emif_emif_data_write),32);
-        vcdp->chgBit(c+57,(vlTOPp->emif_emif_data_writeEnable));
-        vcdp->chgBit(c+65,(vlTOPp->emif_emif_cs));
-        vcdp->chgBit(c+73,(vlTOPp->emif_emif_we));
-        vcdp->chgBit(c+81,(vlTOPp->emif_emif_oe));
-        vcdp->chgBus(c+89,(vlTOPp->apb_PADDR),20);
-        vcdp->chgBit(c+97,(vlTOPp->apb_PSEL));
-        vcdp->chgBit(c+105,(vlTOPp->apb_PENABLE));
-        vcdp->chgBit(c+113,(vlTOPp->apb_PREADY));
-        vcdp->chgBit(c+121,(vlTOPp->apb_PWRITE));
-        vcdp->chgBus(c+129,(vlTOPp->apb_PWDATA),32);
-        vcdp->chgBus(c+137,(vlTOPp->apb_PRDATA),32);
-        vcdp->chgBit(c+145,(vlTOPp->apb_PSLVERROR));
-        vcdp->chgBit(c+153,(vlTOPp->clk));
-        vcdp->chgBit(c+161,(vlTOPp->reset));
-        vcdp->chgBit(c+169,((((~ (IData)(vlTOPp->emif_emif_we)) 
+        vcdp->chgBus(c+25,(vlTOPp->emif_emif_addr),24);
+        vcdp->chgBus(c+33,(vlTOPp->emif_emif_data_read),16);
+        vcdp->chgBus(c+41,(vlTOPp->emif_emif_data_write),16);
+        vcdp->chgBit(c+49,(vlTOPp->emif_emif_data_writeEnable));
+        vcdp->chgBit(c+57,(vlTOPp->emif_emif_cs));
+        vcdp->chgBit(c+65,(vlTOPp->emif_emif_we));
+        vcdp->chgBit(c+73,(vlTOPp->emif_emif_oe));
+        vcdp->chgBus(c+81,(vlTOPp->apb_PADDR),20);
+        vcdp->chgBit(c+89,(vlTOPp->apb_PSEL));
+        vcdp->chgBit(c+97,(vlTOPp->apb_PENABLE));
+        vcdp->chgBit(c+105,(vlTOPp->apb_PREADY));
+        vcdp->chgBit(c+113,(vlTOPp->apb_PWRITE));
+        vcdp->chgBus(c+121,(vlTOPp->apb_PWDATA),32);
+        vcdp->chgBus(c+129,(vlTOPp->apb_PRDATA),32);
+        vcdp->chgBit(c+137,(vlTOPp->apb_PSLVERROR));
+        vcdp->chgBit(c+145,(vlTOPp->clk));
+        vcdp->chgBit(c+153,(vlTOPp->reset));
+        vcdp->chgBit(c+161,((((~ (IData)(vlTOPp->emif_emif_we)) 
                               & (IData)(vlTOPp->emif_emif_oe)) 
                              & (~ (vlTOPp->emif_emif_addr 
                                    >> 0x17U)))));
+        vcdp->chgBit(c+169,((1U & (vlTOPp->emif_emif_addr 
+                                   >> 0x17U))));
         vcdp->chgBit(c+177,((1U & (~ (IData)(vlTOPp->emif_emif_oe)))));
     }
 }

@@ -159,7 +159,7 @@ public:
     uint32_t timeCheck;
     bool waveEnabled;
     VAuroraTop top;
-    ISignalAccess *signalAccess[21];
+    ISignalAccess *signalAccess[30];
     #ifdef TRACE
 	  VerilatedVcdC tfp;
 	  #endif
@@ -179,19 +179,28 @@ public:
       signalAccess[5] = new CDataSignalAccess( top.apb_PREADY );
       signalAccess[6] = new IDataSignalAccess( top.apb_PRDATA );
       signalAccess[7] = new CDataSignalAccess( top.apb_PSLVERROR );
-      signalAccess[8] = new CDataSignalAccess( top.tx_bram_en );
-      signalAccess[9] = new CDataSignalAccess( top.tx_bram_we );
-      signalAccess[10] = new CDataSignalAccess( top.tx_bram_addr );
-      signalAccess[11] = new IDataSignalAccess( top.tx_bram_wrdata );
-      signalAccess[12] = new IDataSignalAccess( top.tx_bram_rddata );
-      signalAccess[13] = new CDataSignalAccess( top.rx_bram_en );
-      signalAccess[14] = new CDataSignalAccess( top.rx_bram_we );
-      signalAccess[15] = new CDataSignalAccess( top.rx_bram_addr );
-      signalAccess[16] = new IDataSignalAccess( top.rx_bram_wrdata );
-      signalAccess[17] = new IDataSignalAccess( top.rx_bram_rddata );
-      signalAccess[18] = new CDataSignalAccess( top.clk );
-      signalAccess[19] = new CDataSignalAccess( top.reset );
-      signalAccess[20] = new CDataSignalAccess( top.aurora_userclk );
+      signalAccess[8] = new CDataSignalAccess( top.axiw_valid );
+      signalAccess[9] = new CDataSignalAccess( top.axiw_ready );
+      signalAccess[10] = new IDataSignalAccess( top.axiw_payload_data );
+      signalAccess[11] = new CDataSignalAccess( top.axiw_payload_last );
+      signalAccess[12] = new CDataSignalAccess( top.axir_valid );
+      signalAccess[13] = new CDataSignalAccess( top.axir_ready );
+      signalAccess[14] = new IDataSignalAccess( top.axir_payload_data );
+      signalAccess[15] = new CDataSignalAccess( top.axir_payload_last );
+      signalAccess[16] = new CDataSignalAccess( top.tx_bram_en );
+      signalAccess[17] = new CDataSignalAccess( top.tx_bram_we );
+      signalAccess[18] = new CDataSignalAccess( top.tx_bram_addr );
+      signalAccess[19] = new IDataSignalAccess( top.tx_bram_wrdata );
+      signalAccess[20] = new IDataSignalAccess( top.tx_bram_rddata );
+      signalAccess[21] = new CDataSignalAccess( top.rx_bram_en );
+      signalAccess[22] = new CDataSignalAccess( top.rx_bram_we );
+      signalAccess[23] = new CDataSignalAccess( top.rx_bram_addr );
+      signalAccess[24] = new IDataSignalAccess( top.rx_bram_wrdata );
+      signalAccess[25] = new IDataSignalAccess( top.rx_bram_rddata );
+      signalAccess[26] = new CDataSignalAccess( top.clk );
+      signalAccess[27] = new CDataSignalAccess( top.reset );
+      signalAccess[28] = new CDataSignalAccess( top.aurora_userclk );
+      signalAccess[29] = new CDataSignalAccess( top.intrrupt );
 
       #ifdef TRACE
       Verilated::traceEverOn(true);
@@ -202,7 +211,7 @@ public:
     }
 
     virtual ~Wrapper_1(){
-      for(int idx = 0;idx < 21;idx++){
+      for(int idx = 0;idx < 30;idx++){
           delete signalAccess[idx];
       }
 

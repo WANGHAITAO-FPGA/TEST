@@ -128,11 +128,12 @@ void VEmifToBram_test::traceInitThis__1(VEmifToBram_test__Syms* __restrict vlSym
         vcdp->declBit(c+161,"EmifToBram_test emiftoapb_1 reset", false,-1);
         vcdp->declBit(c+89,"EmifToBram_test emiftoapb_1 penable", false,-1);
         vcdp->declBus(c+65,"EmifToBram_test emiftoapb_1 emifdatatemp", false,-1, 15,0);
+        vcdp->declBus(c+257,"EmifToBram_test emiftoapb_1 emif_default_bits", false,-1, 1,0);
         vcdp->declBit(c+73,"EmifToBram_test emiftoapb_1 penable_regNext", false,-1);
-        vcdp->declBit(c+225,"EmifToBram_test emiftoapb_1 when_EmifToApb_l70", false,-1);
-        vcdp->declBit(c+233,"EmifToBram_test emiftoapb_1 when_EmifToApb_l80", false,-1);
-        vcdp->declBit(c+177,"EmifToBram_test emiftoapb_1 when_EmifToApb_l81", false,-1);
-        vcdp->declBit(c+177,"EmifToBram_test emiftoapb_1 when_EmifToApb_l83", false,-1);
+        vcdp->declBit(c+225,"EmifToBram_test emiftoapb_1 when_EmifToApb_l73", false,-1);
+        vcdp->declBit(c+233,"EmifToBram_test emiftoapb_1 when_EmifToApb_l83", false,-1);
+        vcdp->declBit(c+177,"EmifToBram_test emiftoapb_1 when_EmifToApb_l84", false,-1);
+        vcdp->declBit(c+177,"EmifToBram_test emiftoapb_1 when_EmifToApb_l86", false,-1);
         vcdp->declBus(c+185,"EmifToBram_test apb3tobram_1 io_apb_PADDR", false,-1, 19,0);
         vcdp->declBus(c+1,"EmifToBram_test apb3tobram_1 io_apb_PSEL", false,-1, 0,0);
         vcdp->declBit(c+81,"EmifToBram_test apb3tobram_1 io_apb_PENABLE", false,-1);
@@ -219,7 +220,8 @@ void VEmifToBram_test::traceFullThis__1(VEmifToBram_test__Syms* __restrict vlSym
                                ? (IData)(vlTOPp->EmifToBram_test__DOT__emiftoapb_1__DOT___zz_emif_emif_data_write)
                                : (IData)(vlTOPp->EmifToBram_test__DOT__emiftoapb_1__DOT___zz_emif_emif_data_write_1))),16);
         vcdp->fullBit(c+177,((1U & (~ (IData)(vlTOPp->emif_emif_oe)))));
-        vcdp->fullBus(c+185,((0xfffffU & vlTOPp->emif_emif_addr)),20);
+        vcdp->fullBus(c+185,((0xfffffU & (vlTOPp->emif_emif_addr 
+                                          << 2U))),20);
         vcdp->fullBit(c+193,((1U & (~ (IData)(vlTOPp->emif_emif_cs)))));
         vcdp->fullBit(c+201,((((~ (IData)(vlTOPp->emif_emif_we)) 
                                & (IData)(vlTOPp->emif_emif_oe)) 
@@ -227,7 +229,8 @@ void VEmifToBram_test::traceFullThis__1(VEmifToBram_test__Syms* __restrict vlSym
                                  >> 0x17U))));
         vcdp->fullBus(c+209,((((IData)(vlTOPp->emif_emif_data_read) 
                                << 0x10U) | (IData)(vlTOPp->EmifToBram_test__DOT__emiftoapb_1__DOT__emifdatatemp))),32);
-        vcdp->fullBus(c+217,((0xffU & vlTOPp->emif_emif_addr)),8);
+        vcdp->fullBus(c+217,((0xffU & (vlTOPp->emif_emif_addr 
+                                       << 2U))),8);
         vcdp->fullBit(c+225,((((~ (IData)(vlTOPp->emif_emif_we)) 
                                & (IData)(vlTOPp->emif_emif_oe)) 
                               & (~ (vlTOPp->emif_emif_addr 
@@ -236,5 +239,6 @@ void VEmifToBram_test::traceFullThis__1(VEmifToBram_test__Syms* __restrict vlSym
                                     >> 0x17U))));
         vcdp->fullBit(c+241,(1U));
         vcdp->fullBit(c+249,(0U));
+        vcdp->fullBus(c+257,(0U),2);
     }
 }

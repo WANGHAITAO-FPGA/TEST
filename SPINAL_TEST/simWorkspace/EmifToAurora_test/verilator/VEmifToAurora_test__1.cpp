@@ -10,6 +10,8 @@ VL_INLINE_OPT void VEmifToAurora_test::_sequent__TOP__4(VEmifToAurora_test__Syms
     VEmifToAurora_test* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlTOPp->__Vdlyvset__EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_auroraTxBlockRam__DOT__bram__v0 = 0U;
+    vlTOPp->EmifToAurora_test__DOT__resetCtrl_axiReset 
+        = vlTOPp->EmifToAurora_test__DOT__resetCtrl_axiResetUnbuffered;
     if ((((~ (IData)(vlTOPp->emif_emif_we)) & (IData)(vlTOPp->emif_emif_oe)) 
          & (~ (vlTOPp->emif_emif_addr >> 0x17U)))) {
         vlTOPp->EmifToAurora_test__DOT__area_emiftoapb__DOT__emifdatatemp 
@@ -23,6 +25,13 @@ VL_INLINE_OPT void VEmifToAurora_test::_sequent__TOP__4(VEmifToAurora_test__Syms
         vlTOPp->EmifToAurora_test__DOT__area_emiftoapb__DOT___zz_emif_emif_data_write 
             = (0xffffU & (vlTOPp->EmifToAurora_test__DOT__apb3Router_1__DOT___zz_io_input_PRDATA 
                           >> 0x10U));
+    }
+    if (vlTOPp->EmifToAurora_test__DOT__when_EmifToAurora_l34) {
+        vlTOPp->EmifToAurora_test__DOT__resetCtrl_axiResetCounter 
+            = (0x3fU & ((IData)(1U) + (IData)(vlTOPp->EmifToAurora_test__DOT__resetCtrl_axiResetCounter)));
+    }
+    if (vlTOPp->reset) {
+        vlTOPp->EmifToAurora_test__DOT__resetCtrl_axiResetCounter = 0U;
     }
     vlTOPp->EmifToAurora_test__DOT__apb3Router_1__DOT__selIndex 
         = (3U & ((IData)(vlTOPp->EmifToAurora_test__DOT__apb_decoder_io_output_PSEL) 
@@ -54,6 +63,12 @@ VL_INLINE_OPT void VEmifToAurora_test::_sequent__TOP__4(VEmifToAurora_test__Syms
     }
     vlTOPp->EmifToAurora_test__DOT__area_emiftoapb__DOT__penable_regNext 
         = vlTOPp->EmifToAurora_test__DOT__area_emiftoapb__DOT__penable;
+    vlTOPp->EmifToAurora_test__DOT__resetCtrl_axiResetUnbuffered = 0U;
+    if ((0x3fU != (IData)(vlTOPp->EmifToAurora_test__DOT__resetCtrl_axiResetCounter))) {
+        vlTOPp->EmifToAurora_test__DOT__resetCtrl_axiResetUnbuffered = 1U;
+    }
+    vlTOPp->EmifToAurora_test__DOT__when_EmifToAurora_l34 
+        = (0x3fU != (IData)(vlTOPp->EmifToAurora_test__DOT__resetCtrl_axiResetCounter));
 }
 
 VL_INLINE_OPT void VEmifToAurora_test::_sequent__TOP__5(VEmifToAurora_test__Syms* __restrict vlSymsp) {
@@ -285,8 +300,8 @@ VL_INLINE_OPT void VEmifToAurora_test::_sequent__TOP__8(VEmifToAurora_test__Syms
                        - (IData)(1U))));
 }
 
-VL_INLINE_OPT void VEmifToAurora_test::_combo__TOP__9(VEmifToAurora_test__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VEmifToAurora_test::_combo__TOP__9\n"); );
+VL_INLINE_OPT void VEmifToAurora_test::_combo__TOP__10(VEmifToAurora_test__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VEmifToAurora_test::_combo__TOP__10\n"); );
     VEmifToAurora_test* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlTOPp->EmifToAurora_test__DOT__area_emiftoapb_apb_PWRITE 
@@ -294,18 +309,19 @@ VL_INLINE_OPT void VEmifToAurora_test::_combo__TOP__9(VEmifToAurora_test__Syms* 
            & (vlTOPp->emif_emif_addr >> 0x17U));
     vlTOPp->EmifToAurora_test__DOT__apb_decoder_io_output_PSEL 
         = ((6U & (IData)(vlTOPp->EmifToAurora_test__DOT__apb_decoder_io_output_PSEL)) 
-           | ((0U == (0xfff00U & vlTOPp->emif_emif_addr)) 
-              & (~ (IData)(vlTOPp->emif_emif_cs))));
+           | ((0x10c00U == (0xffc00U & (vlTOPp->emif_emif_addr 
+                                        << 2U))) & 
+              (~ (IData)(vlTOPp->emif_emif_cs))));
     vlTOPp->EmifToAurora_test__DOT__apb_decoder_io_output_PSEL 
         = ((5U & (IData)(vlTOPp->EmifToAurora_test__DOT__apb_decoder_io_output_PSEL)) 
-           | (((0x1000U == (0xfff00U & vlTOPp->emif_emif_addr)) 
-               & (~ (IData)(vlTOPp->emif_emif_cs))) 
-              << 1U));
+           | (((0x10800U == (0xffc00U & (vlTOPp->emif_emif_addr 
+                                         << 2U))) & 
+               (~ (IData)(vlTOPp->emif_emif_cs))) << 1U));
     vlTOPp->EmifToAurora_test__DOT__apb_decoder_io_output_PSEL 
         = ((3U & (IData)(vlTOPp->EmifToAurora_test__DOT__apb_decoder_io_output_PSEL)) 
-           | (((0x3000U == (0xfff00U & vlTOPp->emif_emif_addr)) 
-               & (~ (IData)(vlTOPp->emif_emif_cs))) 
-              << 2U));
+           | (((0x10000U == (0xfffe0U & (vlTOPp->emif_emif_addr 
+                                         << 2U))) & 
+               (~ (IData)(vlTOPp->emif_emif_cs))) << 2U));
     vlTOPp->emif_emif_data_write = ((0x800000U & vlTOPp->emif_emif_addr)
                                      ? (IData)(vlTOPp->EmifToAurora_test__DOT__area_emiftoapb__DOT___zz_emif_emif_data_write)
                                      : (IData)(vlTOPp->EmifToAurora_test__DOT__area_emiftoapb__DOT___zz_emif_emif_data_write_1));
@@ -326,8 +342,8 @@ VL_INLINE_OPT void VEmifToAurora_test::_combo__TOP__9(VEmifToAurora_test__Syms* 
     }
 }
 
-VL_INLINE_OPT void VEmifToAurora_test::_sequent__TOP__10(VEmifToAurora_test__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VEmifToAurora_test::_sequent__TOP__10\n"); );
+VL_INLINE_OPT void VEmifToAurora_test::_sequent__TOP__11(VEmifToAurora_test__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VEmifToAurora_test::_sequent__TOP__11\n"); );
     VEmifToAurora_test* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlTOPp->EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_mem_addr 
@@ -422,8 +438,8 @@ VL_INLINE_OPT void VEmifToAurora_test::_sequent__TOP__10(VEmifToAurora_test__Sym
         = vlTOPp->__Vdly__EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_mem_addrtemp;
 }
 
-VL_INLINE_OPT void VEmifToAurora_test::_sequent__TOP__11(VEmifToAurora_test__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VEmifToAurora_test::_sequent__TOP__11\n"); );
+VL_INLINE_OPT void VEmifToAurora_test::_sequent__TOP__12(VEmifToAurora_test__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VEmifToAurora_test::_sequent__TOP__12\n"); );
     VEmifToAurora_test* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     if (vlTOPp->__Vdlyvset__EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_auroraTxBlockRam__DOT__bram__v0) {
@@ -432,8 +448,8 @@ VL_INLINE_OPT void VEmifToAurora_test::_sequent__TOP__11(VEmifToAurora_test__Sym
     }
 }
 
-VL_INLINE_OPT void VEmifToAurora_test::_sequent__TOP__12(VEmifToAurora_test__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VEmifToAurora_test::_sequent__TOP__12\n"); );
+VL_INLINE_OPT void VEmifToAurora_test::_sequent__TOP__14(VEmifToAurora_test__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VEmifToAurora_test::_sequent__TOP__14\n"); );
     VEmifToAurora_test* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlTOPp->EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_data_cnt 
@@ -453,14 +469,15 @@ VL_INLINE_OPT void VEmifToAurora_test::_sequent__TOP__12(VEmifToAurora_test__Sym
         = vlTOPp->EmifToAurora_test__DOT__area_auroratop__DOT__toparea_tx_headtemp;
 }
 
-VL_INLINE_OPT void VEmifToAurora_test::_sequent__TOP__13(VEmifToAurora_test__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VEmifToAurora_test::_sequent__TOP__13\n"); );
+VL_INLINE_OPT void VEmifToAurora_test::_sequent__TOP__15(VEmifToAurora_test__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VEmifToAurora_test::_sequent__TOP__15\n"); );
     VEmifToAurora_test* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     if (vlTOPp->reset) {
         vlTOPp->EmifToAurora_test__DOT__area_auroratop__DOT__toparea_tx_ctrl = 0U;
     } else {
-        if ((0x3004U == (0xfffffU & vlTOPp->emif_emif_addr))) {
+        if ((0x10004U == (0xfffffU & (vlTOPp->emif_emif_addr 
+                                      << 2U)))) {
             if (vlTOPp->EmifToAurora_test__DOT__area_auroratop__DOT__toparea_ctrl_doWrite) {
                 vlTOPp->EmifToAurora_test__DOT__area_auroratop__DOT__toparea_tx_ctrl 
                     = vlTOPp->EmifToAurora_test__DOT__area_emiftoapb_apb_PWDATA;
@@ -469,8 +486,8 @@ VL_INLINE_OPT void VEmifToAurora_test::_sequent__TOP__13(VEmifToAurora_test__Sym
     }
 }
 
-VL_INLINE_OPT void VEmifToAurora_test::_sequent__TOP__14(VEmifToAurora_test__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VEmifToAurora_test::_sequent__TOP__14\n"); );
+VL_INLINE_OPT void VEmifToAurora_test::_sequent__TOP__16(VEmifToAurora_test__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VEmifToAurora_test::_sequent__TOP__16\n"); );
     VEmifToAurora_test* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlTOPp->EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_stateMachine_state 
@@ -519,11 +536,12 @@ VL_INLINE_OPT void VEmifToAurora_test::_sequent__TOP__14(VEmifToAurora_test__Sym
     }
 }
 
-VL_INLINE_OPT void VEmifToAurora_test::_sequent__TOP__15(VEmifToAurora_test__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VEmifToAurora_test::_sequent__TOP__15\n"); );
+VL_INLINE_OPT void VEmifToAurora_test::_sequent__TOP__17(VEmifToAurora_test__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VEmifToAurora_test::_sequent__TOP__17\n"); );
     VEmifToAurora_test* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    if ((0x3000U == (0xfffffU & vlTOPp->emif_emif_addr))) {
+    if ((0x1000cU == (0xfffffU & (vlTOPp->emif_emif_addr 
+                                  << 2U)))) {
         if (vlTOPp->EmifToAurora_test__DOT__area_auroratop__DOT__toparea_ctrl_doWrite) {
             vlTOPp->EmifToAurora_test__DOT__area_auroratop__DOT__toparea_tx_headtemp 
                 = vlTOPp->EmifToAurora_test__DOT__area_emiftoapb_apb_PWDATA;
@@ -531,8 +549,8 @@ VL_INLINE_OPT void VEmifToAurora_test::_sequent__TOP__15(VEmifToAurora_test__Sym
     }
 }
 
-VL_INLINE_OPT void VEmifToAurora_test::_combo__TOP__16(VEmifToAurora_test__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VEmifToAurora_test::_combo__TOP__16\n"); );
+VL_INLINE_OPT void VEmifToAurora_test::_combo__TOP__18(VEmifToAurora_test__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VEmifToAurora_test::_combo__TOP__18\n"); );
     VEmifToAurora_test* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlTOPp->EmifToAurora_test__DOT__area_emiftoapb_apb_PWDATA 
@@ -543,11 +561,13 @@ VL_INLINE_OPT void VEmifToAurora_test::_combo__TOP__16(VEmifToAurora_test__Syms*
              >> 2U) & (IData)(vlTOPp->EmifToAurora_test__DOT__area_emiftoapb_apb_PENABLE)) 
            & (IData)(vlTOPp->EmifToAurora_test__DOT__area_emiftoapb_apb_PWRITE));
     vlTOPp->EmifToAurora_test__DOT__area_auroratop_apb_PRDATA = 0U;
-    if ((0x3000U == (0xfffffU & vlTOPp->emif_emif_addr))) {
+    if ((0x1000cU == (0xfffffU & (vlTOPp->emif_emif_addr 
+                                  << 2U)))) {
         vlTOPp->EmifToAurora_test__DOT__area_auroratop_apb_PRDATA 
             = vlTOPp->EmifToAurora_test__DOT__area_auroratop__DOT__toparea_tx_headtemp;
     } else {
-        if ((0x3004U == (0xfffffU & vlTOPp->emif_emif_addr))) {
+        if ((0x10004U == (0xfffffU & (vlTOPp->emif_emif_addr 
+                                      << 2U)))) {
             vlTOPp->EmifToAurora_test__DOT__area_auroratop_apb_PRDATA 
                 = vlTOPp->EmifToAurora_test__DOT__area_auroratop__DOT__toparea_tx_ctrl;
         }
@@ -560,8 +580,8 @@ VL_INLINE_OPT void VEmifToAurora_test::_combo__TOP__16(VEmifToAurora_test__Syms*
                 : vlTOPp->EmifToAurora_test__DOT__area_auroratop_apb_PRDATA));
 }
 
-VL_INLINE_OPT void VEmifToAurora_test::_multiclk__TOP__17(VEmifToAurora_test__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VEmifToAurora_test::_multiclk__TOP__17\n"); );
+VL_INLINE_OPT void VEmifToAurora_test::_multiclk__TOP__19(VEmifToAurora_test__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VEmifToAurora_test::_multiclk__TOP__19\n"); );
     VEmifToAurora_test* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlTOPp->EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_axi_txdata_3 

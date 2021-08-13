@@ -45,6 +45,10 @@ VL_MODULE(VEmifToAurora_test) {
         CData/*0:0*/ EmifToAurora_test__DOT__apb_decoder_io_input_PREADY;
         CData/*0:0*/ EmifToAurora_test__DOT__apb_decoder_io_input_PSLVERROR;
         CData/*2:0*/ EmifToAurora_test__DOT__apb_decoder_io_output_PSEL;
+        CData/*0:0*/ EmifToAurora_test__DOT__resetCtrl_axiResetUnbuffered;
+        CData/*5:0*/ EmifToAurora_test__DOT__resetCtrl_axiResetCounter;
+        CData/*0:0*/ EmifToAurora_test__DOT__when_EmifToAurora_l34;
+        CData/*0:0*/ EmifToAurora_test__DOT__resetCtrl_axiReset;
         CData/*0:0*/ EmifToAurora_test__DOT__area_emiftoapb__DOT__penable;
         CData/*0:0*/ EmifToAurora_test__DOT__area_emiftoapb__DOT__penable_regNext;
         CData/*0:0*/ EmifToAurora_test__DOT__area_apb3toTxBram__DOT__when_Apb3ToBram_l41;
@@ -100,12 +104,12 @@ VL_MODULE(VEmifToAurora_test) {
         IData/*31:0*/ EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_auroraTxBlockRam__DOT___zz_bram_port1;
         IData/*31:0*/ EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_auroraRxBlockRam__DOT___zz_bram_port0;
         IData/*31:0*/ EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_auroraRxBlockRam__DOT___zz_bram_port1;
+    };
+    struct {
         IData/*31:0*/ EmifToAurora_test__DOT__apb3Router_1__DOT___zz_io_input_PRDATA;
         QData/*63:0*/ EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_stateMachine_state_string;
         QData/*63:0*/ EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_stateMachine_state_string;
         IData/*31:0*/ EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_auroraTxBlockRam__DOT__bram[256];
-    };
-    struct {
         IData/*31:0*/ EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_auroraRxBlockRam__DOT__bram[256];
     };
     
@@ -166,8 +170,8 @@ VL_MODULE(VEmifToAurora_test) {
     static QData _change_request_1(VEmifToAurora_test__Syms* __restrict vlSymsp);
   public:
     static void _combo__TOP__1(VEmifToAurora_test__Syms* __restrict vlSymsp);
-    static void _combo__TOP__16(VEmifToAurora_test__Syms* __restrict vlSymsp);
-    static void _combo__TOP__9(VEmifToAurora_test__Syms* __restrict vlSymsp);
+    static void _combo__TOP__10(VEmifToAurora_test__Syms* __restrict vlSymsp);
+    static void _combo__TOP__18(VEmifToAurora_test__Syms* __restrict vlSymsp);
   private:
     void _ctor_var_reset() VL_ATTR_COLD;
   public:
@@ -179,18 +183,20 @@ VL_MODULE(VEmifToAurora_test) {
   public:
     static void _eval_initial(VEmifToAurora_test__Syms* __restrict vlSymsp) VL_ATTR_COLD;
     static void _eval_settle(VEmifToAurora_test__Syms* __restrict vlSymsp) VL_ATTR_COLD;
-    static void _multiclk__TOP__17(VEmifToAurora_test__Syms* __restrict vlSymsp);
-    static void _sequent__TOP__10(VEmifToAurora_test__Syms* __restrict vlSymsp);
+    static void _initial__TOP__9(VEmifToAurora_test__Syms* __restrict vlSymsp) VL_ATTR_COLD;
+    static void _multiclk__TOP__19(VEmifToAurora_test__Syms* __restrict vlSymsp);
     static void _sequent__TOP__11(VEmifToAurora_test__Syms* __restrict vlSymsp);
     static void _sequent__TOP__12(VEmifToAurora_test__Syms* __restrict vlSymsp);
-    static void _sequent__TOP__13(VEmifToAurora_test__Syms* __restrict vlSymsp);
     static void _sequent__TOP__14(VEmifToAurora_test__Syms* __restrict vlSymsp);
     static void _sequent__TOP__15(VEmifToAurora_test__Syms* __restrict vlSymsp);
+    static void _sequent__TOP__16(VEmifToAurora_test__Syms* __restrict vlSymsp);
+    static void _sequent__TOP__17(VEmifToAurora_test__Syms* __restrict vlSymsp);
     static void _sequent__TOP__4(VEmifToAurora_test__Syms* __restrict vlSymsp);
     static void _sequent__TOP__5(VEmifToAurora_test__Syms* __restrict vlSymsp);
     static void _sequent__TOP__6(VEmifToAurora_test__Syms* __restrict vlSymsp);
     static void _sequent__TOP__7(VEmifToAurora_test__Syms* __restrict vlSymsp);
     static void _sequent__TOP__8(VEmifToAurora_test__Syms* __restrict vlSymsp);
+    static void _settle__TOP__13(VEmifToAurora_test__Syms* __restrict vlSymsp) VL_ATTR_COLD;
     static void _settle__TOP__2(VEmifToAurora_test__Syms* __restrict vlSymsp) VL_ATTR_COLD;
     static void _settle__TOP__3(VEmifToAurora_test__Syms* __restrict vlSymsp);
     static void traceChgThis(VEmifToAurora_test__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
@@ -208,6 +214,7 @@ VL_MODULE(VEmifToAurora_test) {
     static void traceChgThis__20(VEmifToAurora_test__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
     static void traceChgThis__21(VEmifToAurora_test__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
     static void traceChgThis__22(VEmifToAurora_test__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
+    static void traceChgThis__23(VEmifToAurora_test__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
     static void traceChgThis__3(VEmifToAurora_test__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
     static void traceChgThis__4(VEmifToAurora_test__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
     static void traceChgThis__5(VEmifToAurora_test__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);

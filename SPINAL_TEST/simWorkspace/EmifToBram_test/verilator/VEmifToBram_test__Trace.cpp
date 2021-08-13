@@ -116,7 +116,8 @@ void VEmifToBram_test::traceChgThis__6(VEmifToBram_test__Syms* __restrict vlSyms
                               ? (IData)(vlTOPp->EmifToBram_test__DOT__emiftoapb_1__DOT___zz_emif_emif_data_write)
                               : (IData)(vlTOPp->EmifToBram_test__DOT__emiftoapb_1__DOT___zz_emif_emif_data_write_1))),16);
         vcdp->chgBit(c+177,((1U & (~ (IData)(vlTOPp->emif_emif_oe)))));
-        vcdp->chgBus(c+185,((0xfffffU & vlTOPp->emif_emif_addr)),20);
+        vcdp->chgBus(c+185,((0xfffffU & (vlTOPp->emif_emif_addr 
+                                         << 2U))),20);
         vcdp->chgBit(c+193,((1U & (~ (IData)(vlTOPp->emif_emif_cs)))));
         vcdp->chgBit(c+201,((((~ (IData)(vlTOPp->emif_emif_we)) 
                               & (IData)(vlTOPp->emif_emif_oe)) 
@@ -124,7 +125,8 @@ void VEmifToBram_test::traceChgThis__6(VEmifToBram_test__Syms* __restrict vlSyms
                                 >> 0x17U))));
         vcdp->chgBus(c+209,((((IData)(vlTOPp->emif_emif_data_read) 
                               << 0x10U) | (IData)(vlTOPp->EmifToBram_test__DOT__emiftoapb_1__DOT__emifdatatemp))),32);
-        vcdp->chgBus(c+217,((0xffU & vlTOPp->emif_emif_addr)),8);
+        vcdp->chgBus(c+217,((0xffU & (vlTOPp->emif_emif_addr 
+                                      << 2U))),8);
         vcdp->chgBit(c+225,((((~ (IData)(vlTOPp->emif_emif_we)) 
                               & (IData)(vlTOPp->emif_emif_oe)) 
                              & (~ (vlTOPp->emif_emif_addr 

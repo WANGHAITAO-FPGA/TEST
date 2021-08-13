@@ -175,9 +175,9 @@ public:
       signalAccess[1] = new CDataSignalAccess( top.emif_emif_cs );
       signalAccess[2] = new CDataSignalAccess( top.emif_emif_we );
       signalAccess[3] = new CDataSignalAccess( top.emif_emif_oe );
-      signalAccess[4] = new IDataSignalAccess( top.emif_emif_data_write );
+      signalAccess[4] = new SDataSignalAccess( top.emif_emif_data_write );
       signalAccess[5] = new CDataSignalAccess( top.emif_emif_data_writeEnable );
-      signalAccess[6] = new IDataSignalAccess( top.emif_emif_data_read );
+      signalAccess[6] = new SDataSignalAccess( top.emif_emif_data_read );
       signalAccess[7] = new IDataSignalAccess( top.apb_PADDR );
       signalAccess[8] = new CDataSignalAccess( top.apb_PSEL );
       signalAccess[9] = new CDataSignalAccess( top.apb_PENABLE );

@@ -37,18 +37,19 @@ void VEmifToAurora_test::_settle__TOP__2(VEmifToAurora_test__Syms* __restrict vl
            & (vlTOPp->emif_emif_addr >> 0x17U));
     vlTOPp->EmifToAurora_test__DOT__apb_decoder_io_output_PSEL 
         = ((6U & (IData)(vlTOPp->EmifToAurora_test__DOT__apb_decoder_io_output_PSEL)) 
-           | ((0U == (0xfff00U & vlTOPp->emif_emif_addr)) 
-              & (~ (IData)(vlTOPp->emif_emif_cs))));
+           | ((0x10c00U == (0xffc00U & (vlTOPp->emif_emif_addr 
+                                        << 2U))) & 
+              (~ (IData)(vlTOPp->emif_emif_cs))));
     vlTOPp->EmifToAurora_test__DOT__apb_decoder_io_output_PSEL 
         = ((5U & (IData)(vlTOPp->EmifToAurora_test__DOT__apb_decoder_io_output_PSEL)) 
-           | (((0x1000U == (0xfff00U & vlTOPp->emif_emif_addr)) 
-               & (~ (IData)(vlTOPp->emif_emif_cs))) 
-              << 1U));
+           | (((0x10800U == (0xffc00U & (vlTOPp->emif_emif_addr 
+                                         << 2U))) & 
+               (~ (IData)(vlTOPp->emif_emif_cs))) << 1U));
     vlTOPp->EmifToAurora_test__DOT__apb_decoder_io_output_PSEL 
         = ((3U & (IData)(vlTOPp->EmifToAurora_test__DOT__apb_decoder_io_output_PSEL)) 
-           | (((0x3000U == (0xfff00U & vlTOPp->emif_emif_addr)) 
-               & (~ (IData)(vlTOPp->emif_emif_cs))) 
-              << 2U));
+           | (((0x10000U == (0xfffe0U & (vlTOPp->emif_emif_addr 
+                                         << 2U))) & 
+               (~ (IData)(vlTOPp->emif_emif_cs))) << 2U));
     vlTOPp->intrrupt = vlTOPp->EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_aurora_intrrupt;
     vlTOPp->EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_aurorarxcore__DOT__when_Gtx_Rx_l70 
         = ((IData)(vlTOPp->EmifToAurora_test__DOT__area_auroratop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_data_cnt) 
@@ -94,11 +95,13 @@ void VEmifToAurora_test::_settle__TOP__2(VEmifToAurora_test__Syms* __restrict vl
         = (((IData)(vlTOPp->emif_emif_data_read) << 0x10U) 
            | (IData)(vlTOPp->EmifToAurora_test__DOT__area_emiftoapb__DOT__emifdatatemp));
     vlTOPp->EmifToAurora_test__DOT__area_auroratop_apb_PRDATA = 0U;
-    if ((0x3000U == (0xfffffU & vlTOPp->emif_emif_addr))) {
+    if ((0x1000cU == (0xfffffU & (vlTOPp->emif_emif_addr 
+                                  << 2U)))) {
         vlTOPp->EmifToAurora_test__DOT__area_auroratop_apb_PRDATA 
             = vlTOPp->EmifToAurora_test__DOT__area_auroratop__DOT__toparea_tx_headtemp;
     } else {
-        if ((0x3004U == (0xfffffU & vlTOPp->emif_emif_addr))) {
+        if ((0x10004U == (0xfffffU & (vlTOPp->emif_emif_addr 
+                                      << 2U)))) {
             vlTOPp->EmifToAurora_test__DOT__area_auroratop_apb_PRDATA 
                 = vlTOPp->EmifToAurora_test__DOT__area_auroratop__DOT__toparea_tx_ctrl;
         }

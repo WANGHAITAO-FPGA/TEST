@@ -32,15 +32,24 @@ VL_MODULE(VAuroraTop) {
     VL_OUT8(apb_PREADY,0,0);
     VL_IN8(apb_PWRITE,0,0);
     VL_OUT8(apb_PSLVERROR,0,0);
+    VL_OUT8(axiw_valid,0,0);
+    VL_IN8(axiw_ready,0,0);
+    VL_OUT8(axiw_payload_last,0,0);
+    VL_IN8(axir_valid,0,0);
+    VL_OUT8(axir_ready,0,0);
+    VL_IN8(axir_payload_last,0,0);
     VL_IN8(tx_bram_en,0,0);
     VL_IN8(tx_bram_we,3,0);
     VL_IN8(tx_bram_addr,7,0);
     VL_IN8(rx_bram_en,0,0);
     VL_IN8(rx_bram_we,3,0);
     VL_IN8(rx_bram_addr,7,0);
+    VL_OUT8(intrrupt,0,0);
     VL_IN(apb_PADDR,19,0);
     VL_IN(apb_PWDATA,31,0);
     VL_OUT(apb_PRDATA,31,0);
+    VL_OUT(axiw_payload_data,31,0);
+    VL_IN(axir_payload_data,31,0);
     VL_IN(tx_bram_wrdata,31,0);
     VL_OUT(tx_bram_rddata,31,0);
     VL_IN(rx_bram_wrdata,31,0);
@@ -71,6 +80,7 @@ VL_MODULE(VAuroraTop) {
     CData/*7:0*/ AuroraTop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_mem_addrtemp;
     CData/*7:0*/ AuroraTop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_data_cnt;
     CData/*2:0*/ AuroraTop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_stateMachine_state;
+    CData/*0:0*/ AuroraTop__DOT__auroraArea_auroratxcore__DOT__axiw_fire_3;
     CData/*0:0*/ AuroraTop__DOT__auroraArea_auroratxcore__DOT__when_Gtx_Tx_l140;
     SData/*8:0*/ AuroraTop__DOT__auroraArea_auroraTxBlockRam__DOT__i;
     SData/*8:0*/ AuroraTop__DOT__auroraArea_auroraRxBlockRam__DOT__i;
@@ -154,7 +164,9 @@ VL_MODULE(VAuroraTop) {
     static QData _change_request(VAuroraTop__Syms* __restrict vlSymsp);
     static QData _change_request_1(VAuroraTop__Syms* __restrict vlSymsp);
   public:
-    static void _combo__TOP__15(VAuroraTop__Syms* __restrict vlSymsp);
+    static void _combo__TOP__12(VAuroraTop__Syms* __restrict vlSymsp);
+    static void _combo__TOP__17(VAuroraTop__Syms* __restrict vlSymsp);
+    static void _combo__TOP__9(VAuroraTop__Syms* __restrict vlSymsp);
   private:
     void _ctor_var_reset() VL_ATTR_COLD;
   public:
@@ -167,18 +179,19 @@ VL_MODULE(VAuroraTop) {
     static void _eval_initial(VAuroraTop__Syms* __restrict vlSymsp) VL_ATTR_COLD;
     static void _eval_settle(VAuroraTop__Syms* __restrict vlSymsp) VL_ATTR_COLD;
     static void _initial__TOP__1(VAuroraTop__Syms* __restrict vlSymsp) VL_ATTR_COLD;
-    static void _multiclk__TOP__16(VAuroraTop__Syms* __restrict vlSymsp);
+    static void _multiclk__TOP__18(VAuroraTop__Syms* __restrict vlSymsp);
     static void _sequent__TOP__10(VAuroraTop__Syms* __restrict vlSymsp);
     static void _sequent__TOP__11(VAuroraTop__Syms* __restrict vlSymsp);
-    static void _sequent__TOP__12(VAuroraTop__Syms* __restrict vlSymsp);
     static void _sequent__TOP__13(VAuroraTop__Syms* __restrict vlSymsp);
     static void _sequent__TOP__14(VAuroraTop__Syms* __restrict vlSymsp);
-    static void _sequent__TOP__2(VAuroraTop__Syms* __restrict vlSymsp);
+    static void _sequent__TOP__15(VAuroraTop__Syms* __restrict vlSymsp);
+    static void _sequent__TOP__16(VAuroraTop__Syms* __restrict vlSymsp);
     static void _sequent__TOP__4(VAuroraTop__Syms* __restrict vlSymsp);
     static void _sequent__TOP__6(VAuroraTop__Syms* __restrict vlSymsp);
-    static void _sequent__TOP__9(VAuroraTop__Syms* __restrict vlSymsp);
-    static void _settle__TOP__7(VAuroraTop__Syms* __restrict vlSymsp) VL_ATTR_COLD;
-    static void _settle__TOP__8(VAuroraTop__Syms* __restrict vlSymsp);
+    static void _sequent__TOP__7(VAuroraTop__Syms* __restrict vlSymsp);
+    static void _sequent__TOP__8(VAuroraTop__Syms* __restrict vlSymsp);
+    static void _settle__TOP__2(VAuroraTop__Syms* __restrict vlSymsp) VL_ATTR_COLD;
+    static void _settle__TOP__3(VAuroraTop__Syms* __restrict vlSymsp) VL_ATTR_COLD;
     static void traceChgThis(VAuroraTop__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
     static void traceChgThis__10(VAuroraTop__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
     static void traceChgThis__11(VAuroraTop__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
@@ -186,10 +199,6 @@ VL_MODULE(VAuroraTop) {
     static void traceChgThis__13(VAuroraTop__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
     static void traceChgThis__14(VAuroraTop__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
     static void traceChgThis__15(VAuroraTop__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
-    static void traceChgThis__16(VAuroraTop__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
-    static void traceChgThis__17(VAuroraTop__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
-    static void traceChgThis__18(VAuroraTop__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
-    static void traceChgThis__19(VAuroraTop__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
     static void traceChgThis__2(VAuroraTop__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
     static void traceChgThis__3(VAuroraTop__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
     static void traceChgThis__4(VAuroraTop__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);

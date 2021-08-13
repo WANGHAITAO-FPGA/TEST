@@ -95,7 +95,7 @@ VL_INLINE_OPT void VEmifToBram_test::_sequent__TOP__3(VEmifToBram_test__Syms* __
               << 0x10U) | (IData)(vlTOPp->EmifToBram_test__DOT__emiftoapb_1__DOT__emifdatatemp));
         __Vdlyvset__EmifToBram_test__DOT__mem__v0 = 1U;
         __Vdlyvdim0__EmifToBram_test__DOT__mem__v0 
-            = (0xffU & vlTOPp->emif_emif_addr);
+            = (0xffU & (vlTOPp->emif_emif_addr << 2U));
     }
     if ((1U & (~ (IData)(vlTOPp->emif_emif_oe)))) {
         vlTOPp->EmifToBram_test__DOT__emiftoapb_1__DOT___zz_emif_emif_data_write_1 
@@ -116,7 +116,8 @@ VL_INLINE_OPT void VEmifToBram_test::_sequent__TOP__3(VEmifToBram_test__Syms* __
                     ? 0xfU : 0U)))) {
         vlTOPp->EmifToBram_test__DOT___zz_mem_port1 
             = vlTOPp->EmifToBram_test__DOT__mem[(0xffU 
-                                                 & vlTOPp->emif_emif_addr)];
+                                                 & (vlTOPp->emif_emif_addr 
+                                                    << 2U))];
     }
     if (__Vdlyvset__EmifToBram_test__DOT__mem__v0) {
         vlTOPp->EmifToBram_test__DOT__mem[__Vdlyvdim0__EmifToBram_test__DOT__mem__v0] 
@@ -143,8 +144,8 @@ VL_INLINE_OPT void VEmifToBram_test::_combo__TOP__5(VEmifToBram_test__Syms* __re
                                      ? (IData)(vlTOPp->EmifToBram_test__DOT__emiftoapb_1__DOT___zz_emif_emif_data_write)
                                      : (IData)(vlTOPp->EmifToBram_test__DOT__emiftoapb_1__DOT___zz_emif_emif_data_write_1));
     vlTOPp->EmifToBram_test__DOT__apb_decoder_io_output_PSEL 
-        = ((0U == (0xfff00U & vlTOPp->emif_emif_addr)) 
-           & (~ (IData)(vlTOPp->emif_emif_cs)));
+        = ((0U == (0xffc00U & (vlTOPp->emif_emif_addr 
+                               << 2U))) & (~ (IData)(vlTOPp->emif_emif_cs)));
     vlTOPp->EmifToBram_test__DOT__apb3tobram_1__DOT__when_Apb3ToBram_l41 
         = (((((IData)(vlTOPp->EmifToBram_test__DOT__emiftoapb_1__DOT__penable) 
               & (~ (IData)(vlTOPp->EmifToBram_test__DOT__emiftoapb_1__DOT__penable_regNext))) 
