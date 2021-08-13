@@ -15,54 +15,65 @@ void VAuroraTop::_eval(VAuroraTop__Syms* __restrict vlSymsp) {
     }
     if ((((IData)(vlTOPp->aurora_userclk) & (~ (IData)(vlTOPp->__Vclklast__TOP__aurora_userclk))) 
          | ((IData)(vlTOPp->reset) & (~ (IData)(vlTOPp->__Vclklast__TOP__reset))))) {
-        vlTOPp->_sequent__TOP__6(vlSymsp);
+        vlTOPp->_sequent__TOP__5(vlSymsp);
         vlTOPp->__Vm_traceActivity = (4U | vlTOPp->__Vm_traceActivity);
-        vlTOPp->_sequent__TOP__7(vlSymsp);
-    }
-    if (((IData)(vlTOPp->aurora_userclk) & (~ (IData)(vlTOPp->__Vclklast__TOP__aurora_userclk)))) {
-        vlTOPp->_sequent__TOP__8(vlSymsp);
-        vlTOPp->__Vm_traceActivity = (8U | vlTOPp->__Vm_traceActivity);
-    }
-    vlTOPp->_combo__TOP__9(vlSymsp);
-    vlTOPp->__Vm_traceActivity = (0x10U | vlTOPp->__Vm_traceActivity);
-    if ((((IData)(vlTOPp->aurora_userclk) & (~ (IData)(vlTOPp->__Vclklast__TOP__aurora_userclk))) 
-         | ((IData)(vlTOPp->reset) & (~ (IData)(vlTOPp->__Vclklast__TOP__reset))))) {
-        vlTOPp->_sequent__TOP__10(vlSymsp);
-        vlTOPp->__Vm_traceActivity = (0x20U | vlTOPp->__Vm_traceActivity);
-    }
-    if (((IData)(vlTOPp->clk) & (~ (IData)(vlTOPp->__Vclklast__TOP__clk)))) {
-        vlTOPp->_sequent__TOP__11(vlSymsp);
-    }
-    vlTOPp->_combo__TOP__12(vlSymsp);
-    if (((IData)(vlTOPp->aurora_userclk) & (~ (IData)(vlTOPp->__Vclklast__TOP__aurora_userclk)))) {
-        vlTOPp->_sequent__TOP__13(vlSymsp);
-        vlTOPp->__Vm_traceActivity = (0x40U | vlTOPp->__Vm_traceActivity);
+        vlTOPp->_sequent__TOP__6(vlSymsp);
     }
     if ((((IData)(vlTOPp->clk) & (~ (IData)(vlTOPp->__Vclklast__TOP__clk))) 
          | ((IData)(vlTOPp->reset) & (~ (IData)(vlTOPp->__Vclklast__TOP__reset))))) {
-        vlTOPp->_sequent__TOP__14(vlSymsp);
-        vlTOPp->__Vm_traceActivity = (0x80U | vlTOPp->__Vm_traceActivity);
+        vlTOPp->_sequent__TOP__7(vlSymsp);
+        vlTOPp->__Vm_traceActivity = (8U | vlTOPp->__Vm_traceActivity);
+    }
+    if (((IData)(vlTOPp->aurora_userclk) & (~ (IData)(vlTOPp->__Vclklast__TOP__aurora_userclk)))) {
+        vlTOPp->_sequent__TOP__8(vlSymsp);
+        vlTOPp->__Vm_traceActivity = (0x10U | vlTOPp->__Vm_traceActivity);
+    }
+    vlTOPp->_combo__TOP__9(vlSymsp);
+    vlTOPp->__Vm_traceActivity = (0x20U | vlTOPp->__Vm_traceActivity);
+    if (((IData)(vlTOPp->clk) & (~ (IData)(vlTOPp->__Vclklast__TOP__clk)))) {
+        vlTOPp->_sequent__TOP__10(vlSymsp);
+        vlTOPp->__Vm_traceActivity = (0x40U | vlTOPp->__Vm_traceActivity);
     }
     if ((((IData)(vlTOPp->aurora_userclk) & (~ (IData)(vlTOPp->__Vclklast__TOP__aurora_userclk))) 
          | ((IData)(vlTOPp->reset) & (~ (IData)(vlTOPp->__Vclklast__TOP__reset))))) {
-        vlTOPp->_sequent__TOP__15(vlSymsp);
+        vlTOPp->_sequent__TOP__11(vlSymsp);
+        vlTOPp->__Vm_traceActivity = (0x80U | vlTOPp->__Vm_traceActivity);
+    }
+    if ((((IData)(vlTOPp->clk) & (~ (IData)(vlTOPp->__Vclklast__TOP__clk))) 
+         | ((IData)(vlTOPp->reset) & (~ (IData)(vlTOPp->__Vclklast__TOP__reset))))) {
+        vlTOPp->_sequent__TOP__12(vlSymsp);
         vlTOPp->__Vm_traceActivity = (0x100U | vlTOPp->__Vm_traceActivity);
     }
-    if (((IData)(vlTOPp->clk) & (~ (IData)(vlTOPp->__Vclklast__TOP__clk)))) {
-        vlTOPp->_sequent__TOP__16(vlSymsp);
+    vlTOPp->_combo__TOP__13(vlSymsp);
+    if (((IData)(vlTOPp->aurora_userclk) & (~ (IData)(vlTOPp->__Vclklast__TOP__aurora_userclk)))) {
+        vlTOPp->_sequent__TOP__14(vlSymsp);
         vlTOPp->__Vm_traceActivity = (0x200U | vlTOPp->__Vm_traceActivity);
     }
+    if (((IData)(vlTOPp->clk) & (~ (IData)(vlTOPp->__Vclklast__TOP__clk)))) {
+        vlTOPp->_sequent__TOP__15(vlSymsp);
+        vlTOPp->__Vm_traceActivity = (0x400U | vlTOPp->__Vm_traceActivity);
+    }
+    if ((((IData)(vlTOPp->aurora_userclk) & (~ (IData)(vlTOPp->__Vclklast__TOP__aurora_userclk))) 
+         | ((IData)(vlTOPp->reset) & (~ (IData)(vlTOPp->__Vclklast__TOP__reset))))) {
+        vlTOPp->_sequent__TOP__16(vlSymsp);
+        vlTOPp->__Vm_traceActivity = (0x800U | vlTOPp->__Vm_traceActivity);
+    }
     vlTOPp->_combo__TOP__17(vlSymsp);
+    if ((((IData)(vlTOPp->clk) & (~ (IData)(vlTOPp->__Vclklast__TOP__clk))) 
+         | ((IData)(vlTOPp->reset) & (~ (IData)(vlTOPp->__Vclklast__TOP__reset))))) {
+        vlTOPp->_sequent__TOP__18(vlSymsp);
+        vlTOPp->__Vm_traceActivity = (0x1000U | vlTOPp->__Vm_traceActivity);
+    }
     if (((((IData)(vlTOPp->aurora_userclk) & (~ (IData)(vlTOPp->__Vclklast__TOP__aurora_userclk))) 
           | ((IData)(vlTOPp->clk) & (~ (IData)(vlTOPp->__Vclklast__TOP__clk)))) 
          | ((IData)(vlTOPp->reset) & (~ (IData)(vlTOPp->__Vclklast__TOP__reset))))) {
-        vlTOPp->_multiclk__TOP__18(vlSymsp);
-        vlTOPp->__Vm_traceActivity = (0x400U | vlTOPp->__Vm_traceActivity);
+        vlTOPp->_multiclk__TOP__19(vlSymsp);
+        vlTOPp->__Vm_traceActivity = (0x2000U | vlTOPp->__Vm_traceActivity);
     }
     // Final
     vlTOPp->__Vclklast__TOP__clk = vlTOPp->clk;
-    vlTOPp->__Vclklast__TOP__reset = vlTOPp->reset;
     vlTOPp->__Vclklast__TOP__aurora_userclk = vlTOPp->aurora_userclk;
+    vlTOPp->__Vclklast__TOP__reset = vlTOPp->reset;
 }
 
 VL_INLINE_OPT QData VAuroraTop::_change_request(VAuroraTop__Syms* __restrict vlSymsp) {

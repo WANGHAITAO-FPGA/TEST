@@ -7,6 +7,7 @@ import spinal.core.sim._
 import spinal.lib.bus.amba3.apb.Apb3Decoder
 import spinal.lib.io.InOutWrapper
 import spinal.lib.{BufferCC, master}
+import xilinx._
 
 import scala.collection.mutable
 import scala.util.Random
@@ -86,17 +87,30 @@ class EmifToAurora(emifaddresswidth: Int, emifdatawidth : Int, apb3addresswidth:
 
     addPrePopTask(()=>genRegFileByMarkdown())
 
-    val ila_probe=ila("0",io.emif.emif_cs,io.emif.emif_oe,io.emif.emif_we,io.emif.emif_data,io.emif.emif_addr)
+    //val ila_probe=ila("0",io.emif.emif_cs,io.emif.emif_oe,io.emif.emif_we,io.emif.emif_data,io.emif.emif_addr)
   }
 }
+/*
+object EmifToAurora {
+  def main(args: Array[String]): Unit = {
+    def VivadoSynth[T <: Component](gen: => T, name: String = "temp"): Unit = {
+      val report = VivadoFlow(design = gen, name, s"D:/vivado_test/synthWorkspace/$name").doit()
+      report.printArea()
+      report.printFMax()
+    }
+    VivadoSynth(InOutWrapper(new EmifToAurora(24,16,20,10,32,true)), name = "EmifToAurora")
+  }
+}*/
 
+/*
 object EmifToAurora extends App {
   SpinalConfig(
     //oneFilePerComponent = true,
     defaultClockDomainFrequency=FixedFrequency(100 MHz)
   ).generateSystemVerilog(InOutWrapper(new EmifToAurora(24,16,20,10,32,true)))
-}
-/*
+}*/
+
+
 case class EmifToAurora_test(period:Int) extends EmifToAurora(24,16,20,10,32,true){
   def init = {
     area.clockDomain.forkStimulus(period)
@@ -224,15 +238,15 @@ object EmifToAurora_test {
           dut.emif_write32(addr+i,data)
           q1.enqueue(data)
         }
-        dut.emif_write32(0x010004>>2,1)
-        dut.emif_write32(0x010004>>2,0)
+        dut.emif_write32(0x010004>>2,0x11)
+        //dut.emif_write32(0x010004>>2,0)
 
         var k = dut.io.intrrupt.toBigInt
         while(k == 0){
           k = dut.io.intrrupt.toBigInt
           dut.area.clockDomain.waitSampling()
         }
-        sleep(1)
+        sleep(1000)
         var rddata = 0
         for(i <- 0 until length){
           var rddata = dut.emif_read32(addr+i+(0x10800>>2)-(0x10c00>>2))
@@ -243,4 +257,4 @@ object EmifToAurora_test {
       }
     }
   }
-}*/
+}

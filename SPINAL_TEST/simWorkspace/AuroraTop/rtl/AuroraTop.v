@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.6.0    git head : 73c8d8e2b86b45646e9d0b2e729291f2b65e6be3
 // Component : AuroraTop
-// Git hash  : e92a7073a9005c8061ce6d28747ca441a4ff39f8
+// Git hash  : 09c2cfeb654484f2b2e771481da8f117f6d02e25
 
 
 `define AuroraState_binary_sequential_type [2:0]
@@ -46,8 +46,6 @@ module AuroraTop (
   input               aurora_userclk,
   output              intrrupt
 );
-  wire                auroraArea_auroratxcore_tx_start;
-  wire                auroraArea_auroratxcore_tx_trigger;
   wire                auroraArea_aurorarxcore_axir_ready;
   wire                auroraArea_aurorarxcore_bram_en;
   wire       [3:0]    auroraArea_aurorarxcore_bram_we;
@@ -70,11 +68,30 @@ module AuroraTop (
   wire       [31:0]   auroraArea_auroraRxBlockRam_ioA_rddata;
   wire       [31:0]   auroraArea_auroraRxBlockRam_ioB_rddata;
   (* async_reg = "true" *) reg        [31:0]   toparea_tx_headtemp;
-  (* async_reg = "true" *) reg        [31:0]   toparea_tx_ctrl;
+  reg        [0:0]    toparea_tx_ctrl;
+  reg        [0:0]    toparea_tx_triger;
   wire                toparea_ctrl_askWrite;
   wire                toparea_ctrl_askRead;
   wire                toparea_ctrl_doWrite;
   wire                toparea_ctrl_doRead;
+  (* async_reg = "true" *) reg                 toparea_triger;
+  reg                 when_AuroraTop_l46;
+  wire                toparea_tx_ctrl_temp;
+  wire                toparea_tx_triger_temp;
+  (* async_reg = "true" *) reg                 toparea_tx_senddatatriger;
+  (* async_reg = "true" *) reg                 toparea_tx_sendtriger;
+  reg                 toparea_tx_ctrl_temp_delay_1;
+  reg                 toparea_tx_ctrl_temp_delay_1_1;
+  reg                 toparea_tx_ctrl_temp_delay_2;
+  reg                 toparea_tx_ctrl_temp_delay_1_2;
+  reg                 toparea_tx_ctrl_temp_delay_2_1;
+  reg                 toparea_tx_ctrl_temp_delay_3;
+  reg                 toparea_tx_triger_temp_delay_1;
+  reg                 toparea_tx_triger_temp_delay_1_1;
+  reg                 toparea_tx_triger_temp_delay_2;
+  reg                 toparea_tx_triger_temp_delay_1_2;
+  reg                 toparea_tx_triger_temp_delay_2_1;
+  reg                 toparea_tx_triger_temp_delay_3;
 
   AuroraRxCore auroraArea_aurorarxcore (
     .aurora_userclk       (aurora_userclk                          ), //i
@@ -100,8 +117,8 @@ module AuroraTop (
     .axiw_payload_data    (auroraArea_auroratxcore_axiw_payload_data  ), //o
     .axiw_payload_last    (auroraArea_auroratxcore_axiw_payload_last  ), //o
     .tx_head              (toparea_tx_headtemp                        ), //i
-    .tx_start             (auroraArea_auroratxcore_tx_start           ), //i
-    .tx_trigger           (auroraArea_auroratxcore_tx_trigger         ), //i
+    .tx_start             (toparea_tx_senddatatriger                  ), //i
+    .tx_trigger           (toparea_tx_sendtriger                      ), //i
     .bram_en              (auroraArea_auroratxcore_bram_en            ), //o
     .bram_we              (auroraArea_auroratxcore_bram_we            ), //o
     .bram_addr            (auroraArea_auroratxcore_bram_addr          ), //o
@@ -146,11 +163,12 @@ module AuroraTop (
   always @(*) begin
     apb_PRDATA = 32'h0;
     case(apb_PADDR)
-      20'h03000 : begin
-        apb_PRDATA[31 : 0] = toparea_tx_headtemp;
+      20'h10004 : begin
+        apb_PRDATA[0 : 0] = toparea_tx_ctrl;
+        apb_PRDATA[4 : 4] = toparea_tx_triger;
       end
-      20'h03004 : begin
-        apb_PRDATA[31 : 0] = toparea_tx_ctrl;
+      20'h1000c : begin
+        apb_PRDATA[31 : 0] = toparea_tx_headtemp;
       end
       default : begin
       end
@@ -162,23 +180,48 @@ module AuroraTop (
   assign toparea_ctrl_askRead = ((apb_PSEL[0] && apb_PENABLE) && (! apb_PWRITE));
   assign toparea_ctrl_doWrite = (((apb_PSEL[0] && apb_PENABLE) && apb_PREADY) && apb_PWRITE);
   assign toparea_ctrl_doRead = (((apb_PSEL[0] && apb_PENABLE) && apb_PREADY) && (! apb_PWRITE));
+  always @(*) begin
+    when_AuroraTop_l46 = 1'b0;
+    case(apb_PADDR)
+      20'h10004 : begin
+        if(toparea_ctrl_doWrite) begin
+          when_AuroraTop_l46 = 1'b1;
+        end
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  assign toparea_tx_ctrl_temp = (toparea_tx_ctrl[0] && toparea_triger);
+  assign toparea_tx_triger_temp = (toparea_tx_triger[0] && toparea_triger);
   assign axiw_valid = auroraArea_auroratxcore_axiw_valid;
   assign axiw_payload_data = auroraArea_auroratxcore_axiw_payload_data;
   assign axiw_payload_last = auroraArea_auroratxcore_axiw_payload_last;
   assign axir_ready = auroraArea_aurorarxcore_axir_ready;
-  assign auroraArea_auroratxcore_tx_start = toparea_tx_ctrl[0];
-  assign auroraArea_auroratxcore_tx_trigger = toparea_tx_ctrl[4];
   assign rx_bram_rddata = auroraArea_auroraRxBlockRam_ioA_rddata;
   assign tx_bram_rddata = auroraArea_auroraTxBlockRam_ioB_rddata;
   assign intrrupt = auroraArea_aurorarxcore_intrrupt;
   always @(posedge clk or posedge reset) begin
     if(reset) begin
-      toparea_tx_ctrl <= 32'h0;
+      toparea_tx_ctrl <= 1'b0;
+      toparea_tx_triger <= 1'b0;
+      toparea_triger <= 1'b0;
+      toparea_tx_senddatatriger <= 1'b0;
+      toparea_tx_sendtriger <= 1'b0;
     end else begin
+      if(when_AuroraTop_l46) begin
+        toparea_triger <= 1'b1;
+      end else begin
+        toparea_triger <= 1'b0;
+      end
+      toparea_tx_senddatatriger <= (((toparea_tx_ctrl_temp || toparea_tx_ctrl_temp_delay_1) || toparea_tx_ctrl_temp_delay_2) || toparea_tx_ctrl_temp_delay_3);
+      toparea_tx_sendtriger <= (((toparea_tx_triger_temp || toparea_tx_triger_temp_delay_1) || toparea_tx_triger_temp_delay_2) || toparea_tx_triger_temp_delay_3);
       case(apb_PADDR)
-        20'h03004 : begin
+        20'h10004 : begin
           if(toparea_ctrl_doWrite) begin
-            toparea_tx_ctrl <= apb_PWDATA[31 : 0];
+            toparea_tx_ctrl <= apb_PWDATA[0 : 0];
+            toparea_tx_triger <= apb_PWDATA[4 : 4];
           end
         end
         default : begin
@@ -188,8 +231,20 @@ module AuroraTop (
   end
 
   always @(posedge clk) begin
+    toparea_tx_ctrl_temp_delay_1 <= toparea_tx_ctrl_temp;
+    toparea_tx_ctrl_temp_delay_1_1 <= toparea_tx_ctrl_temp;
+    toparea_tx_ctrl_temp_delay_2 <= toparea_tx_ctrl_temp_delay_1_1;
+    toparea_tx_ctrl_temp_delay_1_2 <= toparea_tx_ctrl_temp;
+    toparea_tx_ctrl_temp_delay_2_1 <= toparea_tx_ctrl_temp_delay_1_2;
+    toparea_tx_ctrl_temp_delay_3 <= toparea_tx_ctrl_temp_delay_2_1;
+    toparea_tx_triger_temp_delay_1 <= toparea_tx_triger_temp;
+    toparea_tx_triger_temp_delay_1_1 <= toparea_tx_triger_temp;
+    toparea_tx_triger_temp_delay_2 <= toparea_tx_triger_temp_delay_1_1;
+    toparea_tx_triger_temp_delay_1_2 <= toparea_tx_triger_temp;
+    toparea_tx_triger_temp_delay_2_1 <= toparea_tx_triger_temp_delay_1_2;
+    toparea_tx_triger_temp_delay_3 <= toparea_tx_triger_temp_delay_2_1;
     case(apb_PADDR)
-      20'h03000 : begin
+      20'h1000c : begin
         if(toparea_ctrl_doWrite) begin
           toparea_tx_headtemp <= apb_PWDATA[31 : 0];
         end

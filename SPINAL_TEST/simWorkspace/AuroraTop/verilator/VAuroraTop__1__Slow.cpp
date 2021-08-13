@@ -35,17 +35,27 @@ void VAuroraTop::_settle__TOP__3(VAuroraTop__Syms* __restrict vlSymsp) {
     if ((2U == (IData)(vlTOPp->AuroraTop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_stateMachine_state))) {
         vlTOPp->AuroraTop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_axi_txdata_1 = 0xffbcU;
     }
+    vlTOPp->AuroraTop__DOT__toparea_tx_triger_temp 
+        = ((IData)(vlTOPp->AuroraTop__DOT__toparea_tx_triger) 
+           & (IData)(vlTOPp->AuroraTop__DOT__toparea_triger));
     vlTOPp->AuroraTop__DOT__toparea_ctrl_doWrite = 
         (((IData)(vlTOPp->apb_PSEL) & (IData)(vlTOPp->apb_PENABLE)) 
          & (IData)(vlTOPp->apb_PWRITE));
     vlTOPp->apb_PRDATA = 0U;
-    if ((0x3000U == vlTOPp->apb_PADDR)) {
-        vlTOPp->apb_PRDATA = vlTOPp->AuroraTop__DOT__toparea_tx_headtemp;
+    if ((0x10004U == vlTOPp->apb_PADDR)) {
+        vlTOPp->apb_PRDATA = ((0xfffffffeU & vlTOPp->apb_PRDATA) 
+                              | (IData)(vlTOPp->AuroraTop__DOT__toparea_tx_ctrl));
+        vlTOPp->apb_PRDATA = ((0xffffffefU & vlTOPp->apb_PRDATA) 
+                              | ((IData)(vlTOPp->AuroraTop__DOT__toparea_tx_triger) 
+                                 << 4U));
     } else {
-        if ((0x3004U == vlTOPp->apb_PADDR)) {
-            vlTOPp->apb_PRDATA = vlTOPp->AuroraTop__DOT__toparea_tx_ctrl;
+        if ((0x1000cU == vlTOPp->apb_PADDR)) {
+            vlTOPp->apb_PRDATA = vlTOPp->AuroraTop__DOT__toparea_tx_headtemp;
         }
     }
+    vlTOPp->AuroraTop__DOT__toparea_tx_ctrl_temp = 
+        ((IData)(vlTOPp->AuroraTop__DOT__toparea_tx_ctrl) 
+         & (IData)(vlTOPp->AuroraTop__DOT__toparea_triger));
     vlTOPp->axiw_valid = vlTOPp->AuroraTop__DOT__auroraArea_auroratxcore_axiw_valid;
     vlTOPp->AuroraTop__DOT__auroraArea_auroratxcore__DOT__axiw_fire_3 
         = ((IData)(vlTOPp->AuroraTop__DOT__auroraArea_auroratxcore_axiw_valid) 
@@ -59,6 +69,12 @@ void VAuroraTop::_settle__TOP__3(VAuroraTop__Syms* __restrict vlSymsp) {
     if ((2U != (IData)(vlTOPp->AuroraTop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_stateMachine_state))) {
         if ((3U == (IData)(vlTOPp->AuroraTop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_stateMachine_state))) {
             vlTOPp->AuroraTop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_axi_txdata_2 = 1U;
+        }
+    }
+    vlTOPp->AuroraTop__DOT__when_AuroraTop_l46 = 0U;
+    if ((0x10004U == vlTOPp->apb_PADDR)) {
+        if (vlTOPp->AuroraTop__DOT__toparea_ctrl_doWrite) {
+            vlTOPp->AuroraTop__DOT__when_AuroraTop_l46 = 1U;
         }
     }
     vlTOPp->AuroraTop__DOT__auroraArea_auroratxcore__DOT__auroraTxArea_axi_last_1 

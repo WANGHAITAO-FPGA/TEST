@@ -35,15 +35,38 @@ class AuroraTop(addressApbWidth: Int, addressBRAMWidth: Int, dataWidth: Int)  ex
 
     val tx_headtemp = Reg(Bits(dataWidth bits)) addTag(crossClockDomain)
 
-    val tx_ctrl = Reg(Bits(dataWidth bits)) addTag(crossClockDomain) init 0
+    val tx_ctrl = Reg(Bits(1 bits)) init 0
+
+    val tx_triger = Reg(Bits(1 bits))  init 0
 
     val ctrl = Apb3SlaveFactory(io.apb)
 
+    val triger = Reg(Bool()) init False addTag(crossClockDomain)
+
+    when(ctrl.isWriting(0x010004)){
+      triger := True
+    }otherwise{
+      triger := False
+    }
+
     ctrl.readAndWrite(tx_headtemp,0x01000C,bitOffset = 0,documentation = "auroratx 发送帧头")
 
-    ctrl.readAndWrite(tx_ctrl,0x010004,bitOffset = 0,documentation = "auroratx ctrl register")
+    ctrl.readAndWrite(tx_ctrl,0x010004,bitOffset = 0,documentation = "auroratx send_data register")
+
+    ctrl.readAndWrite(tx_triger,0x010004,bitOffset = 4,documentation = "auroratx send_triger register")
 
     ctrl.addDataModel("aurora reg",0)
+
+    val tx_ctrl_temp = tx_ctrl.asBool & triger
+
+    val tx_triger_temp = tx_triger.asBool & triger
+
+    val tx_senddatatriger = Reg(Bool()) init False addTag(crossClockDomain)
+    val tx_sendtriger  = Reg(Bool()) init False addTag(crossClockDomain)
+
+    tx_senddatatriger := tx_ctrl_temp|Delay(tx_ctrl_temp,1)|Delay(tx_ctrl_temp,2)|Delay(tx_ctrl_temp,3)
+
+    tx_sendtriger := tx_triger_temp|Delay(tx_triger_temp,1)|Delay(tx_triger_temp,2)|Delay(tx_triger_temp,3)
   }
 
   val auroraArea = new ClockingArea(auroraClockDomain){
@@ -52,12 +75,6 @@ class AuroraTop(addressApbWidth: Int, addressBRAMWidth: Int, dataWidth: Int)  ex
 
     val auroraTxBlockRam = new BlockRam(bramConfig)
     val auroraRxBlockRam = new BlockRam(bramConfig)
-    /*if(lookback) {
-      aurorarxcore.io.axir.payload.data <> auroratxcore.io.axiw.payload.data
-      aurorarxcore.io.axir.payload.last <> auroratxcore.io.axiw.payload.last
-      aurorarxcore.io.axir.valid <> auroratxcore.io.axiw.valid
-      aurorarxcore.io.axir.ready <> auroratxcore.io.axiw.ready
-    }*/
   }
 
   auroraArea.auroratxcore.io.axiw <> io.axiw
@@ -65,8 +82,8 @@ class AuroraTop(addressApbWidth: Int, addressBRAMWidth: Int, dataWidth: Int)  ex
 
   auroraArea.auroratxcore.io.tx_head := toparea.tx_headtemp
 
-  auroraArea.auroratxcore.io.tx_start := toparea.tx_ctrl(0)
-  auroraArea.auroratxcore.io.tx_trigger := toparea.tx_ctrl(4)
+  auroraArea.auroratxcore.io.tx_start := toparea.tx_senddatatriger
+  auroraArea.auroratxcore.io.tx_trigger := toparea.tx_sendtriger
 
   auroraArea.aurorarxcore.io.bram <> auroraArea.auroraRxBlockRam.ioB
   auroraArea.aurorarxcore.io.bram_clkout <> auroraArea.auroraRxBlockRam.clkb

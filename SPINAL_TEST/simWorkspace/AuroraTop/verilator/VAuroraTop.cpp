@@ -95,8 +95,8 @@ VL_INLINE_OPT void VAuroraTop::_sequent__TOP__4(VAuroraTop__Syms* __restrict vlS
     vlTOPp->tx_bram_rddata = vlTOPp->AuroraTop__DOT__auroraArea_auroraTxBlockRam__DOT___zz_bram_port1;
 }
 
-VL_INLINE_OPT void VAuroraTop::_sequent__TOP__6(VAuroraTop__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VAuroraTop::_sequent__TOP__6\n"); );
+VL_INLINE_OPT void VAuroraTop::_sequent__TOP__5(VAuroraTop__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VAuroraTop::_sequent__TOP__5\n"); );
     VAuroraTop* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlTOPp->__Vdly__AuroraTop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_mem_addr 
@@ -203,11 +203,44 @@ VL_INLINE_OPT void VAuroraTop::_sequent__TOP__6(VAuroraTop__Syms* __restrict vlS
     }
 }
 
+VL_INLINE_OPT void VAuroraTop::_sequent__TOP__6(VAuroraTop__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VAuroraTop::_sequent__TOP__6\n"); );
+    VAuroraTop* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
+    // Body
+    vlTOPp->intrrupt = vlTOPp->AuroraTop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_aurora_intrrupt;
+}
+
 VL_INLINE_OPT void VAuroraTop::_sequent__TOP__7(VAuroraTop__Syms* __restrict vlSymsp) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    VAuroraTop::_sequent__TOP__7\n"); );
     VAuroraTop* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    vlTOPp->intrrupt = vlTOPp->AuroraTop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_aurora_intrrupt;
+    vlTOPp->AuroraTop__DOT__toparea_triger = ((~ (IData)(vlTOPp->reset)) 
+                                              & (IData)(vlTOPp->AuroraTop__DOT__when_AuroraTop_l46));
+    if (vlTOPp->reset) {
+        vlTOPp->AuroraTop__DOT__toparea_tx_ctrl = 0U;
+    } else {
+        if ((0x10004U == vlTOPp->apb_PADDR)) {
+            if (vlTOPp->AuroraTop__DOT__toparea_ctrl_doWrite) {
+                vlTOPp->AuroraTop__DOT__toparea_tx_ctrl 
+                    = (1U & vlTOPp->apb_PWDATA);
+            }
+        }
+    }
+    if (vlTOPp->reset) {
+        vlTOPp->AuroraTop__DOT__toparea_tx_triger = 0U;
+    } else {
+        if ((0x10004U == vlTOPp->apb_PADDR)) {
+            if (vlTOPp->AuroraTop__DOT__toparea_ctrl_doWrite) {
+                vlTOPp->AuroraTop__DOT__toparea_tx_triger 
+                    = (1U & (vlTOPp->apb_PWDATA >> 4U));
+            }
+        }
+    }
+    vlTOPp->AuroraTop__DOT__toparea_tx_sendtriger = 
+        ((~ (IData)(vlTOPp->reset)) & ((((IData)(vlTOPp->AuroraTop__DOT__toparea_tx_triger_temp) 
+                                         | (IData)(vlTOPp->AuroraTop__DOT__toparea_tx_triger_temp_delay_1)) 
+                                        | (IData)(vlTOPp->AuroraTop__DOT__toparea_tx_triger_temp_delay_2)) 
+                                       | (IData)(vlTOPp->AuroraTop__DOT__toparea_tx_triger_temp_delay_3)));
 }
 
 VL_INLINE_OPT void VAuroraTop::_sequent__TOP__8(VAuroraTop__Syms* __restrict vlSymsp) {

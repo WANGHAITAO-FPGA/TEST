@@ -11,8 +11,8 @@ void VAuroraTop::_eval_initial(VAuroraTop__Syms* __restrict vlSymsp) {
     // Body
     vlTOPp->_initial__TOP__1(vlSymsp);
     vlTOPp->__Vclklast__TOP__clk = vlTOPp->clk;
-    vlTOPp->__Vclklast__TOP__reset = vlTOPp->reset;
     vlTOPp->__Vclklast__TOP__aurora_userclk = vlTOPp->aurora_userclk;
+    vlTOPp->__Vclklast__TOP__reset = vlTOPp->reset;
 }
 
 void VAuroraTop::final() {
@@ -66,8 +66,24 @@ void VAuroraTop::_ctor_var_reset() {
     intrrupt = VL_RAND_RESET_I(1);
     AuroraTop__DOT__auroraArea_auroratxcore_axiw_valid = VL_RAND_RESET_I(1);
     AuroraTop__DOT__toparea_tx_headtemp = VL_RAND_RESET_I(32);
-    AuroraTop__DOT__toparea_tx_ctrl = VL_RAND_RESET_I(32);
+    AuroraTop__DOT__toparea_tx_ctrl = VL_RAND_RESET_I(1);
+    AuroraTop__DOT__toparea_tx_triger = VL_RAND_RESET_I(1);
     AuroraTop__DOT__toparea_ctrl_doWrite = VL_RAND_RESET_I(1);
+    AuroraTop__DOT__toparea_triger = VL_RAND_RESET_I(1);
+    AuroraTop__DOT__when_AuroraTop_l46 = VL_RAND_RESET_I(1);
+    AuroraTop__DOT__toparea_tx_ctrl_temp = VL_RAND_RESET_I(1);
+    AuroraTop__DOT__toparea_tx_triger_temp = VL_RAND_RESET_I(1);
+    AuroraTop__DOT__toparea_tx_senddatatriger = VL_RAND_RESET_I(1);
+    AuroraTop__DOT__toparea_tx_sendtriger = VL_RAND_RESET_I(1);
+    AuroraTop__DOT__toparea_tx_ctrl_temp_delay_1 = VL_RAND_RESET_I(1);
+    AuroraTop__DOT__toparea_tx_ctrl_temp_delay_2 = VL_RAND_RESET_I(1);
+    AuroraTop__DOT__toparea_tx_ctrl_temp_delay_3 = VL_RAND_RESET_I(1);
+    AuroraTop__DOT__toparea_tx_triger_temp_delay_1 = VL_RAND_RESET_I(1);
+    AuroraTop__DOT__toparea_tx_triger_temp_delay_1_1 = VL_RAND_RESET_I(1);
+    AuroraTop__DOT__toparea_tx_triger_temp_delay_2 = VL_RAND_RESET_I(1);
+    AuroraTop__DOT__toparea_tx_triger_temp_delay_1_2 = VL_RAND_RESET_I(1);
+    AuroraTop__DOT__toparea_tx_triger_temp_delay_2_1 = VL_RAND_RESET_I(1);
+    AuroraTop__DOT__toparea_tx_triger_temp_delay_3 = VL_RAND_RESET_I(1);
     AuroraTop__DOT__auroraArea_aurorarxcore__DOT__crc32_2_crc_o = VL_RAND_RESET_I(32);
     AuroraTop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_mem_wren = VL_RAND_RESET_I(1);
     AuroraTop__DOT__auroraArea_aurorarxcore__DOT__auroraRxArea_mem_addr = VL_RAND_RESET_I(8);
