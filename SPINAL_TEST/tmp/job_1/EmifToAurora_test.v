@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.6.0    git head : 73c8d8e2b86b45646e9d0b2e729291f2b65e6be3
 // Component : EmifToAurora_test
-// Git hash  : 09c2cfeb654484f2b2e771481da8f117f6d02e25
+// Git hash  : c8cef7dc355934795e3281277d1eb6f9e4b94fe2
 
 
 `define AuroraState_binary_sequential_type [2:0]

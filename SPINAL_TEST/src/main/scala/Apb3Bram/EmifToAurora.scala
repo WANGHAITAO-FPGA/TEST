@@ -246,7 +246,7 @@ object EmifToAurora_test {
           k = dut.io.intrrupt.toBigInt
           dut.area.clockDomain.waitSampling()
         }
-        sleep(1000)
+        sleep(1)
         var rddata = 0
         for(i <- 0 until length){
           var rddata = dut.emif_read32(addr+i+(0x10800>>2)-(0x10c00>>2))
