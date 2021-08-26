@@ -17,6 +17,5 @@ object cordic {
       dut.clockDomain.waitSampling(20)
     }
   }
-
 }
 

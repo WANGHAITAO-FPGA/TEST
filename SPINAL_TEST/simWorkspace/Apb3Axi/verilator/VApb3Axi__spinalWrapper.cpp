@@ -187,7 +187,7 @@ public:
       #ifdef TRACE
       Verilated::traceEverOn(true);
       top.trace(&tfp, 99);
-      tfp.open((std::string("D:\\CODE_LIB\\TEST\\SPINAL_TEST\\.\\simWorkspace\\Apb3Axi/") + name + ".vcd").c_str());
+      tfp.open((std::string("D:\\SCALAWORK\\TEST\\SPINAL_TEST\\.\\simWorkspace\\Apb3Axi/") + name + ".vcd").c_str());
       #endif
       this->name = name;
     }
@@ -202,7 +202,7 @@ public:
       tfp.close();
       #endif
       #ifdef COVERAGE
-      VerilatedCov::write((("D:\\CODE_LIB\\TEST\\SPINAL_TEST\\.\\simWorkspace\\Apb3Axi/") + name + ".dat").c_str());
+      VerilatedCov::write((("D:\\SCALAWORK\\TEST\\SPINAL_TEST\\.\\simWorkspace\\Apb3Axi/") + name + ".dat").c_str());
       #endif
     }
 
